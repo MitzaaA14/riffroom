@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ro">
+    <head>
+        <%- include("../fragmente/head.ejs") %>
+        <!-- Adaugă link pentru stilul CSS -->
+        <link rel="stylesheet" href="/resurse/css/style.css">
+        <!-- Adaugă link pentru stilul CSS cu efecte -->
+        <link rel="stylesheet" href="/resurse/css/efecte.css">
+    </head>
+    <body>
+        <%- include("../fragmente/header.ejs") %>
+
+        <!-- Text animat care se plimbă orizontal -->
+        <div class="text-animat-container">
+            <div class="text-animat">Bine ați venit la magazinul RiffRoom! Descoperă cele mai bune chitare și accesorii pentru pasiunea ta muzicală! Livrare gratuită la comenzi peste 500 RON!</div>
+        </div>
+
+        <main>
+            <!-- Zona 1 -->
+            <section id="zona1">
+                <h2>Bine ați venit la RiffRoom</h2>
+                <div class="left-content">
+                    <p>RiffRoom este magazinul online de chitare dedicat pasionaților de muzică,
+                        oferind o gamă variată de chitare și accesorii pentru toate nivelurile de experiență.</p>
+                    <img src="/resurse/imagini/Jimi-Hendrix-Credit-David-Redfern-Redferns@1400x1050.jpg" alt="Chitare">
+                </div>
+                <div class="right-content">
+                    <img src="/resurse/imagini/Kurt-Cobain-210523-1-351a47bee692428e8ca94f93219363b4.jpg" alt="Accesorii">
+                    <p>Indiferent dacă ești începător sau profesionist, aici găsești oferte de chitare
+                        la prețuri avantajoase și cele mai noi modele de la branduri renumite.</p>
+                </div>
+            </section>
+
+            <!-- HR stilizat după Zona 1 -->
+            <hr class="efect-css-stilizare-hr">
+
+            <!-- Background fix la scroll -->
+            <section class="background-fix-section">
+                <div class="content">
+                    <h2>Pasiunea pentru muzică</h2>
+                    <p>Descoperă selecția noastră de chitare premium și echipamente profesionale</p>
+                </div>
+            </section>
+
+            <!-- Zona 2 -->
+            <section id="zona2">
+                <h2>Produse disponibile</h2>
+                <table class="transpus">
+                    <thead>
+                        <tr>
+                            <th>Produs</th>
+                            <th>Categorie</th>
+                            <th>Preț</th>
+                            <th>Disponibilitate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Produs">Gibson Les Paul Standard</td>
+                            <td data-label="Categorie">Chitare Electrice</td>
+                            <td data-label="Preț">8.999 RON</td>
+                            <td data-label="Disponibilitate">În stoc</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Produs">Fender Stratocaster</td>
+                            <td data-label="Categorie">Chitare Electrice</td>
+                            <td data-label="Preț">6.799 RON</td>
+                            <td data-label="Disponibilitate">În stoc</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Produs">Taylor 114ce</td>
+                            <td data-label="Categorie">Chitare Acustice</td>
+                            <td data-label="Preț">4.599 RON</td>
+                            <td data-label="Disponibilitate">La comandă</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Produs">Marshall JVM410H</td>
+                            <td data-label="Categorie">Amplificatoare</td>
+                            <td data-label="Preț">9.299 RON</td>
+                            <td data-label="Disponibilitate">În stoc</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- HR stilizat după Zona 2 -->
+            <hr class="efect-css-stilizare-hr">
+
+            <!-- Videoclip ca background -->
+            <div class="video-background-container">
+                <video autoplay muted loop class="video-background">
+                    <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4">
+                    <!-- Notă: Acest URL este doar un exemplu. Folosiți un URL real către un videoclip muzical sau cu chitare -->
+                </video>
+                <div class="video-overlay"></div>
+                <div class="video-content">
+                    <h2>Pasiunea pentru chitară</h2>
+                    <p>Descoperă sunetul perfect cu selecția noastră de instrumente de calitate</p>
+                </div>
+            </div>
+
+            <!-- HR stilizat după video -->
+            <hr class="efect-css-stilizare-hr">
+
+            <!-- Zona 3 -->
+            <section id="zona3">
+                <h2>Calendar evenimente</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum
+                    vestibulum.</p>
+            </section>
+
+            <!-- Zona 4 -->
+            <section id="zona4">
+                <h2>Anunțuri</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum
+                    vestibulum.</p>
+            </section>
+
+            <!-- HR stilizat după Zona 4 -->
+            <hr class="efect-css-stilizare-hr">
+
+            <!-- Zona 5 -->
+            <section id="zona5">
+                <h2>Utilizatori online</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </section>
+
+            <!-- Zona 6 -->
+            <section id="zona6">
+                <h2>Statistici site</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </section>
+
+            <!-- HR stilizat după Zona 6 -->
+            <hr class="efect-css-stilizare-hr">
+
+            <!-- Zona 7 -->
+            <section id="zona7">
+                <h2>Informații server</h2>
+                <div class="informatii-server">
+                    <p><strong>Adresă IP:</strong> <%= ip %></p>
+                    <p><strong>Tip conexiune:</strong> 
+                        <% if (ip === '::1' || ip === '127.0.0.1') { %>
+                            Locală (localhost)
+                        <% } else { %>
+                            Conexiune externă
+                        <% } %>
+                    </p>
+                    <p><strong>Notă:</strong> Adresa IP curentă este specifică mediului de conectare.</p>
+                </div>
+            </section>
+
+            <!-- Zona 8 -->
+            <section id="zona8">
+                <section id="chitare">
+                    <h2><i class="fas fa-music music-note-icon"></i> Chitare</h2>
+                    <p>Chitara este un <strong>instrument muzical minunat și magic</strong>. Ea transmite <em>emoții
+                            simple</em> și dă viață celor mai frumoase cântece. La <b>RiffRoom</b> oferim o gamă variată de
+                        chitare <i class="fas fa-guitar guitar-icon"></i> : <b> chitare acustice, chitare electrice </b>,
+                        dar și multe altele pentru toate gusturile și nivelurile de experiență.</p>
+                    <ul>
+                        <li><a href="#chitare-electrice">Chitare Electrice</a></li>
+                        <li><a href="#chitare-acustice">Chitare Acustice</a></li>
+                        <li><a href="#chitare-electro-acustice">Chitare Electro-Acustice</a></li>
+                        <li><a href="#chitare-clasice">Chitare Clasice</a></li>
+                        <li><a href="#chitare-bass">Chitare Bass</a></li>
+                        <li><a href="#chitare-ukulele">Chitare Ukulele</a></li>
+                        <li><a href="#chitare-copii">Chitare pentru Copii</a></li>
+                    </ul>
+                    <p>Multe din modelele noastre sunt utilizate de <cite>artiști profesioniști</cite> în concerte și
+                        înregistrări de studio.</p>
+                </section>
+
+                <!-- HR stilizat după secțiunea Chitare -->
+                <hr class="efect-css-stilizare-hr">
+
+                <section id="accesorii">
+                    <h2>Accesorii</h2>
+                    <p><b>Accesoriile pentru chitară</b> sunt esențiale pentru orice chitarist dedicat, care își respectă
+                        <i>arta</i> și înțelege importanța echipamentelor de calitate în atingerea unei experiențe muzicale
+                        superioare. <abbr title="American Wire Gauge">AWG</abbr> este un standard folosit pentru a măsura
+                        grosimea cablurilor.
+                    </p>
+                    <ul>
+                        <li><a href="#corzi">Corzi</a></li>
+                        <li><a href="#huse-tocuri">Huse și Tocuri</a></li>
+                        <li><a href="#curele">Curele</a></li>
+                        <li><a href="#capodastre">Capodastre</a></li>
+                        <li><a href="#acordor">Acordor</a></li>
+                        <li><a href="#stative">Stative</a></li>
+                        <li><a href="#pene">Pene</a></li>
+                    </ul>
+                    <blockquote>
+                        <q>Accesoriile potrivite pot face diferența între un sunet bun și un sunet extraordinar!</q> -
+                        conform multor oameni din
+                    </blockquote>
+                </section>
+                
+                <!-- HR stilizat după secțiunea Accesorii -->
+                <hr class="efect-css-stilizare-hr">
+                
+                <section id="echipamente">
+                    <h2>Echipamente</h2>
+                    <p>Fie că este vorba de amplificatoare care oferă putere și claritate sunetului, pedale de efecte care
+                        adaugă nuanțe și texturi sonore, sisteme wireless ce permit libertate de mișcare pe scenă sau alte
+                        echipamente, această secțiune oferă o gamă variată de produse pentru nevoile fiecărui chitarist.</p>
+                    <p>Avem în stoc peste 50 de modele de amplificatoare pentru toate necesitățile și bugetele.</p>
+                    <ul>
+                        <li><a href="#amplificatoare">Amplificatoare</a></li>
+                        <li><a href="#pedale-efecte">Pedale de Efecte</a></li>
+                        <li><a href="#sisteme-wireless">Sisteme Wireless</a></li>
+                        <li><a href="#echipamente-inregistrare">Echipamente de Înregistrare</a></li>
+                        <li><a href="#cabluri">Cabluri</a></li>
+                    </ul>
+                    <p>Termenul <dfn>overdrive</dfn> se referă la un efect sonor care simulează sunetul unui amplificator
+                        împins dincolo de limitele sale normale, oferind un ton cald și subtil distorsionat.</p>
+                </section>
+                <section id="oferte">
+                    <h2>Oferte</h2>
+                    <p>Combo-urile, care pot include combinații de <b>chitare și accesorii sau echipamente</b>, și
+                        reducerile sunt ideale pentru cei care doresc să achiziționeze un set complet la un preț avantajos.
+                    </p>
+                    <ul>
+                        <li><a href="#combo-uri">Combo-uri</a></li>
+                        <li><a href="#reduceri">Reduceri</a></li>
+                    </ul>
+                </section>
+
+                <section id="resurse">
+                    <h2>Resurse</h2>
+                    <p>Ghidurile și tutorialele oferă sfaturi practice, instrucțiuni și recomandări pentru utilizarea
+                        corectă și întreținerea instrumentelor și echipamentelor.</p>
+                    <ul>
+                        <li>
+                            <details>
+                                <summary>Ghid de cumpărare</summary>
+                                <p><a href="/resurse/ghid-de-cumpc483rare-a-unei-chitc483ri.pdf" download>Manual prin care
+                                        iți poți alege chitara ce ți se potrivește perfect</a> Prin acest
+                                    ghid ne dorim ca oameni să fie documentați în momentul achiziționării unui instrument
+                                    de-al nostru</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Informații utile</summary>
+                                <h3>Modelul Les Paul</h3>
+                                <figure>
+                                    <picture>
+                                        <source srcset="/resurse/imagini/guitar-desktop.jpg" media="(min-width: 1024px)">
+                                        <source srcset="/resurse/imagini/guitar-tableta.jpg" media="(min-width: 768px)">
+                                        <img src="/resurse/imagini/guitar-telefon.jpg" alt="Descrierea imaginii">
+                                    </picture>
+                                    <figcaption>
+                                        Una dintre cele mai dorite și mai vândute chitare din lume este modelul Les Paul.
+                                    </figcaption>
+                                </figure>
+                                <p>Pentru a găsi cei mai mari chitariști ce folosesc acest model. <a
+                                        href="https://www.sweetwater.com/insync/famous-les-paul-players/"
+                                        target="_blank">Click aici!</a>.</p>
+                                <h3>Istoria lui Les Paul</h3>
+                                <embed src="/resurse/Les-Pauls-Living-Timeline.pdf" type="application/pdf" width="600"
+                                    height="400">
+
+                                <h3>Formulă frecvență notă muzicală</h3>
+                                <p>Formula utilizată pentru calcularea frecvenței unei note este:</p>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <mrow>
+                                        <mi>f</mi>
+                                        <msub>
+                                            <mi>n</mi>
+                                            <mi>0</mi>
+                                        </msub>
+                                        <mo>=</mo>
+                                        <mi>f</mi>
+                                        <msub>
+                                            <mi>n</mi>
+                                            <mi>1</mi>
+                                        </msub>
+                                        <mo>*</mo>
+                                        <mn>2</mn>
+                                        <mo>^</mo>
+                                        <mfrac>
+                                            <mi>n</mi>
+                                            <mi>12</mi>
+                                        </mfrac>
+                                    </mrow>
+                                </math>
+                                <p>fn0 este frecvența notei dorite. fn1 este frecvența unei note de referință (de obicei,
+                                    nota A4 = 440 Hz). n este numărul de semitonuri dintre nota de referință și nota dorită.
+                                </p>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Întrebări frecvente</summary>
+                                <ul>
+                                    <li><q>Care ar fi o chitară potrivită?</q> - Depinde de stilul muzical dorit de către
+                                        utlizator, recomandăm multă documentare înainte de achiziționare.</li>
+                                    <li><q>Cât de des trebuie schimbate corzile?</q> - Recomandat este cam o dată la maxim 2
+                                        luni.</li>
+                                </ul>
+                            </details>
+                        </li>
+                        <li><a href="#politica-confidentialitate">Politică de Confidențialitate și Termeni și Condiții</a>
+                        </li>
+                        <li><a href="#politica-retur">Politică de Retur</a></li>
+                    </ul>
+                    <div class="container-iframe">
+                        <div class="taburi-iframe">
+                            <a href="https://www.youtube.com/embed/UuMn2S-3rwE" target="ifr-video">Cele mai bune chitare sub
+                                1200 RON</a><br>
+                            <a href="https://www.youtube.com/embed/bVbFc7I_ACc" target="ifr-video">5 lucruri pe care sa le
+                                iei în considerare înainte să-ți cumperi o chitară</a><br>
+                            <a href="https://www.youtube.com/embed/RvkexR4U_rY" target="ifr-video">Chitare Ieftine VS Scumpe
+                                - Diferențe cheie</a><br>
+                        </div>
+
+                        <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/UuMn2S-3rwE"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border: 0;"></iframe>
+                    </div>
+                </section>
+
+                <section id="imagine">
+                    <img src="/resurse/imagini/Slash-Gibson-Guitars-copy.webp" usemap="#image-map"
+                        alt="Colecție de chitare și echipamente">
+                    <map name="image-map">
+                        <area href="https://www.epiphone.com/en-IE/p/Electric-Guitar/EPIVJM40/Appetite-Burst" target="_blank" alt="Chitara Electrică 1" title="Chitara Electrică 1" coords="443,315,27" shape="circle">
+                        <area href="https://www.epiphone.com/en-IE/p/Electric-Guitar/EPIVJM40/Vermillion-Burst" target="_blank" alt="Chitara Electrică 2" title="Chitara Electrică 2" coords="690,366,21" shape="circle">
+                        <area href="https://www.epiphone.com/en-IE/p/Acoustic-Guitar/EPIIZ2235/November-Burst" target="_blank" alt="Chitara Acustică 1" title="Chitara Acustică 1" coords="807,338,22" shape="circle">
+                        <area href="https://www.marshall.com/us/en/product/dsl5-combo?pid=1007154&color=black" target="_blank" alt="Amplificator 1" title="Amplificator 1" coords="187,205,269,283" shape="rect">
+                        <area href="https://www.marshall.com/us/en/product/dsl5-combo?pid=1007154&color=black" target="_blank" alt="Amplificator 2" title="Amplificator 2" coords="706,207,773,272" shape="rect">
+                        <area href="https://www.epiphone.com/en-IE/p/Hardshell-Case/940-ENLPCS/940-ENLPCS" target="_blank" alt="Toc 1" title="Toc 1" coords="664,436,766,492" shape="rect">
+                        <area href="https://www.epiphone.com/en-IE/p/Electric-Guitar/EPIP8R245/Gold" target="_blank" alt="Chitara Electrica 3" title="Chitara Electrica 3" coords="932,352,23" shape="circle">
+                        <area href="https://www.epiphone.com/en-IE/p/Hardshell-Case/940-ENLPCS/940-ENLPCS" target="_blank" alt="Toc 2" title="Toc 2" coords="87,471,169,522" shape="rect">
+                        <area href="https://www.epiphone.com/en-IE/p/Electric-Guitar/EPIVJM40/November-Burst" target="_blank" alt="Chitara Electrica 4" title="Chitara Electrica 4" coords="284,394,25" shape="circle">
+                        <area href="https://www.epiphone.com/en-IE/p/Electric-Guitar/EPIVJM40/Anaconda-Burst" target="_blank" alt="Chitara Electrica 5" title="Chitara Electrica 5" coords="45,410,30" shape="circle">
+                        <area href="https://www.epiphone.com/en-IE/p/Acoustic-Guitar/EPIIZ2235/Vermillion-Burst" target="_blank" alt="Chitara Acustica 2" title="Chitara Acustica 2" coords="165,383,28" shape="circle">
+                        <area href="https://www.mcmusic.ro/curele-de-chitara/dunlop-d38-10gy-curea-chitara.html" target="_blank" alt="Curea" title="Curea">
+                    </map>
+                    <p>Faceți click pe diferitele instrumente sau echipamente din imaginea de mai sus pentru a afla mai
+                        multe despre ele.</p>
+                </section>
+            </section>
+        </main>
+        
+        <%- include("../fragmente/footer.ejs") %>
+
+        <!-- Script pentru adăugarea atributelor data-label la tabel -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const table = document.querySelector('table');
+                const headerCells = table.querySelectorAll('thead th');
+                const rows = table.querySelectorAll('tbody tr');
+                
+                // Adaugă data-label la fiecare celulă din tabel dacă nu există deja
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    cells.forEach((cell, index) => {
+                        if (!cell.hasAttribute('data-label') && headerCells[index]) {
+                            cell.setAttribute('data-label', headerCells[index].textContent);
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

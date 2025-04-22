@@ -1,0 +1,136 @@
+/* VARIABILE GLOBALE */
+:root {
+    /* Culori */
+    --maro-inchis: #2D1A19;
+    --maro-mediu: #6B3E31;
+    --maro-deschis: #B38867;
+    --crem-inchis: #D8C9A7;
+    --crem-deschis: #F7F3E8;
+    --accent: #C05F3E;
+    
+    /* Spațiere */
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+}
+
+/* Stilizare hr cu segmente - efect-css-stilizare-hr */
+/* Stilizare hr cu 3 gradiente, fiecare având 2 culori (una dintre ele transparentă) */
+.efect-css-stilizare-hr {
+    height: 12px;
+    border: none;
+    
+    /* Folosim 3 gradiente, fiecare cu câte 2 culori, dintre care una e transparentă */
+    background-image: 
+        /* Primul gradient (sus) */
+        linear-gradient(to right, 
+            var(--accent) 0, var(--accent) 25px, 
+            transparent 25px, transparent 50px,
+            var(--accent) 50px, var(--accent) 75px,
+            transparent 75px, transparent 100px,
+            var(--accent) 100px, var(--accent) 125px,
+            transparent 125px, transparent 150px,
+            var(--accent) 150px, var(--accent) 175px,
+            transparent 175px, transparent 200px,
+            var(--accent) 200px, var(--accent) 225px,
+            transparent 225px, transparent 250px,
+            var(--accent) 250px, var(--accent) 275px,
+            transparent 275px),
+        
+        /* Al doilea gradient (mijloc) */
+        linear-gradient(to right, 
+            var(--maro-mediu) 0, var(--maro-mediu) 25px, 
+            transparent 25px, transparent 50px,
+            var(--maro-mediu) 50px, var(--maro-mediu) 75px,
+            transparent 75px, transparent 100px,
+            var(--maro-mediu) 100px, var(--maro-mediu) 125px,
+            transparent 125px, transparent 150px,
+            var(--maro-mediu) 150px, var(--maro-mediu) 175px,
+            transparent 175px, transparent 200px,
+            var(--maro-mediu) 200px, var(--maro-mediu) 225px,
+            transparent 225px, transparent 250px,
+            var(--maro-mediu) 250px, var(--maro-mediu) 275px,
+            transparent 275px),
+        
+        /* Al treilea gradient (jos) */
+        linear-gradient(to right, 
+            var(--maro-inchis) 0, var(--maro-inchis) 25px, 
+            transparent 25px, transparent 50px,
+            var(--maro-inchis) 50px, var(--maro-inchis) 75px,
+            transparent 75px, transparent 100px,
+            var(--maro-inchis) 100px, var(--maro-inchis) 125px,
+            transparent 125px, transparent 150px,
+            var(--maro-inchis) 150px, var(--maro-inchis) 175px,
+            transparent 175px, transparent 200px,
+            var(--maro-inchis) 200px, var(--maro-inchis) 225px,
+            transparent 225px, transparent 250px,
+            var(--maro-inchis) 250px, var(--maro-inchis) 275px,
+            transparent 275px);
+    
+    /* Fiecare gradient ocupă o treime din înălțimea hr-ului */
+    background-size: 100% 33.33%;
+    
+    /* Gradientele nu se repetă */
+    background-repeat: no-repeat;
+    
+    /* Poziționăm gradientele unul deasupra celuilalt */
+    background-position: 
+        top,    /* Primul gradient - sus */
+        center, /* Al doilea gradient - mijloc */
+        bottom; /* Al treilea gradient - jos */
+    
+    /* Spațiere */
+    margin: var(--spacing-md) 0;
+}
+
+/* Text care se plimbă orizontal printr-o animație */
+.text-animat-container {
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--maro-inchis);
+    color: var(--crem-deschis);
+    padding: var(--spacing-sm) 0;
+    margin: var(--spacing-md) 0;
+}
+
+.text-animat {
+    display: inline-block;
+    white-space: nowrap;
+    animation: text-slider 15s linear infinite;
+    font-size: 1.2rem;
+    padding: var(--spacing-sm);
+}
+
+@keyframes text-slider {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Schimbarea afișării implicite a textului selectat */
+::selection {
+    background-color: var(--maro-deschis);
+    color: var(--crem-deschis);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* Stilizare linie cu model alternativ */
+.linie-stilizata {
+    height: 12px;
+    border: none;
+    background-image:
+      linear-gradient(to right, var(--accent) 10%, transparent 10%, transparent 25%, var(--accent) 25%),
+      linear-gradient(to right, var(--accent) 10%, transparent 10%, transparent 25%, var(--accent) 25%),
+      linear-gradient(to right, var(--accent) 10%, transparent 10%, transparent 25%, var(--accent) 25%);
+    background-size: 100% 33.33%;
+    background-repeat: no-repeat;
+    background-position:
+      top,
+      center,
+      bottom;
+    margin: var(--spacing-md) 0;
+}

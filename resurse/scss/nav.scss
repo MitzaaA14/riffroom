@@ -1,0 +1,579 @@
+@use "sass:color";
+@use "sass:math";
+@use "sass:list";
+
+// 1. VARIABILE GLOBALE
+$menu-bg-color: #000;
+$menu-text-color: #fff;
+$menu-hover-color: rgba(255, 255, 255, 0.25);
+$menu-active-color: rgba(255, 255, 255, 0.35);
+$submenu-bg-color: rgba(0, 0, 0, 0.95);
+$shadow-color: rgba(255, 255, 255, 0.5);
+$transition-speed: 0.3s;
+$submenut-transition-speed: 0.8s;
+$glow-color: rgba(255, 255, 255, 0.5);
+$menu-items: 3;
+$menu-categories: ('acasa', 'produse', 'contact');
+
+// Variabile pentru hamburger icon
+$hamburger-bar-height: 3px;
+$hamburger-bar-width: 30px;
+$hamburger-bar-spacing: 7px;
+$hamburger-animation-duration: 0.5s;
+$hamburger-animation-delay: 300ms;
+$hamburger-bars-count: 3;
+
+// Culori pentru animații
+$hamburger-animation-colors: (#ff9800, #e91e63, #4caf50);
+
+// 2. MIXINS ȘI FUNCȚII UTILITARE 
+// 2.1 Tranzitii standard
+@mixin transition($property: all, $duration: $transition-speed, $timing: ease) {
+  transition: #{$property} #{$duration} #{$timing};
+}
+
+// 2.2 Efect de hover pentru săgeți din submeniu
+@mixin left-arrow-hover {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .arrow {
+      position: relative;
+      display: inline-block;
+      margin-right: 6px;
+      opacity: 0;
+      font-size: 1em;
+      color: $menu-text-color;
+      @include transition(all, 0.3s, ease-out);
+      transform: translateX(-10px);
+  }
+
+  .text-content {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+  }
+
+  &:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+// 2.3 Efect de ceață pentru butoanele din meniu
+@mixin fog-button-effect {
+  position: relative;
+  overflow: hidden;
+  background-color: $menu-bg-color;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(150, 150, 150, 0.4) 0%,
+      rgba(80, 80, 80, 0.1) 30%,
+      rgba(80, 80, 80, 0.1) 70%,
+      rgba(150, 150, 150, 0.4) 100%
+    );
+    opacity: 0;
+    z-index: 0;
+    @include transition(opacity, 0.4s, ease);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow:
+      inset 0 0 15px rgba(200, 200, 200, 0.4),
+      inset 0 0 30px rgba(150, 150, 150, 0.3);
+    background: radial-gradient(
+      ellipse at center,
+      rgba(80, 80, 80, 0.05) 0%,
+      rgba(180, 180, 180, 0.3) 100%
+    );
+    opacity: 0;
+    z-index: 0;
+    @include transition(opacity, 0.4s, ease);
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+// 2.4 Media queries pentru responsive design
+@mixin responsive($breakpoint) {
+  @if $breakpoint == medium {
+    @media screen and (max-width: 1024px) {
+      @content;
+    }
+  } @else if $breakpoint == small {
+    @media screen and (max-width: 768px) {
+      @content;
+    }
+  }
+}
+
+// Generarea animației pentru fiecare bară folosind bucla for
+@for $i from 1 through $hamburger-bars-count {
+  // Unghiuri diferite pentru fiecare bară
+  $rotation-angle-1: 15deg * $i;
+  $rotation-angle-2: -15deg * $i;
+  
+  // Culoare diferită pentru fiecare bară
+  $color-1: list.nth($hamburger-animation-colors, ($i % list.length($hamburger-animation-colors)) + 1);
+  $color-2: list.nth($hamburger-animation-colors, (($i + 1) % list.length($hamburger-animation-colors)) + 1);
+  
+  @keyframes hamburger-bar-#{$i}-animation {
+    0% {
+      background-color: $menu-text-color;
+      transform: translateX(0);
+      opacity: 1;
+    }
+    33% {
+      background-color: $color-1;
+      transform: translateX(5px) rotate($rotation-angle-1); 
+      opacity: 0.7;
+    }
+    66% {
+      background-color: $color-2;
+      transform: translateX(-5px) rotate($rotation-angle-2);
+      opacity: 0.9;
+    }
+    100% {
+      background-color: $menu-text-color;
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+
+// 3. STILURILE PRINCIPALE DE NAVIGATIE
+nav {
+  background-color: $menu-bg-color;
+  width: 100%;
+  font-family: 'Playfair Display', serif;
+  
+  nav, nav * {
+    font-family: 'Playfair Display', serif !important;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+
+    li {
+      position: relative;
+      flex: 1;
+
+      a {
+        display: block;
+        color: $menu-text-color;
+        text-decoration: none;
+        padding: 20px 15px;
+        font-size: 1.2em;
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        @include transition(color, 0.3s, ease);
+        @include fog-button-effect;
+
+        &:hover {
+          color: $menu-text-color;
+        }
+
+        i {
+          margin-right: 8px;
+        }
+
+        .text-label {
+          display: inline;
+        }
+      }
+
+      // 3.1 Stiluri pentru submeniuri
+      ul {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        display: block;
+        flex-direction: column;
+        background-color: $submenu-bg-color;
+        min-width: 200px;
+        z-index: 100;
+        transform: scaleY(0);
+        transform-origin: top center;
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          transform $submenut-transition-speed ease,
+          opacity $submenut-transition-speed ease,
+          max-height $submenut-transition-speed ease,
+          visibility $submenut-transition-speed ease;
+
+        li {
+          width: 100%;
+          flex: none;
+
+          a {
+            // pentru ecran mare/mediu
+            padding: 15px 35px 15px 40px;
+            font-size: 1em;
+            width: 100%;
+            text-align: center;
+            white-space: nowrap;
+            @include left-arrow-hover;
+          }
+
+          // 3.2 Submeniuri de nivel 2
+          ul {
+            left: 100%;
+            top: 0;
+          }
+        }
+      }
+
+      // 3.3 Activare submeniu la hover
+      &:hover > ul {
+        transform: scaleY(1);
+        max-height: 1000px;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+// 4. EFECTE VIZUALE PENTRU MENIU
+// 4.1 Stiluri specifice pentru submeniuri
+nav ul li ul {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+  li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    a {
+      position: relative;
+      @include transition(background-color, 0.3s, ease);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+}
+
+// 4.2 Efecte de tranzitie pentru sagetile din submeniu
+nav ul li ul li a {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center;
+  
+  .arrow {
+    position: relative;
+    display: inline-block;
+    margin-right: 6px;
+    opacity: 0;
+    transition: all 0.3s ease-out;
+    transform: translateX(-10px);
+  }
+  
+  &:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: color.adjust($menu-text-color, $lightness:20%);
+  }
+}
+
+// 5. MENIU HAMBURGER PENTRU MOBILE
+// Butonul hamburger
+.nav-toggle {
+  display: none;
+}
+
+// 6. RESPONSIVE DESIGN - ECRANE MEDII
+@include responsive(medium) {
+  nav > ul > li > a {
+    font-size: 1em;
+    padding: 15px 10px;
+  }
+  
+  // Afisare doar icon Home fara text
+  nav > ul > li:first-child > a .text-label {
+    display: none;
+  }
+  
+  nav > ul > li:first-child > a i {
+    margin-right: 0;
+    font-size: 1.2rem;
+  }
+  nav ul li ul li a .arrow {
+    opacity: 0;
+  }
+  nav ul li ul li a:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// 7. RESPONSIVE DESIGN - ECRANE MICI
+@include responsive(small) {
+  // 7.1 Adaptare link Home pentru mobile
+  nav > ul > li:first-child > a .text-label {
+    display: none;
+  }
+
+  nav > ul > li:first-child > a i {
+    margin-right: 0;
+    font-size: 1.2rem;
+  }
+  
+  // 7.2 Stiluri pentru prevenirea scroll-ului cand meniul e deschis
+  body.menu-open {
+    overflow: hidden;
+  }
+  
+  // 7.3 Stiluri pentru link-uri in starea de hover
+  nav > ul > li > a.hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-left: 3px solid rgba(255, 255, 255, 0.5) !important;
+  }
+  
+  // 7.4 Stiluri pentru butonul hamburger pe ecran mic
+  .nav-toggle {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    width: $hamburger-bar-width + 20px;
+    height: ($hamburger-bar-height * 3) + ($hamburger-bar-spacing * 2) + 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    outline: none;
+   
+    // Stilurile pentru cele 3 bare
+    .hamburger-bar {
+      position: absolute;
+      left: 10px;
+      width: $hamburger-bar-width;
+      height: $hamburger-bar-height;
+      background-color: $menu-text-color;
+      border-radius: math.div($hamburger-bar-height, 2);
+      transition: transform $hamburger-animation-duration ease,
+                opacity $hamburger-animation-duration ease,
+                background-color $hamburger-animation-duration ease;
+      display: block;
+    }
+    
+    .hamburger-bar-1 {
+      top: 10px;
+    }
+    
+    .hamburger-bar-2 {
+      top: 10px + $hamburger-bar-height + $hamburger-bar-spacing;
+    }
+    
+    .hamburger-bar-3 {
+      top: 10px + ($hamburger-bar-height + $hamburger-bar-spacing) * 2;
+    }
+    
+    // Starea activa - când meniul este deschis
+    &.active {
+      .hamburger-bar-1 {
+        transform: translateY($hamburger-bar-height + $hamburger-bar-spacing) rotate(45deg);
+        background-color: #f44336;
+      }
+
+      .hamburger-bar-2 {
+        opacity: 0;
+        transform: translateX(-$hamburger-bar-width);
+        background-color: #ff9800;
+      }
+      
+      .hamburger-bar-3 {
+        transform: translateY(-($hamburger-bar-height + $hamburger-bar-spacing)) rotate(-45deg);
+        background-color: #4caf50;
+      }
+    }
+  }
+  
+  // 7.5 Stiluri pentru submeniuri mici
+  nav > ul > li > ul {
+    transition: max-height 0.5s ease, opacity 0.5s ease, margin 0.3s ease;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+  }
+  
+  // 7.6 Configurare pentru animatia meniului
+  nav {
+    > ul {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      width: 100vw;
+      height: auto;
+      max-height: 80vh;
+
+      background-color: $menu-bg-color;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      padding: 60px 15px 15px 15px; 
+      margin: 0;
+      overflow-y: auto;
+      opacity: 1;
+      
+      // Stare initiala - ascuns
+      &:not(.show) {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        overflow: hidden;
+        padding: 0;
+      }
+      
+      // Stilizare elemente de meniu
+      > li {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        text-align: center;
+        
+        &::before {
+          display: none;
+        }
+        
+        > a {
+          display: block;
+          font-size: 1.2em;
+          padding: 15px; // Padding uniform
+          text-align: center;
+          color: rgba(255, 255, 255, 0.9);
+          
+          &:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.05);
+          }
+        }
+        
+        &:hover {
+          > a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: none; 
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+          }
+        }
+      }
+
+      // Stiluri pentru elementele meniului pe mobil
+      li {
+        width: 100%;
+        position: relative;
+
+        // Submeniuri pentru ecrane mici
+        > ul {
+          position: static;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+          background-color: rgba(255, 255, 255, 0.05); 
+          box-shadow: none;
+          border-left: none; 
+          
+          li {
+            margin-bottom: 3px;
+            
+            a {
+              padding: 10px;
+              font-size: 1em;
+              color: rgba(255, 255, 255, 0.8);
+              display: flex !important;
+              justify-content: center !important;
+              align-items: center !important;
+              text-align: center;
+              
+              &:hover {
+                color: white;
+                background-color: rgba(255, 255, 255, 0.1);
+              }
+              
+              // Ascunde săgețile la ecran mic
+              .arrow {
+                display: none !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // 7.7 Stiluri pentru categoriile active
+  nav > ul > li:hover > a {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5); 
+  }
+}
+
+// 8. Centrarea săgeților pe cuvinte (doar pentru ecran mediu și mare)
+@media screen and (min-width: 769px) {
+  nav ul li ul li a {
+    text-align: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    
+    .arrow {
+      position: relative;
+      display: inline-block;
+      margin-right: 6px;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease-out;
+    }
+    
+    .text-content {
+      display: inline-block;
+      text-align: center;
+    }
+    
+    &:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}

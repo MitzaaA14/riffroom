@@ -1,0 +1,139 @@
+
+@media print {
+    footer small:first-of-type::before {
+        content: "Acesta este un proiect școlar!";
+        display: block;
+        position: fixed;
+        top: 0; 
+        left: 10%;
+        width: 80%;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        border: 2px dotted black;
+        z-index: 2000; 
+        background-color: white !important; 
+        margin-top: 10px; 
+    }
+    img, video, iframe, embed, 
+    figure, figcaption, picture,
+    #link-top, .container-iframe,
+    [usemap], .header-icons, .footer-social {
+        display: none !important;
+    }
+    
+    main, main > section {
+        display: block !important;
+        margin: 15px 0 !important;
+        padding: 15px 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    
+    a {
+        text-decoration: none !important;
+        color: black !important;
+    }
+
+    h1 {
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 2.5rem;
+        text-decoration: underline;
+        width: 100%;
+        z-index: 1; 
+    }
+    
+    h1 {
+        page-break-after: always;
+    }
+    
+    footer {
+        page-break-before: always;
+    }
+    
+    nav, .nav-toggle {
+        display: none !important;
+    }
+    
+    body {
+        position: relative;
+    }
+    
+    body::after {
+        content: "Mihai\A Preoteasa";
+        position: fixed;
+        top: 50%;
+        right: -50px;
+        transform: rotate(-90deg) translateX(-50%) translateY(-20%);
+        width: 100px;
+        height: 2.5cm;
+        border: 4px double black;
+        opacity: 0.65;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        z-index: 999; 
+        white-space: pre; 
+        line-height: 1.2; 
+    }
+    
+    body {
+        padding-top: 50px !important; 
+    }
+    
+    @page {
+        margin-top: 2cm;
+        margin-bottom: 2cm;
+    }
+    
+    @page:left {
+        margin-left: 2.5cm;
+        margin-right: 0.5cm;
+    }
+    
+    @page:right {
+        margin-left: 0.5cm;
+        margin-right: 2.5cm;
+    }
+    
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        border-color: black !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        font-family: serif;
+        line-height: 1.5;
+        margin: 0;
+        padding: 0;
+    }
+    
+    h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+    
+    table, figure {
+        page-break-inside: avoid;
+    }
+    
+    p, blockquote, ul, ol {
+        orphans: 3;
+        widows: 3;
+    }
+    
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
