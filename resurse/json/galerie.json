@@ -1,0 +1,60 @@
+{
+    "cale_galerie": "/resurse/imagini/galerie",
+    "imagini": [
+      {
+        "cale_relativa": "imagine1.jpg",
+        "nume": "Chitară electrică Les Paul",
+        "descriere": "Model clasic Les Paul în finisaj Sunburst",
+        "timp": "dimineata"
+      },
+      {
+        "cale_relativa": "imagine2.jpg",
+        "nume": "Chitară acustică Taylor",
+        "descriere": "Chitară acustică premium cu corp din lemn de arțar",
+        "timp": "dimineata"
+      },
+      {
+        "cale_relativa": "imagine3.jpg",
+        "nume": "Amplificator Marshall",
+        "descriere": "Amplificator vintage cu ton cald și profund",
+        "timp": "dimineata"
+      },
+      {
+        "cale_relativa": "imagine4.jpg",
+        "nume": "Pedale de efecte",
+        "descriere": "Set de pedale pentru diversificarea tonului",
+        "timp": "zi"
+      },
+      {
+        "cale_relativa": "imagine5.jpg",
+        "nume": "Strat American",
+        "descriere": "Fender Stratocaster American Professional",
+        "timp": "zi"
+      },
+      {
+        "cale_relativa": "imagine6.jpg",
+        "nume": "Studio de înregistrare",
+        "descriere": "Configurare de studio pentru înregistrări de calitate",
+        "timp": "zi"
+      },
+      {
+        "cale_relativa": "imagine7.jpg",
+        "nume": "Set corzi D'Addario",
+        "descriere": "Corzi de calitate premium pentru chitară acustică",
+        "timp": "noapte"
+      },
+      {
+        "cale_relativa": "imagine8.jpg",
+        "nume": "Colecție de plectre",
+        "descriere": "Plectre din diverse materiale pentru tonuri diferite",
+        "timp": "noapte"
+      },
+      {
+        "cale_relativa": "imagine9.jpg",
+        "nume": "PRS Custom 24",
+        "descriere": "Chitară electrică de lux cu finisaj flamed maple",
+        "descriere_licenta": "Imagine de Joe Smith, CC-BY 4.0",
+        "timp": "noapte"
+      }
+    ]
+  }

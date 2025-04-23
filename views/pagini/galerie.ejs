@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ro">
+    <head>
+        <%- include("../fragmente/head.ejs") %>
+        <title>Galerie Foto - RiffRoom</title>
+        <style>
+        /* CSS special pentru pagina galerie - nu va afecta alte pagini */
+        body.pagina-galerie main {
+            display: block !important;
+            flex-direction: initial !important;
+            grid-template-columns: initial !important;
+            width: 100% !important;
+        }
+        
+        body.pagina-galerie #galerie-statica {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 auto !important;
+        }
+        
+        body.pagina-galerie .galerie-container {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        /* Centrare continut */
+        body.pagina-galerie .descriere-galerie,
+        body.pagina-galerie .note-galerie {
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        </style>
+    </head>
+    <body class="pagina-galerie">
+        <%- include("../fragmente/header.ejs") %>
+
+        <main>
+            <h1 class="reflexie-text" data-text="Galerie Foto">Galerie Foto</h1>
+            
+            <p class="descriere-galerie">
+                Exploreaza colectia noastra de instrumente muzicale si echipamente de inalta calitate. 
+                Imaginile sunt afisate in functie de momentul zilei: unele sunt vizibile dimineata (5:00-12:00), 
+                altele in timpul zilei (12:00-20:00), iar altele noaptea (20:00-05:00).
+            </p>
+            
+            <!-- Includem fragmentul de galerie -->
+            <%- include("../fragmente/galerie.ejs", {imagini: imagini, cale_galerie: cale_galerie}) %>
+            
+            <hr class="efect-css-stilizare-hr">
+            
+            <p class="note-galerie">
+                Nota: Imaginile din galerie se schimba in functie de ora zilei. 
+                Reveniti la diferite ore pentru a vedea imagini noi!
+            </p>
+        </main>
+        
+        <%- include("../fragmente/footer.ejs") %>
+    </body>
+</html>s

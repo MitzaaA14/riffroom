@@ -8,19 +8,19 @@
     --crem-deschis: #F7F3E8;
     --accent: #C05F3E;
     
-    /* Spațiere */
+    /* Spatiere */
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 2rem;
 }
 
 /* Stilizare hr cu segmente - efect-css-stilizare-hr */
-/* Stilizare hr cu 3 gradiente, fiecare având 2 culori (una dintre ele transparentă) */
+/* Stilizare hr cu 3 gradiente, fiecare avand 2 culori (una dintre ele transparenta) */
 .efect-css-stilizare-hr {
     height: 12px;
     border: none;
     
-    /* Folosim 3 gradiente, fiecare cu câte 2 culori, dintre care una e transparentă */
+    /* Folosim 3 gradiente, fiecare cu cate 2 culori, dintre care una e transparenta */
     background-image: 
         /* Primul gradient (sus) */
         linear-gradient(to right, 
@@ -67,23 +67,23 @@
             var(--maro-inchis) 250px, var(--maro-inchis) 275px,
             transparent 275px);
     
-    /* Fiecare gradient ocupă o treime din înălțimea hr-ului */
+    /* Fiecare gradient ocupa o treime din inaltimea hr-ului */
     background-size: 100% 33.33%;
     
-    /* Gradientele nu se repetă */
+    /* Gradientele nu se repeta */
     background-repeat: no-repeat;
     
-    /* Poziționăm gradientele unul deasupra celuilalt */
+    /* Pozitionam gradientele unul deasupra celuilalt */
     background-position: 
         top,    /* Primul gradient - sus */
         center, /* Al doilea gradient - mijloc */
         bottom; /* Al treilea gradient - jos */
     
-    /* Spațiere */
+    /* Spatiere */
     margin: var(--spacing-md) 0;
 }
 
-/* Text care se plimbă orizontal printr-o animație */
+/* Text care se plimba orizontal printr-o animatie */
 .text-animat-container {
     width: 100%;
     overflow: hidden;
@@ -110,7 +110,7 @@
     }
 }
 
-/* Schimbarea afișării implicite a textului selectat */
+/* Schimbarea afisarii implicite a textului selectat */
 ::selection {
     background-color: var(--maro-deschis);
     color: var(--crem-deschis);
@@ -133,4 +133,237 @@
       center,
       bottom;
     margin: var(--spacing-md) 0;
+}
+/* reflexie */
+.reflexie-text {
+    position: relative;
+    display: inline-block;
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--maro-inchis);
+    text-align: center;
+    margin: var(--spacing-md) auto 5rem; /* Spatiu jos pentru reflexia extinsa */
+    line-height: 0.85;
+    padding: 0;
+    z-index: 1;
+}
+
+.reflexie-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 99%;
+    left: 0;
+    width: 100%;
+    height: 200%; /* inaltime mare pentru reflexie extinsa */
+    color: var(--maro-inchis);
+    transform: scaleY(-0.6) skewX(-15deg);
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(0.3px);
+    
+    /* Mascarea pentru efectul de unde */
+    mask-image: 
+        linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(0, 0, 0, 1) 0px, 
+            rgba(0, 0, 0, 0.7) 5px, 
+            transparent 10px, 
+            rgba(0, 0, 0, 0.7) 15px,
+            rgba(0, 0, 0, 1) 20px
+        );
+    -webkit-mask-image: 
+        linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(0, 0, 0, 1) 0px, 
+            rgba(0, 0, 0, 0.7) 5px, 
+            transparent 10px, 
+            rgba(0, 0, 0, 0.7) 15px,
+            rgba(0, 0, 0, 1) 20px
+        );
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
+    
+    /* Lipire perfecta */
+    margin-top: -2px;
+    padding-top: 0;
+    vertical-align: top;
+    
+    /* Animatie lina - directie inversata (exterior spre interior) */
+    animation: reflex-wave-inward 4s linear infinite paused;
+    transition: all 0.2s ease;
+}
+
+/* Activare animatie la hover */
+.reflexie-text:hover::after {
+    animation-play-state: running;
+}
+
+/* Animatie pentru valurile venind din exterior spre interior */
+@keyframes reflex-wave-inward {
+    0% {
+        mask-position: 0 0, 40px 40px; /* incepem cu valurile in exterior */
+        -webkit-mask-position: 0 0, 40px 40px;
+    }
+    100% {
+        mask-position: 0 0, 0 0; /* Terminam cu valurile in interior */
+        -webkit-mask-position: 0 0, 0 0;
+    }
+}
+
+/* Ajustare font pentru a reduce spatiul intern */
+.reflexie-text {
+    font-family: serif;
+    display: inline-flex;
+    align-items: flex-start;
+}
+
+/* Clasa pentru centrare */
+.text-centrat {
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
+/* GALERIE STATICA */
+/* Stilurile pentru galeria statica - stiluri generale */
+#galerie-statica {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.galerie-container {
+    display: grid;
+    gap: 1rem;
+    margin: var(--spacing-md) 0;
+    counter-reset: gallery-counter;
+}
+
+/* Ecran mare - grid cu 3 coloane */
+@media (min-width: 1024px) {
+    .galerie-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Ecran mediu - grid cu schema specifica */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .galerie-container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas:
+            "img1 img1 img2"
+            "img3 img4 img4"
+            "img5 img5 img6"
+            "img7 img8 img8"
+            "img9 img9 .";
+    }
+    
+    .galerie-item:nth-child(1) { grid-area: img1; }
+    .galerie-item:nth-child(2) { grid-area: img2; }
+    .galerie-item:nth-child(3) { grid-area: img3; }
+    .galerie-item:nth-child(4) { grid-area: img4; }
+    .galerie-item:nth-child(5) { grid-area: img5; }
+    .galerie-item:nth-child(6) { grid-area: img6; }
+    .galerie-item:nth-child(7) { grid-area: img7; }
+    .galerie-item:nth-child(8) { grid-area: img8; }
+    .galerie-item:nth-child(9) { grid-area: img9; }
+}
+
+/* Ecran mic - o singura coloana */
+@media (max-width: 767px) {
+    .galerie-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Stilizarea figcaption cu index automat */
+.galerie-item {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    counter-increment: gallery-counter;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.galerie-item figcaption {
+    padding: 0.5rem;
+    background-color: rgba(45, 26, 25, 0.8);
+    color: var(--crem-deschis, #F7F3E8);
+    font-size: 0.9rem;
+}
+
+.galerie-item figcaption .index::before {
+    content: counter(gallery-counter, upper-alpha) ". ";
+    font-weight: bold;
+}
+
+/* Imaginile au dimensiune uniforma */
+.galerie-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 4/3;
+}
+
+/* Efectul de tranzitie la hover */
+.galerie-item img {
+    transition: transform 0.5s ease, border-radius 0.5s ease;
+}
+
+.galerie-item:hover img {
+    transform: rotate(360deg) scale(1.5);
+    border-radius: 15px;
+    z-index: 10;
+}
+
+/* Stilizarea link-ului catre pagina completa */
+.galerie-link {
+    text-align: center;
+    margin: 1rem 0 2rem;
+}
+
+.galerie-link a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--maro-mediu, #6B3E31);
+    color: var(--crem-deschis, #F7F3E8);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.galerie-link a:hover {
+    background-color: var(--accent, #C05F3E);
+}
+
+/* Stiluri pentru pagina dedicata galeriei */
+.descriere-galerie, .note-galerie {
+    max-width: 900px;
+    margin: 1.5rem auto;
+    text-align: center;
+    line-height: 1.6;
+}
+
+#galerie-statica h2 {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Stiluri specifice DOAR pentru pagina galerie (nu vor afecta alte pagini) */
+body.pagina-galerie main {
+    display: block !important;
+    width: 100% !important;
+}
+
+body.pagina-galerie #galerie-statica {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-column: 1 / -1 !important;
 }

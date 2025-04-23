@@ -1,8 +1,66 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const fsp = require("fs/promises");
+const sass = require("sass");
 
-app = express();
+global.obiectGlobal = {
+  folderScss: path.join(__dirname, "resurse/scss"),
+  folderCss: path.join(__dirname, "resurse/scss"),
+  folderBackup: path.join(__dirname, "backup")
+};
+
+["temp", "backup"].forEach(f => {
+  const folder = path.join(__dirname, f);
+  if (!fs.existsSync(folder)) {
+    fs.mkdirSync(folder, { recursive: true });
+  }
+});
+
+async function compileazaScss(caleScss, caleCss) {
+  const scssAbs = path.isAbsolute(caleScss)
+    ? caleScss
+    : path.join(obiectGlobal.folderScss, caleScss);
+
+  const cssAbs = caleCss
+    ? (path.isAbsolute(caleCss) ? caleCss : path.join(obiectGlobal.folderCss, caleCss))
+    : path.join(obiectGlobal.folderCss, path.basename(scssAbs, ".scss") + ".css");
+
+  const backupPath = path.join(obiectGlobal.folderBackup, "resurse/scss");
+  await fsp.mkdir(backupPath, { recursive: true });
+
+  try {
+    if (fs.existsSync(cssAbs)) {
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+      const numeFisier = path.basename(cssAbs, ".css");
+      const caleBackup = path.join(backupPath, `${numeFisier}_${timestamp}.css`);
+      await fsp.copyFile(cssAbs, caleBackup);
+    }
+
+    const rezultat = sass.compile(scssAbs, { style: "expanded" });
+    await fsp.writeFile(cssAbs, rezultat.css);
+    console.log(`[SCSS] Compilat: ${scssAbs} -> ${cssAbs}`);
+  } catch (err) {
+    console.error(`[Eroare] La compilarea ${scssAbs}:`, err.message);
+  }
+}
+
+function compileazaToateScss() {
+  const fisiere = fs.readdirSync(obiectGlobal.folderScss).filter(f => f.endsWith(".scss"));
+  for (let f of fisiere) {
+    compileazaScss(f);
+  }
+}
+compileazaToateScss();
+
+fs.watch(obiectGlobal.folderScss, (event, filename) => {
+  if (filename && filename.endsWith(".scss")) {
+    console.log(`[SCSS] Detectat eveniment: ${event} pe ${filename}`);
+    compileazaScss(filename);
+  }
+});
+
+const app = express();
 
 console.log("Folderul proiectului: ", __dirname);
 console.log("Calea fisierului index.js: ", __filename);
@@ -14,35 +72,50 @@ obGlobal = {
     obErori: null
 }
 
-function initErori() {
+function initErori(){
     let continut = fs.readFileSync(path.join(__dirname, "resurse/json/erori.json")).toString("utf-8");
-    console.log(continut);
+    console.log(continut)
     obGlobal.obErori = JSON.parse(continut);
-    console.log(obGlobal.obErori);
+    console.log(obGlobal.obErori)
 
     obGlobal.obErori.eroare_default.imagine = obGlobal.obErori.cale_baza + "/" + obGlobal.obErori.eroare_default.imagine;
-    for (let eroare of obGlobal.obErori.info_erori) {
+    for (let eroare of obGlobal.obErori.info_erori){
         eroare.imagine = obGlobal.obErori.cale_baza + "/" + eroare.imagine;
     }
-    console.log(obGlobal.obErori);
+    console.log(obGlobal.obErori)
+    
 }
 
 initErori();
 
-function afisareEroare(res, identificator, titlu, text, imagine) {
-    let eroare = obGlobal.obErori.info_erori.find(function(elem) {
+// Funcția pentru citirea datelor galeriei
+function citesteJSON() {
+    try {
+        const jsonGalerie = JSON.parse(fs.readFileSync(path.join(__dirname, 'resurse/json/galerie.json')));
+        console.log("Galerie data încărcată cu succes!");
+        return jsonGalerie;
+    } catch (error) {
+        console.error("Eroare la citirea sau parsarea fișierului JSON:", error);
+        // Returnează un obiect gol pentru a evita erorile în restul codului
+        return { cale_galerie: "/resurse/imagini/galerie", imagini: [] };
+    }
+}
+
+function afisareEroare(res, identificator, titlu, text, imagine){
+    let eroare = obGlobal.obErori.info_erori.find(function(elem){ 
         return elem.identificator == identificator;
     });
-
+    
     let titluCustom, textCustom, imagineCustom;
-
-    if (eroare) {
-        if (eroare.status)
+    
+    if(eroare){
+        if(eroare.status)
             res.status(identificator);
         titluCustom = titlu || eroare.titlu;
         textCustom = text || eroare.text;
         imagineCustom = imagine || eroare.imagine;
-    } else {
+    }
+    else{
         let err = obGlobal.obErori.eroare_default;
         titluCustom = titlu || err.titlu;
         textCustom = text || err.text;
@@ -50,7 +123,7 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     }
 
     imagineCustom = imagineCustom.replace(/\\/g, '/');
-
+    
     res.render("pagini/eroare", {
         titlu: titluCustom,
         text: textCustom,
@@ -74,31 +147,44 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use('/resurse', function(req, res, next) {
-    const fullPath = path.join(__dirname, 'resurse', req.path);
-    
-    console.log(`Verificare acces director: ${fullPath}`);
-    
+app.use("/resurse", function(req, res, next) {
+    const fullPath = path.join(__dirname, "resurse", req.url);
     if (fs.existsSync(fullPath) && fs.statSync(fullPath).isDirectory()) {
-        console.log(`Blocare acces director: ${req.path}`);
-        return afisareEroare(res, 403);
+        if (!req.url.endsWith("/")) {
+            afisareEroare(res, 403);
+            return;
+        }
     }
-    
     next();
-});
-
-app.use("/resurse", express.static(path.join(__dirname, "resurse")));
+}, express.static(path.join(__dirname, "resurse")));
 
 app.get("/favicon.ico", function(req, res) {
     res.sendFile(path.join(__dirname, "resurse/imagini/favicon.ico"));
 });
 
+// Ruta pentru pagina principală modificată pentru a include datele galeriei
 app.get(["/", "/index", "/home"], function(req, res) {
-    res.render("pagini/index", { ip: req.ip });
+    const ip = req.ip;
+    const galerieData = citesteJSON();
+    
+    res.render("pagini/index", {
+        ip: ip,
+        imagini: galerieData.imagini,
+        cale_galerie: galerieData.cale_galerie
+    });
+});
+
+// Ruta pentru pagina galerie
+app.get('/galerie', (req, res) => {
+    const galerieData = citesteJSON();
+    res.render('pagini/galerie', {
+        imagini: galerieData.imagini,
+        cale_galerie: galerieData.cale_galerie
+    });
 });
 
 app.get("/index/a", function(req, res) {
-    res.render("pagini/index", { ip: req.ip });
+    res.render("pagini/index", {ip: req.ip});
 });
 
 app.get("/cerere", function(req, res) {
@@ -115,7 +201,7 @@ app.get("/*.ejs", function(req, res) {
 
 app.get("/*", function(req, res) {
     try {
-        res.render("pagini" + req.url, { ip: req.ip }, function(err, rezultatRandare) {
+        res.render("pagini" + req.url, {ip: req.ip}, function(err, rezultatRandare) {
             if (err) {
                 if (err.message.startsWith("Failed to lookup view")) {
                     afisareEroare(res, 404);

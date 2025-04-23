@@ -1,0 +1,86 @@
+<!-- Fragmente/galerie.ejs -->
+<section id="galerie-statica">
+    <h2>Galerie Instrumente Muzicale</h2>
+    
+    <div class="galerie-container">
+        <% 
+        // Verificam daca imaginile si calea sunt disponibile
+        let toateImaginile = locals.imagini || imagini || [];
+        let caleImagini = locals.cale_galerie || cale_galerie || "/resurse/imagini/galerie";
+        
+        // Functie pentru a filtra imaginile in functie de ora actuala
+        function filtreazaImaginiDupaTimpulZilei(imagini, oraCurenta) {
+            if (!Array.isArray(imagini) || imagini.length === 0) {
+                return [];
+            }
+            
+            let timpulZilei;
+            
+            if (oraCurenta >= 5 && oraCurenta < 12) {
+                timpulZilei = "dimineata";
+            } else if (oraCurenta >= 12 && oraCurenta < 20) {
+                timpulZilei = "zi";
+            } else {
+                timpulZilei = "noapte";
+            }
+            
+            return imagini.filter(img => img.timp === timpulZilei);
+        }
+        
+        // Obtine ora curenta (0-23)
+        let oraCurenta = new Date().getHours();
+        
+        // Pentru testare, poti suprascrie ora curenta
+        // oraCurenta = 10; // Dimineata (5-12)
+        // oraCurenta = 15; // Zi (12-20)
+        // oraCurenta = 22; // Noapte (20-5)
+        
+        // Filtreaza imaginile in functie de timpul zilei
+        let imaginiDeTip = filtreazaImaginiDupaTimpulZilei(toateImaginile, oraCurenta);
+        
+        // Asigura-te ca numarul de imagini este divizibil cu 3
+        if (imaginiDeTip.length > 0) {
+            let numarImagini = Math.floor(imaginiDeTip.length / 3) * 3;
+            imaginiDeTip = imaginiDeTip.slice(0, numarImagini);
+            
+            // Asigura-te ca avem minim 6 imagini afisate
+            if (numarImagini < 6 && toateImaginile.length >= 6) {
+                // Daca nu avem destule imagini pentru timpul actual al zilei, vom lua imagini din alte perioade
+                let i = 0;
+                while (imaginiDeTip.length < 6 && i < toateImaginile.length) {
+                    // Verifica daca imaginea nu este deja in lista noastra
+                    let imagineDeja = imaginiDeTip.some(img => 
+                        img.cale_relativa === toateImaginile[i].cale_relativa);
+                        
+                    if (!imagineDeja) {
+                        imaginiDeTip.push(toateImaginile[i]);
+                    }
+                    i++;
+                }
+                
+                // Ajusteaza din nou pentru a fi divizibil cu 3
+                numarImagini = Math.floor(imaginiDeTip.length / 3) * 3;
+                imaginiDeTip = imaginiDeTip.slice(0, numarImagini);
+            }
+        }
+        %>
+        
+        <% if (imaginiDeTip.length > 0) { %>
+            <% for(let i = 0; i < imaginiDeTip.length; i++) { %>
+                <figure class="galerie-item">
+                    <!-- Folosim doar imaginea originala pentru toate dimensiunile -->
+                    <img src="<%= caleImagini + '/' + imaginiDeTip[i].cale_relativa %>" 
+                         alt="<%= imaginiDeTip[i].alt || imaginiDeTip[i].nume %>" 
+                         title="<%= imaginiDeTip[i].descriere %>">
+                    <figcaption><span class="index"></span> <%= imaginiDeTip[i].nume %> - <%= imaginiDeTip[i].descriere %>
+                    <% if(imaginiDeTip[i].descriere_licenta) { %>
+                        <small><%= imaginiDeTip[i].descriere_licenta %></small>
+                    <% } %>
+                    </figcaption>
+                </figure>
+            <% } %>
+        <% } else { %>
+            <p>Nu exista imagini disponibile pentru aceasta perioada a zilei.</p>
+        <% } %>
+    </div>
+</section>
