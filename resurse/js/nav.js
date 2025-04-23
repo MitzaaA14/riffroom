@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const menuItems = document.querySelectorAll('nav > ul > li');
 
   if (!navToggle || !menuContainer) {
-    console.error("Elemente lipsa in pagina:", {
+    console.error("Elemente lipsă în pagină:", {
       navToggle: !!navToggle,
       menuContainer: !!menuContainer
     });
     return; 
   }
 
-  console.log("Elementele au fost gasite corect");
+  console.log("Elementele au fost găsite corect");
   
   navToggle.addEventListener('click', function (e) {
     console.log("Click pe navToggle");
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
       menuContainer.style.cssText = 'width: 0; height: 0; opacity: 0;';
       menuContainer.classList.add('show');
       
-      // porneste animatia
+      // pornește animația
       let step = 0;
       const totalSteps = 20;
       
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // adauga tranzitiile si animatiile 
+  // adaugă tranzițiile și animațiile 
   menuItems.forEach(function(item) {
     const submenu = item.querySelector('ul');
     
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
   
-  // efectul sagetilor
+  // efectul săgeților
   if (window.innerWidth > 768) {
     const submenuLinks = document.querySelectorAll('nav ul li ul li a');
     
@@ -116,14 +116,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
   
-
   window.addEventListener('resize', function() {
     if (window.innerWidth > 768) {
       if (menuContainer.classList.contains('show')) {
         navToggle.click();
       }
       
-      // reseteaza toate stilurile inline
+      // resetează toate stilurile inline
       menuContainer.removeAttribute('style');
       menuItems.forEach(function(item) {
         const link = item.querySelector('a');
@@ -137,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
           submenuItems.forEach(function(subItem) {
             subItem.removeAttribute('style');
             
-            // reseteaza submeniurile de nivelul 2
+            // resetează submeniurile de nivelul 2
             const nestedSubmenu = subItem.querySelector('ul');
             if (nestedSubmenu) {
               nestedSubmenu.removeAttribute('style');

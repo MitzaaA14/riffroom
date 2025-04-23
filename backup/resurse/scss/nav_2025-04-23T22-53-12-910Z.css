@@ -1,0 +1,428 @@
+@keyframes hamburger-animation-1 {
+  0% {
+    background-color: #fff;
+    transform: rotate(0);
+  }
+  50% {
+    background-color: #ff9800;
+    transform: rotate(20deg);
+  }
+  100% {
+    background-color: #fff;
+    transform: rotate(0);
+  }
+}
+@keyframes hamburger-animation-2 {
+  0% {
+    background-color: #fff;
+    transform: rotate(0);
+  }
+  50% {
+    background-color: #e91e63;
+    transform: rotate(40deg);
+  }
+  100% {
+    background-color: #fff;
+    transform: rotate(0);
+  }
+}
+@keyframes hamburger-animation-3 {
+  0% {
+    background-color: #fff;
+    transform: rotate(0);
+  }
+  50% {
+    background-color: #4caf50;
+    transform: rotate(60deg);
+  }
+  100% {
+    background-color: #fff;
+    transform: rotate(0);
+  }
+}
+nav {
+  background-color: #000;
+  width: 100%;
+  font-family: "Playfair Display", serif;
+}
+nav nav, nav nav * {
+  font-family: "Playfair Display", serif !important;
+}
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  width: 100%;
+}
+nav ul li {
+  position: relative;
+  flex: 1;
+}
+nav ul li a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 20px 15px;
+  font-size: 1.2em;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  transition: color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  background-color: #000;
+}
+nav ul li a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(150, 150, 150, 0.4) 0%, rgba(80, 80, 80, 0.1) 30%, rgba(80, 80, 80, 0.1) 70%, rgba(150, 150, 150, 0.4) 100%);
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+nav ul li a:hover::before {
+  opacity: 1;
+}
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 15px rgba(200, 200, 200, 0.4), inset 0 0 30px rgba(150, 150, 150, 0.3);
+  background: radial-gradient(ellipse at center, rgba(80, 80, 80, 0.05) 0%, rgba(180, 180, 180, 0.3) 100%);
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+nav ul li a:hover::after {
+  opacity: 1;
+}
+nav ul li a:hover {
+  color: #fff;
+}
+nav ul li a i {
+  margin-right: 8px;
+}
+nav ul li a .text-label {
+  display: inline;
+}
+nav ul li ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: block;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.95);
+  min-width: 200px;
+  z-index: 100;
+  transform: scaleY(0);
+  transform-origin: top center;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.8s ease, opacity 0.8s ease, max-height 0.8s ease, visibility 0.8s ease;
+}
+nav ul li ul li {
+  width: 100%;
+  flex: none;
+}
+nav ul li ul li a {
+  padding: 15px 35px 15px 40px;
+  font-size: 1em;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav ul li ul li a .arrow {
+  position: relative;
+  display: inline-block;
+  margin-right: 6px;
+  opacity: 0;
+  font-size: 1em;
+  color: #fff;
+  transition: all 0.3s ease-out;
+  transform: translateX(-10px);
+}
+nav ul li ul li a .text-content {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+nav ul li ul li a:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+nav ul li ul li ul {
+  left: 100%;
+  top: 0;
+}
+nav ul li:hover > ul {
+  transform: scaleY(1);
+  max-height: 1000px;
+  opacity: 1;
+  visibility: visible;
+}
+
+nav ul li ul {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+nav ul li ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+nav ul li ul li:last-child {
+  border-bottom: none;
+}
+nav ul li ul li a {
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+nav ul li ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+nav ul li ul li a {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center;
+}
+nav ul li ul li a .arrow {
+  position: relative;
+  display: inline-block;
+  margin-right: 6px;
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  transform: translateX(-10px);
+}
+nav ul li ul li a:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: hsl(0, 0%, 120%);
+}
+
+.nav-toggle {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  nav > ul > li > a {
+    font-size: 1em;
+    padding: 15px 10px;
+  }
+  nav > ul > li:first-child > a .text-label {
+    display: none;
+  }
+  nav > ul > li:first-child > a i {
+    margin-right: 0;
+    font-size: 1.2rem;
+  }
+  nav ul li ul li a .arrow {
+    opacity: 0;
+  }
+  nav ul li ul li a:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@media screen and (max-width: 768px) {
+  nav > ul > li:first-child > a .text-label {
+    display: none;
+  }
+  nav > ul > li:first-child > a i {
+    margin-right: 0;
+    font-size: 1.2rem;
+  }
+  body.menu-open {
+    overflow: hidden;
+  }
+  nav > ul > li > a.hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-left: 3px solid rgba(255, 255, 255, 0.5) !important;
+  }
+  .nav-toggle {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    width: 50px;
+    height: 43px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    outline: none;
+  }
+  .nav-toggle .hamburger-bar {
+    position: absolute;
+    left: 10px;
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 1.5px;
+    transition: transform 1s ease, opacity 1s ease, background-color 1s ease;
+    display: block;
+  }
+  .nav-toggle .hamburger-bar-1 {
+    top: 10px;
+    animation: hamburger-animation-1 2s ease forwards;
+    animation-delay: 0ms;
+  }
+  .nav-toggle .hamburger-bar-2 {
+    top: 20px;
+    animation: hamburger-animation-2 2s ease forwards;
+    animation-delay: 300ms;
+  }
+  .nav-toggle .hamburger-bar-3 {
+    top: 30px;
+    animation: hamburger-animation-3 2s ease forwards;
+    animation-delay: 600ms;
+  }
+  .nav-toggle.active .hamburger-bar-1 {
+    transform: translateY(10px) rotate(45deg);
+    background-color: #f44336;
+    animation: none;
+  }
+  .nav-toggle.active .hamburger-bar-2 {
+    opacity: 0;
+    transform: translateX(-30px);
+    background-color: #ff9800;
+    animation: none;
+  }
+  .nav-toggle.active .hamburger-bar-3 {
+    transform: translateY(-10px) rotate(-45deg);
+    background-color: #4caf50;
+    animation: none;
+  }
+  nav > ul > li > ul {
+    transition: max-height 0.5s ease, opacity 0.5s ease, margin 0.3s ease;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+  }
+  nav > ul {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: auto;
+    max-height: 80vh;
+    background-color: #000;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    padding: 60px 15px 15px 15px;
+    margin: 0;
+    overflow-y: auto;
+    opacity: 1;
+  }
+  nav > ul:not(.show) {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    overflow: hidden;
+    padding: 0;
+  }
+  nav > ul > li {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  nav > ul > li::before {
+    display: none;
+  }
+  nav > ul > li > a {
+    display: block;
+    font-size: 1.2em;
+    padding: 15px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  nav > ul > li > a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  nav > ul > li:hover > a {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  nav > ul li {
+    width: 100%;
+    position: relative;
+  }
+  nav > ul li > ul {
+    position: static;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: none;
+    border-left: none;
+  }
+  nav > ul li > ul li {
+    margin-bottom: 3px;
+  }
+  nav > ul li > ul li a {
+    padding: 10px;
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center;
+  }
+  nav > ul li > ul li a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  nav > ul li > ul li a .arrow {
+    display: none !important;
+  }
+  nav > ul > li:hover > a {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  }
+}
+@media screen and (min-width: 769px) {
+  nav ul li ul li a {
+    text-align: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  nav ul li ul li a .arrow {
+    position: relative;
+    display: inline-block;
+    margin-right: 6px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease-out;
+  }
+  nav ul li ul li a .text-content {
+    display: inline-block;
+    text-align: center;
+  }
+  nav ul li ul li a:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

@@ -1,6 +1,6 @@
 @keyframes hamburger-bar-1-animation {
   0% {
-    background-color: #fff;
+    background-color: var(--maro-inchis, #8B5A2B);
     transform: translateX(0);
     opacity: 1;
   }
@@ -15,14 +15,14 @@
     opacity: 0.9;
   }
   100% {
-    background-color: #fff;
+    background-color: var(--maro-inchis, #8B5A2B);
     transform: translateX(0);
     opacity: 1;
   }
 }
 @keyframes hamburger-bar-2-animation {
   0% {
-    background-color: #fff;
+    background-color: var(--maro-inchis, #8B5A2B);
     transform: translateX(0);
     opacity: 1;
   }
@@ -37,14 +37,14 @@
     opacity: 0.9;
   }
   100% {
-    background-color: #fff;
+    background-color: var(--maro-inchis, #8B5A2B);
     transform: translateX(0);
     opacity: 1;
   }
 }
 @keyframes hamburger-bar-3-animation {
   0% {
-    background-color: #fff;
+    background-color: var(--maro-inchis, #8B5A2B);
     transform: translateX(0);
     opacity: 1;
   }
@@ -59,7 +59,7 @@
     opacity: 0.9;
   }
   100% {
-    background-color: #fff;
+    background-color: var(--maro-inchis, #8B5A2B);
     transform: translateX(0);
     opacity: 1;
   }
@@ -211,26 +211,27 @@ nav ul li ul li a:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-nav ul li ul li a {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center;
+@media screen and (min-width: 769px) {
+  nav ul li ul li a {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center;
+  }
+  nav ul li ul li a .arrow {
+    position: relative;
+    display: inline-block;
+    margin-right: 6px;
+    opacity: 0;
+    transition: all 0.3s ease-out;
+    transform: translateX(-10px);
+  }
+  nav ul li ul li a:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: hsl(0, 0%, 120%);
+  }
 }
-nav ul li ul li a .arrow {
-  position: relative;
-  display: inline-block;
-  margin-right: 6px;
-  opacity: 0;
-  transition: all 0.3s ease-out;
-  transform: translateX(-10px);
-}
-nav ul li ul li a:hover .arrow {
-  opacity: 1;
-  transform: translateX(0);
-  color: hsl(0, 0%, 120%);
-}
-
 .nav-toggle {
   display: none;
 }
@@ -246,13 +247,6 @@ nav ul li ul li a:hover .arrow {
   nav > ul > li:first-child > a i {
     margin-right: 0;
     font-size: 1.2rem;
-  }
-  nav ul li ul li a .arrow {
-    opacity: 0;
-  }
-  nav ul li ul li a:hover .arrow {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 @media screen and (max-width: 768px) {
@@ -271,6 +265,15 @@ nav ul li ul li a:hover .arrow {
     background-color: rgba(255, 255, 255, 0.1) !important;
     border-left: 3px solid rgba(255, 255, 255, 0.5) !important;
   }
+  nav ul li ul li a .arrow {
+    display: none !important;
+  }
+  nav ul li ul li a {
+    display: block !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center;
+  }
   .nav-toggle {
     display: block;
     position: fixed;
@@ -285,37 +288,63 @@ nav ul li ul li a:hover .arrow {
     padding: 10px;
     outline: none;
   }
-  .nav-toggle .hamburger-bar {
+  .nav-toggle::before {
+    content: "";
     position: absolute;
     left: 10px;
+    top: 10px;
     width: 30px;
     height: 3px;
     background-color: #fff;
     border-radius: 1.5px;
     transition: transform 0.5s ease, opacity 0.5s ease, background-color 0.5s ease;
+    animation: hamburger-bar-1-animation 1.5s ease 2;
+    animation-delay: 0ms;
+    animation-fill-mode: forwards;
+  }
+  .nav-toggle .nav-toggle-middle-bar {
+    position: absolute;
+    left: 10px;
+    top: 20px;
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 1.5px;
+    transition: transform 0.5s ease, opacity 0.5s ease, background-color 0.5s ease;
+    animation: hamburger-bar-2-animation 1.5s ease 2;
+    animation-delay: 300ms;
+    animation-fill-mode: forwards;
     display: block;
   }
-  .nav-toggle .hamburger-bar-1 {
-    top: 10px;
-  }
-  .nav-toggle .hamburger-bar-2 {
-    top: 20px;
-  }
-  .nav-toggle .hamburger-bar-3 {
+  .nav-toggle::after {
+    content: "";
+    position: absolute;
+    left: 10px;
     top: 30px;
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 1.5px;
+    transition: transform 0.5s ease, opacity 0.5s ease, background-color 0.5s ease;
+    animation: hamburger-bar-3-animation 1.5s ease 2;
+    animation-delay: 600ms;
+    animation-fill-mode: forwards;
   }
-  .nav-toggle.active .hamburger-bar-1 {
+  .nav-toggle.active::before {
     transform: translateY(10px) rotate(45deg);
     background-color: #f44336;
+    animation: none;
   }
-  .nav-toggle.active .hamburger-bar-2 {
+  .nav-toggle.active .nav-toggle-middle-bar {
     opacity: 0;
     transform: translateX(-30px);
     background-color: #ff9800;
+    animation: none;
   }
-  .nav-toggle.active .hamburger-bar-3 {
+  .nav-toggle.active::after {
     transform: translateY(-10px) rotate(-45deg);
     background-color: #4caf50;
+    animation: none;
   }
   nav > ul > li > ul {
     transition: max-height 0.5s ease, opacity 0.5s ease, margin 0.3s ease;
@@ -398,46 +427,17 @@ nav ul li ul li a:hover .arrow {
     padding: 10px;
     font-size: 1em;
     color: rgba(255, 255, 255, 0.8);
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+    display: block;
     text-align: center;
   }
   nav > ul li > ul li a:hover {
     color: white;
     background-color: rgba(255, 255, 255, 0.1);
   }
-  nav > ul li > ul li a .arrow {
-    display: none !important;
-  }
   nav > ul > li:hover > a {
     color: white;
     background-color: rgba(255, 255, 255, 0.1);
     border-left: none;
     border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-  }
-}
-@media screen and (min-width: 769px) {
-  nav ul li ul li a {
-    text-align: center;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  nav ul li ul li a .arrow {
-    position: relative;
-    display: inline-block;
-    margin-right: 6px;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease-out;
-  }
-  nav ul li ul li a .text-content {
-    display: inline-block;
-    text-align: center;
-  }
-  nav ul li ul li a:hover .arrow {
-    opacity: 1;
-    transform: translateX(0);
   }
 }

@@ -32,7 +32,7 @@ $hamburger-animation-colors: (#ff9800, #e91e63, #4caf50);
   transition: #{$property} #{$duration} #{$timing};
 }
 
-// 2.2 Efect de hover pentru săgeți din submeniu
+// 2.2 Efect de hover pentru săgeți din submeniu - MODIFICAT
 @mixin left-arrow-hover {
   position: relative;
   display: flex;
@@ -129,13 +129,13 @@ $hamburger-animation-colors: (#ff9800, #e91e63, #4caf50);
   $rotation-angle-1: 15deg * $i;
   $rotation-angle-2: -15deg * $i;
   
-  // Culoare diferită pentru fiecare bară
+  // Culoare diferită pentru fiecare bară (folosind list.nth și list.length)
   $color-1: list.nth($hamburger-animation-colors, ($i % list.length($hamburger-animation-colors)) + 1);
   $color-2: list.nth($hamburger-animation-colors, (($i + 1) % list.length($hamburger-animation-colors)) + 1);
   
   @keyframes hamburger-bar-#{$i}-animation {
     0% {
-      background-color: $menu-text-color;
+      background-color: var(--maro-inchis, #8B5A2B); // Culoare fallback
       transform: translateX(0);
       opacity: 1;
     }
@@ -150,7 +150,7 @@ $hamburger-animation-colors: (#ff9800, #e91e63, #4caf50);
       opacity: 0.9;
     }
     100% {
-      background-color: $menu-text-color;
+      background-color: var(--maro-inchis, #8B5A2B);
       transform: translateX(0);
       opacity: 1;
     }
@@ -283,25 +283,28 @@ nav ul li ul {
 }
 
 // 4.2 Efecte de tranzitie pentru sagetile din submeniu
-nav ul li ul li a {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center;
-  
-  .arrow {
-    position: relative;
-    display: inline-block;
-    margin-right: 6px;
-    opacity: 0;
-    transition: all 0.3s ease-out;
-    transform: translateX(-10px);
-  }
-  
-  &:hover .arrow {
-    opacity: 1;
-    transform: translateX(0);
-    color: color.adjust($menu-text-color, $lightness:20%);
+// Acest cod va fi aplicat DOAR pe ecrane mari, nu și pe mobile
+@media screen and (min-width: 769px) {
+  nav ul li ul li a {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center;
+    
+    .arrow {
+      position: relative;
+      display: inline-block;
+      margin-right: 6px;
+      opacity: 0;
+      transition: all 0.3s ease-out;
+      transform: translateX(-10px);
+    }
+    
+    &:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+      color: color.adjust($menu-text-color, $lightness:20%);
+    }
   }
 }
 
@@ -326,13 +329,6 @@ nav ul li ul li a {
   nav > ul > li:first-child > a i {
     margin-right: 0;
     font-size: 1.2rem;
-  }
-  nav ul li ul li a .arrow {
-    opacity: 0;
-  }
-  nav ul li ul li a:hover .arrow {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
@@ -360,7 +356,20 @@ nav ul li ul li a {
     border-left: 3px solid rgba(255, 255, 255, 0.5) !important;
   }
   
-  // 7.4 Stiluri pentru butonul hamburger pe ecran mic
+  // IMPORTANT - ASCUNDEM SĂGEȚILE PE MOBILE
+  nav ul li ul li a .arrow {
+    display: none !important;
+  }
+  
+  // Pentru siguranță, eliminăm și flex-ul care ar putea genera spații pentru săgeți
+  nav ul li ul li a {
+    display: block !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center;
+  }
+  
+  // 7.4 Stiluri pentru butonul hamburger pe ecran mic cu animație limitată
   .nav-toggle {
     display: block;
     position: fixed;
@@ -375,10 +384,12 @@ nav ul li ul li a {
     padding: 10px;
     outline: none;
    
-    // Stilurile pentru cele 3 bare
-    .hamburger-bar {
+    // Prima bară (bara de sus)
+    &::before {
+      content: '';
       position: absolute;
       left: 10px;
+      top: 10px;
       width: $hamburger-bar-width;
       height: $hamburger-bar-height;
       background-color: $menu-text-color;
@@ -386,37 +397,69 @@ nav ul li ul li a {
       transition: transform $hamburger-animation-duration ease,
                 opacity $hamburger-animation-duration ease,
                 background-color $hamburger-animation-duration ease;
-      display: block;
+      // Animație LIMITATĂ pentru bara superioară - rulează doar de 2 ori (3 secunde total)
+      animation: hamburger-bar-1-animation 1.5s ease 2; // 2 iterații
+      animation-delay: 0ms;
+      animation-fill-mode: forwards;
     }
     
-    .hamburger-bar-1 {
-      top: 10px;
-    }
-    
-    .hamburger-bar-2 {
+    // Bara din mijloc
+    .nav-toggle-middle-bar {
+      position: absolute;
+      left: 10px;
       top: 10px + $hamburger-bar-height + $hamburger-bar-spacing;
+      width: $hamburger-bar-width;
+      height: $hamburger-bar-height;
+      background-color: $menu-text-color;
+      border-radius: math.div($hamburger-bar-height, 2);
+      transition: transform $hamburger-animation-duration ease,
+                opacity $hamburger-animation-duration ease,
+                background-color $hamburger-animation-duration ease;
+      // Animație LIMITATĂ pentru bara din mijloc - rulează doar de 2 ori
+      animation: hamburger-bar-2-animation 1.5s ease 2; // 2 iterații
+      animation-delay: $hamburger-animation-delay;
+      animation-fill-mode: forwards;
+      display: block; // Asigurăm că este vizibilă
     }
     
-    .hamburger-bar-3 {
+    // Ultima bară (bara de jos)
+    &::after {
+      content: '';
+      position: absolute;
+      left: 10px;
       top: 10px + ($hamburger-bar-height + $hamburger-bar-spacing) * 2;
+      width: $hamburger-bar-width;
+      height: $hamburger-bar-height;
+      background-color: $menu-text-color;
+      border-radius: math.div($hamburger-bar-height, 2);
+      transition: transform $hamburger-animation-duration ease,
+                opacity $hamburger-animation-duration ease,
+                background-color $hamburger-animation-duration ease;
+      // Animație LIMITATĂ pentru bara inferioară - rulează doar de 2 ori
+      animation: hamburger-bar-3-animation 1.5s ease 2; // 2 iterații
+      animation-delay: $hamburger-animation-delay * 2;
+      animation-fill-mode: forwards;
     }
     
-    // Starea activa - când meniul este deschis
+    // Stare activa - când meniul este deschis
     &.active {
-      .hamburger-bar-1 {
+      &::before {
         transform: translateY($hamburger-bar-height + $hamburger-bar-spacing) rotate(45deg);
         background-color: #f44336;
+        animation: none; // Oprim animația când meniul e deschis
       }
 
-      .hamburger-bar-2 {
+      .nav-toggle-middle-bar {
         opacity: 0;
         transform: translateX(-$hamburger-bar-width);
         background-color: #ff9800;
+        animation: none; // Oprim animația când meniul e deschis
       }
       
-      .hamburger-bar-3 {
+      &::after {
         transform: translateY(-($hamburger-bar-height + $hamburger-bar-spacing)) rotate(-45deg);
         background-color: #4caf50;
+        animation: none; // Oprim animația când meniul e deschis
       }
     }
   }
@@ -477,7 +520,7 @@ nav ul li ul li a {
         > a {
           display: block;
           font-size: 1.2em;
-          padding: 15px; // Padding uniform
+          padding: 15px; 
           text-align: center;
           color: rgba(255, 255, 255, 0.9);
           
@@ -519,19 +562,12 @@ nav ul li ul li a {
               padding: 10px;
               font-size: 1em;
               color: rgba(255, 255, 255, 0.8);
-              display: flex !important;
-              justify-content: center !important;
-              align-items: center !important;
+              display: block; // Modificat din flex pentru a evita alinierea săgeților
               text-align: center;
               
               &:hover {
                 color: white;
                 background-color: rgba(255, 255, 255, 0.1);
-              }
-              
-              // Ascunde săgețile la ecran mic
-              .arrow {
-                display: none !important;
               }
             }
           }
@@ -546,34 +582,5 @@ nav ul li ul li a {
     background-color: rgba(255, 255, 255, 0.1);
     border-left: none;
     border-bottom: 2px solid rgba(255, 255, 255, 0.5); 
-  }
-}
-
-// 8. Centrarea săgeților pe cuvinte (doar pentru ecran mediu și mare)
-@media screen and (min-width: 769px) {
-  nav ul li ul li a {
-    text-align: center;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    
-    .arrow {
-      position: relative;
-      display: inline-block;
-      margin-right: 6px;
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: all 0.3s ease-out;
-    }
-    
-    .text-content {
-      display: inline-block;
-      text-align: center;
-    }
-    
-    &:hover .arrow {
-      opacity: 1;
-      transform: translateX(0);
-    }
   }
 }
