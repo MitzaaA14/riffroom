@@ -2,39 +2,131 @@
 <html lang="ro">
     <head>
         <%- include("../fragmente/head.ejs") %>
+        <link rel="stylesheet" href="/resurse/css/custom.css">
+        <style>
+            /* Stiluri specifice pentru pagina despre */
+            .despre-section {
+                padding: 3rem 0;
+                margin-bottom: 2rem;
+            }
+            
+            main {
+                padding: 2rem 0;
+            }
+            
+            .card-valori {
+                border-left: 4px solid #C05F3E;
+                margin-bottom: 1rem;
+                transition: transform 0.3s ease;
+            }
+            
+            .card-valori:hover {
+                transform: translateY(-5px);
+            }
+            
+            article {
+                margin-bottom: 2rem;
+                padding: 1rem;
+                background-color: rgba(247, 243, 232, 0.5);
+                border-radius: 0.5rem;
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            }
+            
+            article h2 {
+                color: #6B3E31;
+                border-bottom: 2px solid #C05F3E;
+                padding-bottom: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            ul {
+                list-style-type: none;
+                padding-left: 1rem;
+            }
+            
+            ul li {
+                position: relative;
+                padding-left: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            ul li::before {
+                content: "•";
+                color: #C05F3E;
+                font-size: 1.5rem;
+                position: absolute;
+                left: 0;
+                top: -0.5rem;
+            }
+            
+            h1 {
+                text-align: center;
+                margin-bottom: 2rem;
+                color: #2D1A19;
+            }
+        </style>
     </head>
-    <body>
+    <body class="tema-deschisa">
         <%- include("../fragmente/header.ejs") %>
         
-        <main>
-            <section>
-                <h1>Despre RiffRoom</h1>
-                
-                <article>
-                    <h2>Povestea Noastră</h2>
-                    <p>RiffRoom a luat naștere din pasiunea pentru muzică și dorința de a conecta muzicieni cu instrumentele lor visate. Fondat în 2025, magazinul nostru online dedicat chitarelor vine cu o experiență unică pentru toți pasionații de muzică.</p>
-                </article>
-                
-                <article>
-                    <h2>Misiunea Noastră</h2>
-                    <p>Suntem dedicați să oferim cea mai bună selecție de chitare și echipamente muzicale, indiferent de nivelul de experiență al muzicianului. De la prima chitară a unui începător și până la instrumentele profesionale ale artiștilor consacrați, RiffRoom este partenerul tău muzical.</p>
-                </article>
-                
-                <article>
-                    <h2>Echipa</h2>
-                    <p>Echipa RiffRoom este formată din muzicieni pasionați, tehnicieni și iubitori de muzică care lucrează zi de zi pentru a aduce cele mai bune instrumente și experiențe muzicale clienților noștri.</p>
-                </article>
-                
-                <article>
-                    <h2>Valori</h2>
-                    <ul>
-                        <li>Pasiune pentru muzică</li>
-                        <li>Calitate garantată</li>
-                        <li>Consiliere profesionistă</li>
-                        <li>Susținerea comunității muzicale</li>
-                    </ul>
-                </article>
-            </section>
+        <main class="container">
+            <h1 class="reflexie-text" data-text="Despre RiffRoom">Despre RiffRoom</h1>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <article class="despre-section">
+                        <h2>Povestea Noastra</h2>
+                        <p class="lead">RiffRoom a luat nastere din pasiunea pentru muzica si dorinta de a conecta muzicieni cu instrumentele lor visate.</p>
+                        <p>Fondat in 2025, magazinul nostru online dedicat chitarelor vine cu o experienta unica pentru toti pasionatii de muzica. Am inceput ca un mic magazin local si am crescut pentru a deveni o destinatie de incredere pentru muzicieni de toate nivelurile.</p>
+                    </article>
+                    
+                    <article class="despre-section">
+                        <h2>Misiunea Noastra</h2>
+                        <p class="lead">Suntem dedicati sa oferim cea mai buna selectie de chitare si echipamente muzicale, indiferent de nivelul de experienta al muzicianului.</p>
+                        <p>De la prima chitara a unui incepator si pana la instrumentele profesionale ale artistilor consacrati, RiffRoom este partenerul tau muzical. Ne straduim sa inspiram creativitatea, sa promovam educatia muzicala si sa construim o comunitate vibranta de muzicieni pasionati.</p>
+                    </article>
+                    
+                    <article class="despre-section">
+                        <h2>Echipa</h2>
+                        <p class="lead">Echipa RiffRoom este formata din muzicieni pasionati, tehnicieni si iubitori de muzica.</p>
+                        <p>Membrii echipei noastre lucreaza zi de zi pentru a aduce cele mai bune instrumente si experiente muzicale clientilor nostri. Cu experienta vasta in domeniul muzical si o pasiune autentica pentru chitare, suntem mereu pregatiti sa oferim consiliere personalizata si asistenta tehnica de calitate.</p>
+                    </article>
+                    
+                    <article class="despre-section">
+                        <h2>Valorile Noastre</h2>
+                        <div class="d-flex flex-wrap">
+                            <div class="card-valori col-md-6 p-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-music fa-2x mr-3" style="color: #C05F3E;"></i>
+                                    <h4>Pasiune pentru muzica</h4>
+                                </div>
+                                <p>impartasim dragostea pentru muzica cu clientii nostri si promovam creativitatea artistica in tot ce facem.</p>
+                            </div>
+                            <div class="card-valori col-md-6 p-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-award fa-2x mr-3" style="color: #C05F3E;"></i>
+                                    <h4>Calitate garantata</h4>
+                                </div>
+                                <p>Oferim doar produse verificate, de cea mai buna calitate, pe care le-am testat personal.</p>
+                            </div>
+                            <div class="card-valori col-md-6 p-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-hands-helping fa-2x mr-3" style="color: #C05F3E;"></i>
+                                    <h4>Consiliere profesionista</h4>
+                                </div>
+                                <p>Echipa noastra de experti este mereu disponibila pentru sfaturi personalizate si asistenta tehnica.</p>
+                            </div>
+                            <div class="card-valori col-md-6 p-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-users fa-2x mr-3" style="color: #C05F3E;"></i>
+                                    <h4>Sustinerea comunitatii</h4>
+                                </div>
+                                <p>Sprijinim evenimente locale, scoli de muzica si artisti la inceput de drum pentru a construi o comunitate muzicala puternica.</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
         </main>
         
         <%- include("../fragmente/footer.ejs") %>

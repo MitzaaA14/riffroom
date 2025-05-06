@@ -88,15 +88,15 @@ function initErori(){
 
 initErori();
 
-// Funcția pentru citirea datelor galeriei
+// Functia pentru citirea datelor galeriei
 function citesteJSON() {
     try {
         const jsonGalerie = JSON.parse(fs.readFileSync(path.join(__dirname, 'resurse/json/galerie.json')));
-        console.log("Galerie data încărcată cu succes!");
+        console.log("Galerie data incarcata cu succes!");
         return jsonGalerie;
     } catch (error) {
-        console.error("Eroare la citirea sau parsarea fișierului JSON:", error);
-        // Returnează un obiect gol pentru a evita erorile în restul codului
+        console.error("Eroare la citirea sau parsarea fisierului JSON:", error);
+        // Returneaza un obiect gol pentru a evita erorile in restul codului
         return { cale_galerie: "/resurse/imagini/galerie", imagini: [] };
     }
 }
@@ -138,7 +138,7 @@ for (let folder of vect_foldere) {
         fs.mkdirSync(caleFolder);
         console.log(`Creat folder: ${folder}`);
     } else {
-        console.log(`Folderul ${folder} există deja.`);
+        console.log(`Folderul ${folder} exista deja.`);
     }
 }
 
@@ -162,7 +162,7 @@ app.get("/favicon.ico", function(req, res) {
     res.sendFile(path.join(__dirname, "resurse/imagini/favicon.ico"));
 });
 
-// Ruta pentru pagina principală modificată pentru a include datele galeriei
+// Ruta pentru pagina principala modificata pentru a include datele galeriei
 app.get(["/", "/index", "/home"], function(req, res) {
     const ip = req.ip;
     const galerieData = citesteJSON();

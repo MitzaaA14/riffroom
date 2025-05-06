@@ -250,27 +250,27 @@
     }
 }
 
-/* Ecran mediu - grid cu schema specifica */
+/* Ecran mediu - grid cu pattern alternant (2 imagini, apoi 1 imagine centrata) */
 @media (min-width: 768px) and (max-width: 1023px) {
     .galerie-container {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-areas:
-            "img1 img1 img2"
-            "img3 img4 img4"
-            "img5 img5 img6"
-            "img7 img8 img8"
-            "img9 img9 .";
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
     
-    .galerie-item:nth-child(1) { grid-area: img1; }
-    .galerie-item:nth-child(2) { grid-area: img2; }
-    .galerie-item:nth-child(3) { grid-area: img3; }
-    .galerie-item:nth-child(4) { grid-area: img4; }
-    .galerie-item:nth-child(5) { grid-area: img5; }
-    .galerie-item:nth-child(6) { grid-area: img6; }
-    .galerie-item:nth-child(7) { grid-area: img7; }
-    .galerie-item:nth-child(8) { grid-area: img8; }
-    .galerie-item:nth-child(9) { grid-area: img9; }
+    /* Imaginea de pe randul cu 1 imagine centrata */
+    .galerie-item:nth-child(3n) {
+        grid-column: 1 / 3;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Cele doua imagini de pe randul cu 2 imagini */
+    .galerie-item:nth-child(3n+1),
+    .galerie-item:nth-child(3n+2) {
+        grid-column: auto;
+    }
 }
 
 /* Ecran mic - o singura coloana */
@@ -366,4 +366,35 @@ body.pagina-galerie #galerie-statica {
     width: 100% !important;
     max-width: 100% !important;
     grid-column: 1 / -1 !important;
+}
+
+/* Stiluri pentru textul pe coloane in secțiunea accesorii */
+#accesorii p {
+    column-count: 1; /* O singura coloana pe ecrane mici */
+    column-gap: 2rem;
+    column-rule: 2px solid var(--accent); /* Linie desparțitoare in culorile site-ului */
+    text-align: justify;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+}
+  
+/* Pe ecrane medii si mari, aplicam mai multe coloane */
+@media (min-width: 800px) {
+    #accesorii p {
+        column-count: 2; /* Doua coloane pe ecrane medii */
+    }
+}
+  
+@media (min-width: 1100px) {
+    #accesorii p {
+        column-count: 3; /* Trei coloane pe ecrane mari */
+    }
+}
+  
+/* Schimbarea afisarii implicite a textului selectat */
+::selection {
+    background-color: var(--maro-mediu);
+    color: var(--crem-deschis);
+    text-decoration: underline;
+    font-weight: bold;
 }
