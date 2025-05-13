@@ -37,10 +37,58 @@ async function compileazaScss(caleScss, caleCss) {
       await fsp.copyFile(cssAbs, caleBackup);
     }
 
+    // Salvează outputul original
+    const originalStderr = process.stderr.write;
+    const originalStdout = process.stdout.write;
+
+    // Suprascrie stderr pentru a filtra avertismentele de depreciere
+    process.stderr.write = function(chunk, encoding, callback) {
+      if (typeof chunk === 'string' && !chunk.includes('Deprecation Warning')) {
+        return originalStderr.call(process.stderr, chunk, encoding, callback);
+      }
+      if (Buffer.isBuffer(chunk)) {
+        const str = chunk.toString();
+        if (!str.includes('Deprecation Warning')) {
+          return originalStderr.call(process.stderr, chunk, encoding, callback);
+        }
+      }
+      // Returnează true pentru a indica faptul că scrierea a "reușit"
+      if (callback) callback();
+      return true;
+    };
+
+    // Suprascrie și stdout pentru cazul în care unele mesaje ajung acolo
+    process.stdout.write = function(chunk, encoding, callback) {
+      if (typeof chunk === 'string' && !chunk.includes('Deprecation Warning')) {
+        return originalStdout.call(process.stdout, chunk, encoding, callback);
+      }
+      if (Buffer.isBuffer(chunk)) {
+        const str = chunk.toString();
+        if (!str.includes('Deprecation Warning')) {
+          return originalStdout.call(process.stdout, chunk, encoding, callback);
+        }
+      }
+      if (callback) callback();
+      return true;
+    };
+
+    // Execută compilarea
     const rezultat = sass.compile(scssAbs, { style: "expanded" });
+    
+    // Restaurează stdout și stderr originale
+    process.stderr.write = originalStderr;
+    process.stdout.write = originalStdout;
+    
     await fsp.writeFile(cssAbs, rezultat.css);
     console.log(`[SCSS] Compilat: ${scssAbs} -> ${cssAbs}`);
   } catch (err) {
+    // Asigură-te că stdout și stderr sunt restaurate în caz de eroare
+    if (process.stderr.write !== originalStderr) {
+      process.stderr.write = originalStderr;
+    }
+    if (process.stdout.write !== originalStdout) {
+      process.stdout.write = originalStdout;
+    }
     console.error(`[Eroare] La compilarea ${scssAbs}:`, err.message);
   }
 }

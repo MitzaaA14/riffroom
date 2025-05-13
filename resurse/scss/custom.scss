@@ -1,526 +1,422 @@
-// Custom.scss - Versiune fara dependente directe de node_modules
-@use "sass:math";
-@use "sass:color";
+// custom.scss - cu opțiunea quiet pentru suprimarea avertismentelor
+// sass:quiet
 
-// Schema de culori a site-ului RiffRoom
-$maro-inchis: #2D1A19;
-$maro-mediu: #6B3E31;
-$maro-deschis: #B38867;
-$crem-inchis: #D8C9A7;
-$crem-deschis: #F7F3E8;
-$accent: #C05F3E;
+// Schema cromatica
+$primary: #6B3E31;
+$secondary: #B38867;
+$success: #2D7A4F;
+$info: #4B9AC8;
+$warning: #C05F3E;
+$danger: #A52A2A;
+$light: #F7F3E8;
+$dark: #2D1A19;
 
-// Customizare teme Bootstrap
-$theme-colors: (
-  "primary": $maro-mediu,
-  "secondary": $maro-deschis,
-  "success": #2E7D32,
-  "info": #0288D1,
-  "warning": #FFA000,
-  "danger": #D32F2F,
-  "light": $crem-deschis,
-  "dark": $maro-inchis
-);
+// Schema tema intunecata
+$dark-primary: #4A2C2A;
+$dark-secondary: #854C39;
+$dark-success: #1D5F3C;
+$dark-info: #2C647F;
+$dark-warning: #AB4E33;
+$dark-danger: #8B0000;
+$dark-light: #D8C9A7;
+$dark-dark: #1a0D0C;
 
-// Modificare dimensiuni ecran pentru ecrane medii si mari
+// Culori font
+$body-color: #2D1A19;
+$headings-color: #6B3E31;
+
+// Dimensiuni ecrane
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
-  md: 800px,    // Modificat de la 768px
-  lg: 1100px,   // Modificat de la 992px
-  xl: 1400px,   // Modificat de la 1200px
-  xxl: 1600px   // Modificat de la 1400px
+  md: 850px,
+  lg: 1100px,
+  xl: 1400px,
+  xxl: 1800px
 );
 
 $container-max-widths: (
   sm: 540px,
-  md: 760px,    // Modificat pentru a corespunde noilor breakpoints
-  lg: 1040px,   // Modificat pentru a corespunde noilor breakpoints
-  xl: 1320px,   // Modificat pentru a corespunde noilor breakpoints
-  xxl: 1540px   // Modificat pentru a corespunde noilor breakpoints
+  md: 800px,
+  lg: 1050px,
+  xl: 1320px,
+  xxl: 1700px
 );
 
-// Modificare raze de border
+// Font si alte modificari
+$font-family-base: 'Playfair Display', serif;
 $border-radius: 0.5rem;
 $border-radius-sm: 0.3rem;
-$border-radius-lg: 0.8rem;
+$border-radius-lg: 1rem;
+$border-radius-xl: 1.5rem;
+$border-radius-pill: 50rem;
 
-// Modificare dimensiuni headinguri
-$h1-font-size: 3rem;
-$h2-font-size: 2.5rem;
-$h3-font-size: 2rem;
-$h4-font-size: 1.75rem;
-$h5-font-size: 1.5rem;
-$h6-font-size: 1.25rem;
+$h1-font-size: 2.5rem;
+$h2-font-size: 2.2rem;
+$h3-font-size: 1.9rem;
+$h4-font-size: 1.6rem;
+$h5-font-size: 1.3rem;
+$h6-font-size: 1.1rem;
 
-// Modificare familia de font implicita
-$font-family-base: 'Playfair Display', serif;
-$headings-font-family: 'Rock Salt', cursive;
-
-// Customizare suplimentara - Spatiere si padding
 $spacer: 1rem;
 $spacers: (
   0: 0,
-  1: $spacer * .25,
-  2: $spacer * .5,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
   3: $spacer,
   4: $spacer * 1.5,
   5: $spacer * 3,
-  6: $spacer * 5
+  6: $spacer * 4.5,
+  7: $spacer * 6
 );
 
-// Customizare suplimentara - Butoane
-$btn-border-radius: 0.5rem;
-$btn-border-radius-lg: 0.7rem;
-$btn-border-radius-sm: 0.3rem;
-$btn-padding-y: 0.75rem;
-$btn-padding-x: 1.5rem;
+$box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+$box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$box-shadow-lg: 0 1rem 2rem rgba(0, 0, 0, 0.25);
 
-// Clase utilitare Bootstrap simplificate
-// Grids
-.container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+// Import Bootstrap
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Tema principala
+:root {
+  --bs-primary: #{$primary};
+  --bs-secondary: #{$secondary};
+  --bs-success: #{$success};
+  --bs-info: #{$info};
+  --bs-warning: #{$warning};
+  --bs-danger: #{$danger};
+  --bs-light: #{$light};
+  --bs-dark: #{$dark};
+  --bs-body-font-family: #{$font-family-base};
+  --bs-body-color: #{$body-color};
+  --bs-heading-color: #{$headings-color};
 }
 
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
+// Tema intunecata
+.theme-dark {
+  --bs-primary: #{$dark-primary};
+  --bs-secondary: #{$dark-secondary};
+  --bs-success: #{$dark-success};
+  --bs-info: #{$dark-info};
+  --bs-warning: #{$dark-warning};
+  --bs-danger: #{$dark-danger};
+  --bs-light: #{$dark-light};
+  --bs-dark: #{$dark-dark};
+  --bs-body-bg: #{$dark-dark};
+  --bs-body-color: #{$dark-light};
+  --bs-heading-color: #{$dark-light};
+}
+
+// Stilizare generala
+body {
+  background-color: $light;
+  font-family: $font-family-base;
+  color: $dark;
+  padding: 2rem 0;
+}
+
+// Sectiunea de introducere
+.intro-section {
+  padding: 3rem 0;
+  text-align: center;
+  
+  .intro-title {
+    color: $primary;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: $h2-font-size;
+  }
+  
+  .intro-text {
+    font-size: 1.3rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+    color: $dark;
   }
 }
 
-@media (min-width: 800px) {
-  .container {
-    max-width: 760px;
+// Stilizare carduri
+.feature-card {
+  margin-bottom: 2.5rem;
+  height: 100%;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  box-shadow: $box-shadow;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $box-shadow-lg;
   }
-}
-
-@media (min-width: 1100px) {
-  .container {
-    max-width: 1040px;
-  }
-}
-
-@media (min-width: 1400px) {
-  .container {
-    max-width: 1320px;
-  }
-}
-
-.container-fluid {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-
-// Coloane - versiune actualizata
-@mixin make-col($size, $columns: 12) {
-  flex: 0 0 math.percentage(math.div($size, $columns));
-  max-width: math.percentage(math.div($size, $columns));
-}
-
-@for $i from 1 through 12 {
-  .col-#{$i} {
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    @include make-col($i, 12);
-  }
-}
-
-@media (min-width: 576px) {
-  @for $i from 1 through 12 {
-    .col-sm-#{$i} {
-      position: relative;
-      width: 100%;
-      padding-right: 15px;
-      padding-left: 15px;
-      @include make-col($i, 12);
-    }
-  }
-}
-
-@media (min-width: 800px) {
-  @for $i from 1 through 12 {
-    .col-md-#{$i} {
-      position: relative;
-      width: 100%;
-      padding-right: 15px;
-      padding-left: 15px;
-      @include make-col($i, 12);
-    }
-  }
-}
-
-@media (min-width: 1100px) {
-  @for $i from 1 through 12 {
-    .col-lg-#{$i} {
-      position: relative;
-      width: 100%;
-      padding-right: 15px;
-      padding-left: 15px;
-      @include make-col($i, 12);
-    }
-  }
-}
-
-// Carduri
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: $border-radius;
   
   .card-header {
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 0;
-    background-color: rgba(0, 0, 0, 0.03);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: $primary;
+    color: $light;
+    font-weight: 700;
+    font-size: 1.4rem;
+    padding: 1.25rem;
+    border-bottom: none;
+    text-align: center;
   }
   
   .card-body {
-    flex: 1 1 auto;
-    padding: 1.25rem;
-  }
-  
-  .card-footer {
-    padding: 0.75rem 1.25rem;
-    background-color: rgba(0, 0, 0, 0.03);
-    border-top: 1px solid rgba(0, 0, 0, 0.125);
-  }
-  
-  .card-img-top {
-    width: 100%;
-    border-top-left-radius: calc(#{$border-radius} - 1px);
-    border-top-right-radius: calc(#{$border-radius} - 1px);
-  }
-}
-
-// Butoane
-.btn {
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  user-select: none;
-  border: 1px solid transparent;
-  padding: $btn-padding-y $btn-padding-x;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: $btn-border-radius;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  
-  &:hover {
-    text-decoration: none;
-  }
-  
-  &:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba($maro-mediu, 0.25);
-  }
-}
-
-.btn-lg {
-  padding: $btn-padding-y * 1.25 $btn-padding-x * 1.25;
-  font-size: 1.25rem;
-  line-height: 1.5;
-  border-radius: $btn-border-radius-lg;
-}
-
-.btn-sm {
-  padding: $btn-padding-y * 0.75 $btn-padding-x * 0.75;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  border-radius: $btn-border-radius-sm;
-}
-
-// Butoane colorate - versiune actualizata
-@each $name, $color in $theme-colors {
-  .btn-#{$name} {
-    @extend .btn;
-    color: #fff;
-    background-color: $color;
-    border-color: $color;
-    
-    &:hover {
-      color: #fff;
-      background-color: color.adjust($color, $lightness: -7.5%);
-      border-color: color.adjust($color, $lightness: -10%);
-    }
-  }
-  
-  .btn-outline-#{$name} {
-    @extend .btn;
-    color: $color;
-    border-color: $color;
-    background-color: transparent;
-    
-    &:hover {
-      color: #fff;
-      background-color: $color;
-      border-color: $color;
-    }
-  }
-  
-  .bg-#{$name} {
-    background-color: $color !important;
-  }
-  
-  .text-#{$name} {
-    color: $color !important;
-  }
-  
-  .border-#{$name} {
-    border-color: $color !important;
-  }
-}
-
-// Utilitati
-.d-flex { display: flex !important; }
-.d-inline-flex { display: inline-flex !important; }
-.d-block { display: block !important; }
-.d-inline-block { display: inline-block !important; }
-.d-none { display: none !important; }
-
-.justify-content-start { justify-content: flex-start !important; }
-.justify-content-end { justify-content: flex-end !important; }
-.justify-content-center { justify-content: center !important; }
-.justify-content-between { justify-content: space-between !important; }
-.justify-content-around { justify-content: space-around !important; }
-
-.align-items-start { align-items: flex-start !important; }
-.align-items-end { align-items: flex-end !important; }
-.align-items-center { align-items: center !important; }
-.align-items-baseline { align-items: baseline !important; }
-.align-items-stretch { align-items: stretch !important; }
-
-.flex-column { flex-direction: column !important; }
-.flex-row { flex-direction: row !important; }
-.flex-grow-0 { flex-grow: 0 !important; }
-.flex-grow-1 { flex-grow: 1 !important; }
-.flex-shrink-0 { flex-shrink: 0 !important; }
-.flex-shrink-1 { flex-shrink: 1 !important; }
-.flex-wrap { flex-wrap: wrap !important; }
-.flex-nowrap { flex-wrap: nowrap !important; }
-
-// Text
-.text-left { text-align: left !important; }
-.text-right { text-align: right !important; }
-.text-center { text-align: center !important; }
-.text-justify { text-align: justify !important; }
-
-.text-white { color: #fff !important; }
-
-.font-weight-normal { font-weight: 400 !important; }
-.font-weight-bold { font-weight: 700 !important; }
-.font-italic { font-style: italic !important; }
-
-// Margini si padding
-@each $prop, $abbr in (margin: m, padding: p) {
-  @each $size, $val in $spacers {
-    .#{$abbr}-#{$size} { #{$prop}: $val !important; }
-    .#{$abbr}t-#{$size} { #{$prop}-top: $val !important; }
-    .#{$abbr}r-#{$size} { #{$prop}-right: $val !important; }
-    .#{$abbr}b-#{$size} { #{$prop}-bottom: $val !important; }
-    .#{$abbr}l-#{$size} { #{$prop}-left: $val !important; }
-    .#{$abbr}x-#{$size} {
-      #{$prop}-right: $val !important;
-      #{$prop}-left: $val !important;
-    }
-    .#{$abbr}y-#{$size} {
-      #{$prop}-top: $val !important;
-      #{$prop}-bottom: $val !important;
-    }
-  }
-}
-
-// Auto margins
-.mx-auto {
-  margin-right: auto !important;
-  margin-left: auto !important;
-}
-
-.my-auto {
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-}
-
-// Border
-.border { border: 1px solid #dee2e6 !important; }
-.border-top { border-top: 1px solid #dee2e6 !important; }
-.border-right { border-right: 1px solid #dee2e6 !important; }
-.border-bottom { border-bottom: 1px solid #dee2e6 !important; }
-.border-left { border-left: 1px solid #dee2e6 !important; }
-.border-0 { border: 0 !important; }
-
-// Rounded corners
-.rounded { border-radius: $border-radius !important; }
-.rounded-sm { border-radius: $border-radius-sm !important; }
-.rounded-lg { border-radius: $border-radius-lg !important; }
-.rounded-circle { border-radius: 50% !important; }
-.rounded-0 { border-radius: 0 !important; }
-
-// Shadow
-.shadow-sm { box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important; }
-.shadow { box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; }
-.shadow-lg { box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important; }
-.shadow-none { box-shadow: none !important; }
-
-// Clasa pentru aplicarea temei intunecate
-.tema-intunecata {
-  background-color: $maro-inchis;
-  color: $crem-deschis;
-  
-  .card {
-    background-color: $maro-mediu;
-    color: $crem-deschis;
-    border-color: $accent;
-  }
-  
-  .btn-primary {
-    background-color: $accent;
-    border-color: $crem-deschis;
-  }
-}
-
-// Clasa pentru aplicarea temei deschise
-.tema-deschisa {
-  background-color: $crem-deschis;
-  color: $maro-inchis;
-  
-  .card {
+    padding: 1.5rem;
     background-color: white;
-    color: $maro-inchis;
-    border-color: $maro-mediu;
   }
   
-  .btn-primary {
-    background-color: $maro-mediu;
-    border-color: $maro-inchis;
+  .card-title {
+    color: $primary;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    text-align: center;
   }
-}
-
-// Componente Bootstrap customizate
-.btn-riffroom {
-  @extend .btn;
-  background-color: $maro-mediu;
-  border-color: $maro-inchis;
-  color: $crem-deschis;
-  border-radius: $border-radius;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: bold;
   
-  &:hover {
-    background-color: $accent;
-    border-color: $maro-inchis;
+  .card-text {
+    color: $dark;
+    line-height: 1.6;
   }
 }
 
-.card-riffroom {
-  @extend .card;
-  border-radius: $border-radius;
-  overflow: hidden;
-  
+// Card verde pentru sustenabilitate
+.sustainability-card {
   .card-header {
-    background-color: $maro-mediu;
-    color: $crem-deschis;
+    background-color: $success;
   }
   
-  .card-footer {
-    background-color: $crem-inchis;
+  .card-title {
+    color: $success;
   }
 }
 
-// Pastreaza efectul de reflexie text
-.reflexie-text {
-  position: relative;
-  display: inline-block;
-  font-size: 3rem;
-  font-weight: bold;
-  color: $maro-inchis;
+// Sectiunea obiective
+.objectives-section {
+  padding: 3rem 0;
+  
+  .section-title {
+    color: $primary;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: $h2-font-size;
+  }
+  
+  .progress-container {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow;
+    margin-bottom: 2rem;
+  }
+  
+  .progress {
+    height: 30px;
+    margin-bottom: 1.5rem;
+    border-radius: $border-radius;
+    background-color: rgba($light, 0.7);
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 30px;
+    text-align: center;
+    
+    &.bg-primary {
+      background-color: $info !important;
+    }
+    
+    &.bg-success {
+      background-color: $success !important;
+    }
+    
+    &.bg-warning {
+      background-color: #FFB800 !important;
+    }
+  }
+  
+  .progress-label {
+    font-weight: 700;
+    color: $dark;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Sectiunea echipa
+.team-section {
+  padding: 3rem 0;
+  
+  .section-title {
+    color: $primary;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: $h2-font-size;
+  }
+  
+  .team-content {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow;
+    margin-bottom: 2rem;
+  }
+  
+  .team-tabs {
+    .nav-tabs {
+      border-bottom: 1px solid $secondary;
+      
+      .nav-link {
+        color: $dark;
+        font-weight: 700;
+        border: none;
+        padding: 1rem 1.5rem;
+        margin-right: 0.5rem;
+        border-radius: $border-radius $border-radius 0 0;
+        
+        &:hover {
+          background-color: rgba($light, 0.8);
+        }
+        
+        &.active {
+          color: $light;
+          background-color: $primary;
+        }
+      }
+    }
+    
+    .tab-content {
+      padding: 2rem;
+      border: 1px solid $secondary;
+      border-top: none;
+      border-radius: 0 0 $border-radius $border-radius;
+    }
+  }
+  
+  h3 {
+    color: $primary;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+}
+
+// Sectiunea FAQ
+.faq-section {
+  padding: 3rem 0;
+  
+  .section-title {
+    color: $primary;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: $h2-font-size;
+  }
+  
+  .accordion {
+    box-shadow: $box-shadow;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    
+    .accordion-item {
+      border: none;
+      border-bottom: 1px solid rgba($dark, 0.1);
+      
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    
+    .accordion-header {
+      .accordion-button {
+        padding: 1.5rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: $dark;
+        background-color: white;
+        
+        &:not(.collapsed) {
+          color: $light;
+          background-color: $primary;
+          box-shadow: none;
+        }
+        
+        &:focus {
+          box-shadow: none;
+          border-color: rgba($primary, 0.25);
+        }
+      }
+    }
+    
+    .accordion-body {
+      padding: 1.5rem;
+      background-color: $light;
+    }
+  }
+}
+
+// Butoane de actiune
+.action-buttons {
   text-align: center;
-  margin: $spacer auto 5rem;
-  line-height: 0.85;
-  padding: 0;
-  z-index: 1;
+  margin-top: 3rem;
   
-  &::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 99%;
-    left: 0;
-    width: 100%;
-    height: 200%;
-    color: $maro-inchis;
-    transform: scaleY(-0.6) skewX(-15deg);
-    opacity: 0.85;
-    pointer-events: none;
-    z-index: -1;
-    filter: blur(0.3px);
+  .btn-custom {
+    background-color: $primary;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: $border-radius;
+    font-weight: 700;
+    margin: 0 0.5rem 1rem;
+    transition: all 0.3s ease;
     
-    mask-image: 
-      linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%),
-      repeating-linear-gradient(
-        -45deg,
-        rgba(0, 0, 0, 1) 0px, 
-        rgba(0, 0, 0, 0.7) 5px, 
-        transparent 10px, 
-        rgba(0, 0, 0, 0.7) 15px,
-        rgba(0, 0, 0, 1) 20px
-      );
-    -webkit-mask-image: 
-      linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%),
-      repeating-linear-gradient(
-        -45deg,
-        rgba(0, 0, 0, 1) 0px, 
-        rgba(0, 0, 0, 0.7) 5px, 
-        transparent 10px, 
-        rgba(0, 0, 0, 0.7) 15px,
-        rgba(0, 0, 0, 1) 20px
-      );
-    mask-composite: intersect;
-    -webkit-mask-composite: source-in;
+    &:hover {
+      background-color: darken($primary, 10%);
+      transform: translateY(-3px);
+      box-shadow: $box-shadow;
+    }
     
-    margin-top: -2px;
-    padding-top: 0;
-    vertical-align: top;
+    &.btn-secondary-custom {
+      background-color: $secondary;
+      
+      &:hover {
+        background-color: darken($secondary, 10%);
+      }
+    }
     
-    animation: reflex-wave-inward 4s linear infinite paused;
-    transition: all 0.2s ease;
-  }
-  
-  &:hover::after {
-    animation-play-state: running;
+    &.btn-newsletter {
+      background-color: $info;
+      
+      &:hover {
+        background-color: darken($info, 10%);
+      }
+    }
   }
 }
 
-@keyframes reflex-wave-inward {
-  0% {
-    mask-position: 0 0, 40px 40px;
-    -webkit-mask-position: 0 0, 40px 40px;
+// Adaptari pentru mobile
+@media (max-width: 850px) {
+  .intro-text {
+    font-size: 1.1rem;
   }
-  100% {
-    mask-position: 0 0, 0 0;
-    -webkit-mask-position: 0 0, 0 0;
+  
+  .feature-card .card-header {
+    font-size: 1.2rem;
   }
-} 
+  
+  .team-section .nav-tabs .nav-link {
+    padding: 0.8rem 1rem;
+  }
+  
+  .action-buttons .btn-custom {
+    display: block;
+    width: 100%;
+    margin: 0 0 1rem;
+  }
+  
+  .progress {
+    height: 25px;
+  }
+}
