@@ -1,0 +1,491 @@
+/* STIL PENTRU PAGINA DE PRODUS INDIVIDUAL */
+
+/* Stiluri generale pentru pagina */
+h2 {
+    padding: 0.8rem;
+    text-align: center;
+    color: #F7F3E8;
+    background-color: #2D1A19;
+    margin-top: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Container principal produs */
+#art-produs {
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 1200px;
+    background-color: #F7F3E8;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 0;
+}
+
+/* Header produs cu nume si badge categorie */
+.produs-header {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #C05F3E;
+}
+
+.produs-header h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.badge-categorie {
+    background-color: #C05F3E;
+    color: #F7F3E8;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Badge-uri pentru categorii specifice */
+.badge-categorie.premium {
+    background-color: #D4AF37; /* Gold */
+}
+
+.badge-categorie.pentru-incepatori {
+    background-color: #5CB85C; /* Green */
+}
+
+.badge-categorie.profesional {
+    background-color: #337AB7; /* Blue */
+}
+
+.badge-categorie.vintage {
+    background-color: #9C6B30; /* Brown */
+}
+
+.badge-categorie.editie-limitata {
+    background-color: #BB4BBB; /* Purple */
+}
+
+/* Layout container principal */
+.produs-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5rem;
+    gap: 2rem;
+}
+
+/* Stilizare imagine produs */
+.produs-imagine {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.imag-produs {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.imag-produs img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.imag-produs img:hover {
+    transform: scale(1.03);
+}
+
+/* Detalii produs */
+.produs-detalii {
+    flex: 2;
+    min-width: 300px;
+}
+
+/* Container pret si buton */
+.pret-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #F7E9D7;
+    border-radius: 8px;
+}
+
+.pret-container p {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.pret {
+    color: #6B3E31;
+    font-size: 1.6rem;
+}
+
+.btn-adauga-cos {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-adauga-cos:hover {
+    background-color: #C05F3E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Wrapper detalii */
+.detalii-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.descriere-titlu {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #2D1A19;
+}
+
+.descriere {
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #FFF;
+    border-radius: 8px;
+    border-left: 3px solid #C05F3E;
+}
+
+/* Tabel specificatii tehnice */
+.detalii-tehnice {
+    margin-bottom: 1.5rem;
+}
+
+.detalii-tehnice h4 {
+    border-bottom: 2px solid #6B3E31;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    color: #2D1A19;
+}
+
+.detalii-tehnice table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detalii-tehnice th, .detalii-tehnice td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.detalii-tehnice th {
+    width: 30%;
+    font-weight: bold;
+    color: #6B3E31;
+}
+
+.detalii-tehnice tr:nth-child(even) {
+    background-color: #f9f5f0;
+}
+
+.detalii-tehnice tr:hover {
+    background-color: #f0e6d9;
+}
+
+/* Culori pentru iconite */
+.text-success {
+    color: #5CB85C;
+}
+
+.text-danger {
+    color: #D9534F;
+}
+
+/* Caracteristici */
+.caracteristici-container {
+    margin-bottom: 1.5rem;
+}
+
+.caracteristici-container h4 {
+    border-bottom: 2px solid #6B3E31;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    color: #2D1A19;
+}
+
+.caracteristici-lista {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+.caracteristici-lista li {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.caracteristici-lista li i {
+    color: #6B3E31;
+}
+
+/* Produse similare */
+.produse-similare {
+    background-color: #F7E9D7;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid #E0D5C5;
+}
+
+.produse-similare h4 {
+    margin-top: 0;
+    color: #2D1A19;
+}
+
+.produse-similare p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.btn-vezi-similare {
+    display: inline-block;
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-vezi-similare:hover {
+    background-color: #C05F3E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Media queries pentru responsivitate */
+@media screen and (max-width: 768px) {
+    #art-produs {
+        width: 95%;
+    }
+    
+    .produs-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .pret-container {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .caracteristici-lista {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Seteaza produsul sa ocupe toata pagina */
+#art-produs {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-height: 100vh !important; /* inaltime minima egala cu viewport */
+}
+
+/* Stiluri generale pentru tema intunecata */
+.theme-dark h2,
+.theme-dark #art-produs h2 {
+    background-color: var(--maro-inchis-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+    margin-top: 0 !important;
+}
+
+/* Fa container-ul principal sa ocupe toata lungimea */
+.theme-dark #art-produs {
+    background-color: var(--bg-color-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+}
+
+/* Header produs */
+.theme-dark .produs-header {
+    background-color: var(--maro-deschis-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+    border-bottom: 3px solid var(--accent-dark) !important;
+}
+
+.theme-dark .produs-header h3 {
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .badge-categorie {
+    background-color: var(--accent-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+}
+
+/* Badge-uri pentru categorii specifice */
+.theme-dark .badge-categorie.premium {
+    background-color: #D4AF37 !important; /* Gold pastrat similar */
+}
+
+.theme-dark .badge-categorie.pentru-incepatori {
+    background-color: #2D7A4F !important; /* Dark green */
+}
+
+.theme-dark .badge-categorie.profesional {
+    background-color: #337AB7 !important; /* Blue pastrat similar */
+}
+
+.theme-dark .badge-categorie.vintage {
+    background-color: #854C39 !important; /* Brown mai inchis */
+}
+
+.theme-dark .badge-categorie.editie-limitata {
+    background-color: #BB4BBB !important; /* Purple pastrat similar */
+}
+
+/* Layout container principal */
+.theme-dark .produs-container {
+    min-height: calc(100vh - 200px); /* inaltime pentru a ocupa intreaga pagina */
+}
+
+/* Stilizare imagine produs */
+.theme-dark .imag-produs img {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+    filter: brightness(0.95) !important; /* Usoara reducere a luminozitatii */
+}
+
+/* Container pret si buton */
+.theme-dark .pret-container {
+    background-color: var(--bg-color-medium) !important;
+    color: var(--crem-deschis-dark) !important;
+    border: 1px solid var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .pret {
+    color: var(--accent-dark) !important;
+}
+
+.theme-dark .btn-adauga-cos {
+    background-color: var(--maro-deschis-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .btn-adauga-cos:hover {
+    background-color: var(--accent-dark) !important;
+}
+
+/* Descriere produs */
+.theme-dark .descriere-titlu {
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .descriere {
+    color: var(--crem-deschis-dark) !important;
+    background-color: var(--bg-color-medium) !important;
+    border-left: 3px solid var(--accent-dark) !important;
+}
+
+/* Tabel specificatii tehnice */
+.theme-dark .detalii-tehnice h4 {
+    border-bottom: 2px solid var(--maro-deschis-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .detalii-tehnice table {
+    border-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .detalii-tehnice th, 
+.theme-dark .detalii-tehnice td {
+    border-color: var(--maro-deschis-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .detalii-tehnice th {
+    color: var(--accent-dark) !important;
+}
+
+.theme-dark .detalii-tehnice tr:nth-child(even) {
+    background-color: var(--bg-color-medium) !important;
+}
+
+.theme-dark .detalii-tehnice tr:nth-child(odd) {
+    background-color: var(--bg-color-dark) !important;
+}
+
+.theme-dark .detalii-tehnice tr:hover {
+    background-color: var(--bg-color-lighter) !important;
+}
+
+/* Caracteristici */
+.theme-dark .caracteristici-container h4 {
+    border-bottom: 2px solid var(--maro-deschis-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .caracteristici-lista li {
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .caracteristici-lista li i {
+    color: var(--accent-dark) !important;
+}
+
+/* Produse similare */
+.theme-dark .produse-similare {
+    background-color: var(--bg-color-medium) !important;
+    border-top: 1px solid var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .produse-similare h4 {
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .produse-similare p {
+    color: #B38867 !important;
+}
+
+.theme-dark .btn-vezi-similare {
+    background-color: var(--maro-deschis-dark) !important;
+    color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .btn-vezi-similare:hover {
+    background-color: var(--accent-dark) !important;
+}
+
+/* Media queries pentru responsivitate - pastram aceleasi, dar asiguram-ne ca tema dark persista */
+@media screen and (max-width: 768px) {
+    .theme-dark #art-produs {
+        width: 100% !important;
+    }
+}

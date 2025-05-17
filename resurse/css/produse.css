@@ -1,0 +1,532 @@
+/* CSS STILIZAT PENTRU PAGINA DE PRODUSE */
+
+/* Reset pentru layout principal */
+main {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 2rem;
+    display: block !important;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-color: #F7F3E8;
+    color: #2D1A19;
+}
+
+/* Stilizare secțiuni */
+main > section {
+    display: block;
+    grid-area: unset !important;
+    width: 100%;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titluri secțiuni */
+section h2 {
+    color: #6B3E31;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #C05F3E;
+    padding-bottom: 0.8rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* STILIZARE CONTAINER FILTRE */
+#filtrare-produse {
+    background-color: #F7E9D7;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.filtre-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.filtru-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.filtru-item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.filtru-item label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #6B3E31;
+    font-weight: 600;
+}
+
+.filtru-item label i {
+    margin-right: 0.5rem;
+    color: #C05F3E;
+}
+
+/* Stilizare inputuri */
+.filtru-item input[type="text"],
+.filtru-item textarea,
+.filtru-item select {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background-color: #FFFAF2;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.filtru-item input[type="text"]:focus,
+.filtru-item textarea:focus,
+.filtru-item select:focus {
+    border-color: #C05F3E;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(192, 95, 62, 0.2);
+}
+
+/* Stilizare range slider */
+.filtru-item input[type="range"] {
+    width: 100%;
+    margin: 0.5rem 0;
+    -webkit-appearance: none;
+}
+
+.filtru-item input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+}
+
+.filtru-item input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #6B3E31;
+    margin-top: -6px;
+    cursor: pointer;
+}
+
+.filtru-item input[type="range"]:focus {
+    outline: none;
+}
+
+.val-min, .val-max {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+#infoRange {
+    font-weight: bold;
+    color: #6B3E31;
+    margin-left: 0.5rem;
+}
+
+/* Stilizare radio buttons și checkboxes */
+.grup-radio p, .grup-check p {
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: #6B3E31;
+    display: flex;
+    align-items: center;
+}
+
+.radio-options, .check-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+}
+
+.radio-options label, .check-options label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: normal;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.radio-options input, .check-options input {
+    cursor: pointer;
+}
+
+/* Stilizare butoane */
+.butoane-container {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed #ddd;
+}
+
+.btn {
+    padding: 0.8rem 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+}
+
+.btn-primary:hover {
+    background-color: #593427;
+}
+
+.btn-secondary {
+    background-color: #C05F3E;
+    color: #F7F3E8;
+}
+
+.btn-secondary:hover {
+    background-color: #A54E34;
+}
+
+.btn-danger {
+    background-color: #D9534F;
+    color: #F7F3E8;
+}
+
+.btn-danger:hover {
+    background-color: #C9302C;
+}
+
+.btn-info {
+    background-color: #5BC0DE;
+    color: #fff;
+}
+
+.btn-info:hover {
+    background-color: #46B8DA;
+}
+
+/* Paragraful pentru suma */
+#p-suma {
+    text-align: center;
+    font-style: italic;
+    color: #6B3E31;
+    margin: 1rem 0;
+    background-color: #F7E9D7;
+    padding: 0.8rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* GRID PRODUSE */
+.grid-produse {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* STILIZARE CARD PRODUS */
+.produs {
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #FFF;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: #2D1A19;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.produs:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Titlu produs */
+.produs h3 {
+    background-color: #6B3E31;
+    text-align: center;
+    margin-top: 0;
+    padding: 1rem 0.5rem;
+    color: #F7F3E8;
+}
+
+.produs h3 a {
+    color: #F7F3E8;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.produs h3 a:hover {
+    color: #F7E9D7;
+}
+
+/* Tabel informații */
+.info-produs {
+    padding: 0 1rem;
+}
+
+.info-produs table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.info-produs th, .info-produs td {
+    padding: 0.6rem;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.85rem;
+}
+
+.info-produs th {
+    background-color: #F7E9D7;
+    color: #6B3E31;
+    font-weight: 600;
+}
+
+.info-produs tr:nth-child(even) {
+    background-color: #FFFAF2;
+}
+
+.val-pret {
+    font-weight: 700;
+    color: #6B3E31;
+}
+
+.text-success {
+    color: #5CB85C;
+}
+
+.text-danger {
+    color: #D9534F;
+}
+
+/* Descriere produs */
+.produs .descriere {
+    padding: 1rem;
+    color: #333;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background-color: #FFFAF2;
+    max-height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin: 0;
+}
+
+/* Imagine produs */
+.produs figure {
+    text-align: center;
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF;
+}
+
+.produs figure img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.produs figure img:hover {
+    transform: scale(1.05);
+}
+
+/* Categorie produs */
+.produs p.categorie {
+    text-align: center;
+    background-color: #F7E9D7;
+    padding: 0.8rem;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    background-color: #C05F3E;
+    color: #F7F3E8;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* Caracteristici */
+.caracteristici {
+    padding: 1rem;
+    background-color: #FFF;
+    border-top: 1px solid #eee;
+}
+
+.caracteristici p {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #6B3E31;
+    font-size: 0.9rem;
+}
+
+.caracteristici ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.caracteristici li {
+    background-color: #F7E9D7;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #6B3E31;
+}
+
+/* Checkbox selectare */
+.selecteaza-cos {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.selecteaza-cos:hover {
+    background-color: #C05F3E;
+    transform: translateY(-2px);
+}
+
+.selecteaza-cos input {
+    cursor: pointer;
+}
+
+/* Stiluri pentru categorii specifice */
+.premium {
+    border-left: 4px solid #D4AF37;
+}
+
+.pentru-incepatori {
+    border-left: 4px solid #5CB85C;
+}
+
+.profesional {
+    border-left: 4px solid #337AB7;
+}
+
+.vintage {
+    border-left: 4px solid #9C6B30;
+}
+
+.editie-limitata {
+    border-left: 4px solid #BB4BBB;
+}
+
+/* Stiluri pentru tipuri de produse */
+.chitara-electrica h3 {
+    background-color: #6B3E31;
+}
+
+.chitara-acustica h3 {
+    background-color: #8D6E63;
+}
+
+.amplificator h3 {
+    background-color: #455A64;
+}
+
+.accesorii h3 {
+    background-color: #795548;
+}
+
+/* Stilizare erori input */
+.input-error {
+    border: 2px solid #D9534F !important;
+    background-color: #FFF5F5 !important;
+}
+
+/* Media queries pentru responsivitate */
+@media screen and (max-width: 992px) {
+    .grid-produse {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .grid-produse {
+        grid-template-columns: 1fr;
+    }
+    
+    main {
+        padding: 0 1rem;
+    }
+    
+    .filtre-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .butoane-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .info-produs th, .info-produs td {
+        font-size: 0.75rem;
+        padding: 0.4rem;
+    }
+    
+    .caracteristici ul {
+        flex-direction: column;
+    }
+}

@@ -25,12 +25,12 @@
             <li><a href="/#acasa" id="acasa-link" class="active"><i class="fas fa-home"></i><span
                         class="text-label">Acasă</span></a>
                 <ul>
-                    <li><a href="#chitare"><span class="arrow">→</span> Chitare</a></li>
-                    <li><a href="#accesorii"><span class="arrow">→</span> Accesorii</a></li>
-                    <li><a href="#echipamente"><span class="arrow">→</span> Echipamente</a></li>
-                    <li><a href="#oferte"><span class="arrow">→</span> Oferte</a></li>
-                    <li><a href="/despre"><span class="arrow">→</span> Resurse</a></li>
-                    <li><a href="#contul_meu"><span class="arrow">→</span> Contul meu</a>
+                    <li><a href="/index#chitare"><span class="arrow">→</span> Chitare</a></li>
+                    <li><a href="/index#accesorii"><span class="arrow">→</span> Accesorii</a></li>
+                    <li><a href="/index#echipamente"><span class="arrow">→</span> Echipamente</a></li>
+                    <li><a href="/index#oferte"><span class="arrow">→</span> Oferte</a></li>
+                    <li><a href="/index#resurse"><span class="arrow">→</span> Resurse</a></li>
+                    <li><a href="/index#contul_meu"><span class="arrow">→</span> Contul meu</a>
                         <ul>
                             <li><a href="#contul_meu"><span class="arrow">→</span> Log in</a></li>
                             <li><a href="#cos_cumparaturi"><span class="arrow">→</span> Coș de cumpărături</a></li>
@@ -38,18 +38,29 @@
                     </li>
                 </ul>
             </li>
-            <li><a href="#produse" id="produse-link">Produse</a>
+            <!-- MENIU PRODUSE CU CATEGORII GENERATE DIN BAZA DE DATE -->
+            <li><a href="/produse" id="produse-link">Produse</a>
                 <ul>
-                    <li><a href="#chitare-electrice"><span class="arrow">→</span> Chitare Electrice</a></li>
-                    <li><a href="#chitare-acustice"><span class="arrow">→</span> Chitare Acustice</a></li>
-                    <li><a href="#amplificatoare"><span class="arrow">→</span> Amplificatoare</a></li>
-                    <li><a href="#accesorii-chitara"><span class="arrow">→</span> Accesorii Chitară</a></li>
+                    <li><a href="/produse"><span class="arrow">→</span> Toate produsele</a></li>
+                    
+                    <!-- CATEGORII DE INSTRUMENTE (GENERATE DIN BAZA DE DATE) -->
+                    <li class="submenu-title"><span>După categorie:</span></li>
+                    <% for(let opt of locals.optiuni || []) { %>
+                        <li><a href="/produse?categorie=<%= opt.unnest %>"><span class="arrow">→</span> <%= opt.unnest %></a></li>
+                    <% } %>
+                    
+                    <!-- TIPURI DE PRODUSE -->
+                    <li class="submenu-title"><span>După tip:</span></li>
+                    <li><a href="/produse?tip=chitara electrica"><span class="arrow">→</span> Chitare Electrice</a></li>
+                    <li><a href="/produse?tip=chitara acustica"><span class="arrow">→</span> Chitare Acustice</a></li>
+                    <li><a href="/produse?tip=amplificator"><span class="arrow">→</span> Amplificatoare</a></li>
+                    <li><a href="/produse?tip=accesorii"><span class="arrow">→</span> Accesorii Chitară</a></li>
                 </ul>
             </li>
             <li><a href="#contact" id="contact-link">Contact</a>
                 <ul>
                     <li><a href="#istoric"><span class="arrow">→</span> Istoric</a></li>
-                    <li><a href="#echipa"><span class="arrow">→</span> Echipa</a></li>
+                    <li><a href="/despre"><span class="arrow">→</span> Despre</a></li>
                     <li><a href="#parteneri"><span class="arrow">→</span> Parteneri</a></li>
                 </ul>
             </li>

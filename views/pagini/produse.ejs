@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ro">
+    <head>
+        <meta name="keywords" content="magazin chitare, produse, oferte chitare, cautare chitara, chitare acustice, chitare electrice, accesorii chitara">
+        <meta name="description" content="Magazin online de chitare si accesorii. Descopera o gama variata de produse pentru muzicieni de toate nivelurile.">
+        <link rel="stylesheet" href="/resurse/css/produse.css" type="text/css" />
+        <title>RiffRoom - Produse</title>
+        <%- include("../fragmente/head") %>     
+        <script type="text/javascript" src=/resurse/js/produse.js defer></script>
+        <script type="text/javascript" src=/resurse/js/produse-cos.js defer></script>
+    </head>
+    <body>
+        <%- include("../fragmente/header") %>
+        
+        <main>
+            <!-- SECTIUNE PENTRU FILTRE -->
+            <section id="filtrare-produse">
+                <h2>Filtreaza produsele</h2>
+                
+                <div class="filtre-container">
+                    <!-- INPUT TEXT PENTRU CAUTARE NUME -->
+                    <div class="filtru-item">
+                        <label for="inp-nume">
+                            <i class="fas fa-search"></i> Cauta dupa nume:
+                            <input type="text" id="inp-nume" placeholder="Ex: Gibson, Fender...">
+                        </label>
+                    </div>
+                    
+                    <!-- INPUT RANGE PENTRU PRET -->
+                    <div class="filtru-item">
+                        <label for="inp-pret"> 
+                            <i class="fas fa-dollar-sign"></i> Pret minim: <span class="val-min">0</span>
+                            <input type="range" id="inp-pret" value="0" min="0" max="15000"> 
+                            <span class="val-max">15000</span>
+                            <span id="infoRange">(0 RON)</span>
+                        </label>
+                    </div>
+                    
+                    <!-- RADIO BUTTONS PENTRU GREUTATE -->
+                    <div class="filtru-item grup-radio">
+                        <p><i class="fas fa-weight-hanging"></i> Greutate:</p>
+                        <div class="radio-options">
+                            <label>
+                                <input id="i_rad1" name="gr_rad" value="0:2000" type="radio"/>
+                                Usor (&lt; 2000g)
+                            </label>
+                            <label>
+                                <input id="i_rad2" name="gr_rad" value="2000:4000" type="radio"/>
+                                Mediu (2000-4000g)
+                            </label>
+                            <label>
+                                <input id="i_rad3" name="gr_rad" value="4000:100000" type="radio"/>
+                                Greu (&gt; 4000g)
+                            </label>
+                            <label>
+                                <input id="i_rad4" checked name="gr_rad" value="toate" type="radio"/>
+                                Toate
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- TEXTAREA PENTRU CAUTARE IN DESCRIERE -->
+                    <div class="filtru-item">
+                        <label for="inp-descriere">
+                            <i class="fas fa-align-left"></i> Cuvinte cheie in descriere:
+                            <textarea id="inp-descriere" rows="2" placeholder="Ex: mahon, artar, premium..."></textarea>
+                        </label>
+                    </div>
+                    
+                    <!-- CHECKBOXURI PENTRU CARACTERISTICI -->
+                    <div class="filtru-item grup-check">
+                        <p><i class="fas fa-guitar"></i> Caracteristici:</p>
+                        <div class="check-options">
+                            <label>
+                                <input type="checkbox" name="caracteristici" value="humbucker" checked> 
+                                Humbucker
+                            </label>
+                            <label>
+                                <input type="checkbox" name="caracteristici" value="single coil" checked> 
+                                Single Coil
+                            </label>
+                            <label>
+                                <input type="checkbox" name="caracteristici" value="mahon" checked> 
+                                Mahon
+                            </label>
+                            <label>
+                                <input type="checkbox" name="caracteristici" value="artar" checked> 
+                                Artar
+                            </label>
+                            <label>
+                                <input type="checkbox" name="caracteristici" value="rosewood" checked> 
+                                Rosewood
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- SELECT SIMPLU PENTRU CATEGORIE -->
+                    <div class="filtru-item">
+                        <label for="inp-categorie">
+                            <i class="fas fa-tag"></i> Categorie:
+                            <select id="inp-categorie">
+                                <option id="sel-toate" selected value="toate">Toate categoriile</option>
+                                <% for (let opt of locals.optiuni) { %>
+                                    <option value="<%- opt.unnest %>"><%- opt.unnest %></option>
+                                <% } %>
+                            </select>
+                        </label>
+                    </div>
+                    
+                    <!-- SELECT MULTIPLU PENTRU TIP PRODUS -->
+                    <div class="filtru-item">
+                        <label for="inp-tip-produs">
+                            <i class="fas fa-list"></i> Tip produs:
+                            <select id="inp-tip-produs" multiple size="4">
+                                <% for (let tip of locals.tipuri || [{ unnest: 'chitara electrica' }, { unnest: 'chitara acustica' }, { unnest: 'amplificator' }, { unnest: 'accesorii' }]) { %>
+                                    <option value="<%- tip.unnest %>" selected><%- tip.unnest %></option>
+                                <% } %>
+                            </select>
+                        </label>
+                    </div>
+                    
+                    <!-- DATALIST PENTRU SUGESTII BRANDURI -->
+                    <div class="filtru-item">
+                        <label for="inp-brand">
+                            <i class="fas fa-building"></i> Brand:
+                            <input type="text" id="inp-brand" list="lista-branduri" placeholder="Alege un brand">
+                            <datalist id="lista-branduri">
+                                <option value="Gibson">Gibson</option>
+                                <option value="Fender">Fender</option>
+                                <option value="Ibanez">Ibanez</option>
+                                <option value="Taylor">Taylor</option>
+                                <option value="Martin">Martin</option>
+                                <option value="PRS">PRS</option>
+                                <option value="Epiphone">Epiphone</option>
+                                <option value="Gretsch">Gretsch</option>
+                                <option value="Marshall">Marshall</option>
+                                <option value="Boss">Boss</option>
+                                <option value="Orange">Orange</option>
+                                <option value="Line 6">Line 6</option>
+                                <option value="Dunlop">Dunlop</option>
+                                <option value="Ernie Ball">Ernie Ball</option>
+                            </datalist>
+                        </label>
+                    </div>
+                    
+                    <!-- BUTOANE PENTRU FILTRARE, SORTARE, CALCUL SI RESETARE -->
+                    <div class="butoane-container">
+                        <button id="filtrare" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Filtreaza
+                        </button>
+                        <button id="resetare" class="btn btn-danger">
+                            <i class="fas fa-undo"></i> Reseteaza
+                        </button>
+                        <button id="sortCrescNume" class="btn btn-secondary">
+                            <i class="fas fa-sort-amount-down-alt"></i> Sorteaza crescator
+                        </button>
+                        <button id="sortDescrescNume" class="btn btn-secondary">
+                            <i class="fas fa-sort-amount-down"></i> Sorteaza descrescator
+                        </button>
+                        <button id="calculeaza-suma" class="btn btn-info">
+                            <i class="fas fa-calculator"></i> Calculeaza suma
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <p id="p-suma">ApAsaTi Alt+"c" pentru suma preTurilor produselor afiSate.</p>
+            
+            <!-- SECTIUNE PENTRU AFISAREA PRODUSELOR -->
+            <section id="produse">
+                <h2>Produse disponibile</h2>
+                
+                <div class="grid-produse">
+                    <% for(let prod of locals.produse) { %>
+                        <article class="produs <%= prod.categorie.replace(/\s+/g, '-').toLowerCase() %>" id="ent<%= prod.id %>">
+                            <h3 class="nume">
+                                <a href="/produs/<%= prod.id %>">
+                                    <span class="val-nume"><%= prod.nume %></span>
+                                </a>
+                            </h3>
+                            
+                            <!-- TABEL CU CARACTERISTICILE PRODUSULUI -->
+                            <div class="info-produs">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Pret</th>
+                                            <th>Greutate</th>
+                                            <th>Tip produs</th>
+                                            <th>Data adaugarii</th>
+                                            <th>Pentru Incepatori</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="val-pret"><%= prod.pret %></td>
+                                            <td class="val-greutate"><%= prod.greutate %> g</td>
+                                            <td class="val-tip"><%= prod.tip_produs %></td>
+                                            <td>
+                                                <time datetime="<%= prod.data_adaugare %>">
+                                                    <%= new Date(prod.data_adaugare).toLocaleDateString('ro-RO', {
+                                                        day: 'numeric',
+                                                        month: 'long',
+                                                        year: 'numeric',
+                                                        weekday: 'long'
+                                                    }) %>
+                                                </time>
+                                            </td>
+                                            <td class="val-incepatori">
+                                                <% if(prod.pentru_incepatori) { %>
+                                                    <i class="fas fa-check text-success"></i>
+                                                <% } else { %>
+                                                    <i class="fas fa-times text-danger"></i>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- DESCRIERE PRODUS -->
+                            <p class="descriere">
+                                <%= prod.descriere || 'Descriere indisponibilA' %>
+                            </p>
+                            
+                            <!-- IMAGINE PRODUS -->
+                            <figure>
+                                <a href="/produs/<%= prod.id %>">
+                                    <img src="/resurse/imagini/produse/<%= prod.imagine %>" alt="[imagine <%= prod.nume %>]" />
+                                </a>
+                            </figure>
+                            
+                            <!-- CATEGORIE PRODUS -->
+                            <p class="categorie">
+                                Categorie: <span class="val-categorie badge"><%= prod.categorie %></span>
+                            </p>
+                            
+                            <!-- CARACTERISTICI PRODUS -->
+                            <div class="caracteristici">
+                                <p>Caracteristici:</p>
+                                <ul>
+                                    <% if(prod.caracteristici && prod.caracteristici.length) { %>
+                                        <% prod.caracteristici.forEach(function(caracteristica) { %>
+                                            <li><%= caracteristica %></li>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <li>Nu sunt specificate</li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                            
+                            <!-- CHECKBOX SELECTARE PRODUS -->
+                            <label class="selecteaza-cos">
+                                <input type="checkbox" class="select-cos" value="<%= prod.id %>" autocomplete="off">
+                                <span>Adauga In coS</span>
+                            </label>
+                        </article>
+                    <% } %>
+                </div>
+            </section>
+        </main>
+        
+        
+        <%- include("../fragmente/footer") %>
+    </body>
+</html>

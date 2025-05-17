@@ -3,13 +3,36 @@ const path = require("path");
 const fs = require("fs");
 const fsp = require("fs/promises");
 const sass = require("sass");
+const pg = require("pg");
+const Client = pg.Client;
 
+// CONEXIUNE BAZA DE DATE
+client = new Client({
+    database: "riffroom",
+    user: "mihai",
+    password: "123asdz11",
+    host: "localhost",
+    port: 5432
+});
+
+client.connect();
+client.query("select * from instrumente", function(err, rezultat){
+    console.log(err)    
+    console.log("Rezultat query:", rezultat)
+});
+client.query("select * from unnest(enum_range(null::categ_instrument))", function(err, rezultat){
+    console.log(err)    
+    console.log(rezultat)
+});
+
+// VARIABILE GLOBALE
 global.obiectGlobal = {
   folderScss: path.join(__dirname, "resurse/scss"),
   folderCss: path.join(__dirname, "resurse/scss"),
   folderBackup: path.join(__dirname, "backup")
 };
 
+// CREARE FOLDERE NECESARE
 ["temp", "backup"].forEach(f => {
   const folder = path.join(__dirname, f);
   if (!fs.existsSync(folder)) {
@@ -17,6 +40,7 @@ global.obiectGlobal = {
   }
 });
 
+// FUNCTIE PENTRU COMPILARE SCSS
 async function compileazaScss(caleScss, caleCss) {
   const scssAbs = path.isAbsolute(caleScss)
     ? caleScss
@@ -52,11 +76,10 @@ async function compileazaScss(caleScss, caleCss) {
           return originalStderr.call(process.stderr, chunk, encoding, callback);
         }
       }
-      // Returnează true pentru a indica faptul că scrierea a "reușit"
       if (callback) callback();
       return true;
     };
-
+    
     // Suprascrie și stdout pentru cazul în care unele mesaje ajung acolo
     process.stdout.write = function(chunk, encoding, callback) {
       if (typeof chunk === 'string' && !chunk.includes('Deprecation Warning')) {
@@ -93,6 +116,7 @@ async function compileazaScss(caleScss, caleCss) {
   }
 }
 
+// COMPILARE TOATE FISIERELE SCSS
 function compileazaToateScss() {
   const fisiere = fs.readdirSync(obiectGlobal.folderScss).filter(f => f.endsWith(".scss"));
   for (let f of fisiere) {
@@ -101,6 +125,7 @@ function compileazaToateScss() {
 }
 compileazaToateScss();
 
+// URMARIRE MODIFICARI SCSS
 fs.watch(obiectGlobal.folderScss, (event, filename) => {
   if (filename && filename.endsWith(".scss")) {
     console.log(`[SCSS] Detectat eveniment: ${event} pe ${filename}`);
@@ -108,6 +133,7 @@ fs.watch(obiectGlobal.folderScss, (event, filename) => {
   }
 });
 
+// CREARE SERVER EXPRESS
 const app = express();
 
 console.log("Folderul proiectului: ", __dirname);
@@ -116,10 +142,12 @@ console.log("Folderul curent de lucru: ", process.cwd());
 
 app.set("view engine", "ejs");
 
+// OBIECTE GLOBALE
 obGlobal = {
     obErori: null
 }
 
+// INITIALIZARE OBIECTE ERORI
 function initErori(){
     let continut = fs.readFileSync(path.join(__dirname, "resurse/json/erori.json")).toString("utf-8");
     console.log(continut)
@@ -131,12 +159,11 @@ function initErori(){
         eroare.imagine = obGlobal.obErori.cale_baza + "/" + eroare.imagine;
     }
     console.log(obGlobal.obErori)
-    
 }
 
 initErori();
 
-// Functia pentru citirea datelor galeriei
+// FUNCTIE PENTRU CITIREA DATELOR GALERIEI
 function citesteJSON() {
     try {
         const jsonGalerie = JSON.parse(fs.readFileSync(path.join(__dirname, 'resurse/json/galerie.json')));
@@ -149,6 +176,7 @@ function citesteJSON() {
     }
 }
 
+// FUNCTIE PENTRU AFISARE ERORI
 function afisareEroare(res, identificator, titlu, text, imagine){
     let eroare = obGlobal.obErori.info_erori.find(function(elem){ 
         return elem.identificator == identificator;
@@ -179,6 +207,7 @@ function afisareEroare(res, identificator, titlu, text, imagine){
     });
 }
 
+// CREARE FOLDERE NECESARE
 const vect_foldere = ["temp"];
 for (let folder of vect_foldere) {
     let caleFolder = path.join(__dirname, folder);
@@ -190,11 +219,84 @@ for (let folder of vect_foldere) {
     }
 }
 
+// MIDDLEWARE PENTRU IP
 app.use(function(req, res, next) {
     res.locals.ip = req.ip;
     next();
 });
 
+// RUTA PENTRU PRODUSE - IMPLEMENTARE FILTRARE LA NIVEL DE SERVER
+app.get("/produse", function(req, res){
+    console.log(req.query);
+    
+    // IMPLEMENTARE FILTRARE LA NIVEL DE SERVER
+    var conditieQuery = "";
+    
+    // Verificam daca avem un parametru de categorie in query
+    if(req.query.categorie && req.query.categorie !== "toate") {
+        conditieQuery = ` WHERE categorie='${req.query.categorie}'`;
+    }
+    
+    // Verificam daca avem un parametru de tip_produs in query
+    if(req.query.tip && req.query.tip !== "toate") {
+        const operator = conditieQuery ? " AND" : " WHERE";
+        conditieQuery += `${operator} tip_produs='${req.query.tip}'`;
+    }
+    
+    // OBTINEM CATEGORIILE DIN ENUM
+    queryOptiuni = "select * from unnest(enum_range(null::categ_instrument))";
+    client.query(queryOptiuni, function(err, rezOptiuni){
+        if (err) {
+            console.log(err);
+            afisareEroare(res, 2);
+            return;
+        }
+        
+        // OBTINEM TIPURILE DE PRODUSE DIN ENUM
+        queryTipuri = "select * from unnest(enum_range(null::tipuri_produse))";
+        client.query(queryTipuri, function(err, rezTipuri){
+            if (err) {
+                console.log(err);
+                afisareEroare(res, 2);
+                return;
+            }
+            
+            // Construim query-ul pentru produse cu conditia de filtrare
+            queryProduse = "select * from instrumente" + conditieQuery;
+            client.query(queryProduse, function(err, rez){
+                if (err){
+                    console.log(err);
+                    afisareEroare(res, 2);
+                }
+                else{
+                    // TRANSMITEM DATELE CATRE TEMPLATE
+                    res.render("pagini/produse", {
+                        produse: rez.rows, 
+                        optiuni: rezOptiuni.rows,
+                        tipuri: rezTipuri.rows
+                    });
+                }
+            });
+        });
+    });
+});
+
+// RUTA PENTRU PRODUS INDIVIDUAL
+app.get("/produs/:id", function(req, res){
+    const produsId = req.params.id;
+    
+    client.query("SELECT * FROM instrumente WHERE id=$1", [produsId], function(err, rez){
+        if(err || rez.rows.length == 0){
+            console.log(err);
+            afisareEroare(res, 404, "Produsul nu a fost găsit!");
+            return;
+        }
+        
+        res.render("pagini/produs", {prod: rez.rows[0]});
+    });
+});
+
+// MIDDLEWARE PENTRU FISIERE STATICE
 app.use("/resurse", function(req, res, next) {
     const fullPath = path.join(__dirname, "resurse", req.url);
     if (fs.existsSync(fullPath) && fs.statSync(fullPath).isDirectory()) {
@@ -206,11 +308,12 @@ app.use("/resurse", function(req, res, next) {
     next();
 }, express.static(path.join(__dirname, "resurse")));
 
+// RUTA PENTRU FAVICON
 app.get("/favicon.ico", function(req, res) {
     res.sendFile(path.join(__dirname, "resurse/imagini/favicon.ico"));
 });
 
-// Ruta pentru pagina principala modificata pentru a include datele galeriei
+// RUTA PENTRU PAGINA PRINCIPALA
 app.get(["/", "/index", "/home"], function(req, res) {
     const ip = req.ip;
     const galerieData = citesteJSON();
@@ -222,7 +325,7 @@ app.get(["/", "/index", "/home"], function(req, res) {
     });
 });
 
-// Ruta pentru pagina galerie
+// RUTA PENTRU PAGINA GALERIE
 app.get('/galerie', (req, res) => {
     const galerieData = citesteJSON();
     res.render('pagini/galerie', {
@@ -231,6 +334,7 @@ app.get('/galerie', (req, res) => {
     });
 });
 
+// ALTE RUTE
 app.get("/index/a", function(req, res) {
     res.render("pagini/index", {ip: req.ip});
 });
@@ -243,10 +347,12 @@ app.get("/fisier", function(req, res) {
     res.sendFile(path.join(__dirname, "package.json"));
 });
 
+// PROTECTIE FISIERE EJS
 app.get("/*.ejs", function(req, res) {
     afisareEroare(res, 400);
 });
 
+// HANDLER PENTRU ALTE RUTE
 app.get("/*", function(req, res) {
     try {
         res.render("pagini" + req.url, {ip: req.ip}, function(err, rezultatRandare) {
@@ -270,5 +376,6 @@ app.get("/*", function(req, res) {
     }
 });
 
+// PORNIRE SERVER
 app.listen(8080);
-console.log("Serverul a pornit");
+console.log("Serverul a pornit pe portul 8080");

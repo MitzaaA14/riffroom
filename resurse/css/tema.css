@@ -1,0 +1,948 @@
+/* theme-styles-fixed.css - Cu fix-uri specifice pentru pagina Despre */
+
+/* Tema Light (default) */
+:root {
+  --maro-inchis: #2D1A19;
+  --maro-mediu: #6B3E31;
+  --maro-deschis: #B38867;
+  --crem-inchis: #D8C9A7;
+  --crem-deschis: #F7F3E8;   
+  --accent: #C05F3E;
+  
+  --text-primary: var(--maro-inchis);
+  --text-secondary: var(--maro-mediu);
+  --background-primary: var(--crem-deschis);
+  --background-secondary: var(--crem-inchis);
+  --header-footer-bg: linear-gradient(to right, var(--maro-deschis), var(--maro-mediu));
+  --header-text: var(--crem-deschis);
+  --section-bg: var(--crem-inchis);
+  --section-border: var(--maro-mediu);
+  --heading-color: var(--maro-inchis);
+  --link-color: var(--maro-inchis);
+  --hover-color: var(--accent);
+  --nav-bg: rgba(107, 62, 49, 0.9);
+  --nav-link-color: var(--crem-deschis);
+  --nav-link-hover: var(--accent);
+  --table-header-bg: var(--maro-mediu);
+  --table-header-text: var(--crem-deschis);
+  --box-shadow: 0 2px 8px rgba(74, 44, 42, 0.2);
+}
+
+/* Tema Dark */
+.theme-dark {
+  --maro-inchis-dark: #1a0D0C;
+  --maro-mediu-dark: #4A2C2A;
+  --maro-deschis-dark: #854C39;
+  --crem-inchis-dark: #5F493A;
+  --crem-deschis-dark: #D8C9A7;
+  --accent-dark: #FF7F50;
+  
+  --text-color: var(--crem-deschis-dark);
+  --bg-color-dark: var(--maro-inchis-dark);
+  --bg-color-medium: #2D1A19;
+  --bg-color-lighter: #3D2520;
+  --border-color: #4A2C2A;
+  
+  /* Aplicare universala */
+  color-scheme: dark;
+  background-color: var(--bg-color-dark);
+  color: var(--text-color);
+}
+
+/* Aplicare universala a temei dark pentru elemente comune */
+.theme-dark * {
+  border-color: var(--border-color);
+}
+
+.theme-dark main > *,
+.theme-dark section,
+.theme-dark article,
+.theme-dark aside,
+.theme-dark .card,
+.theme-dark .produs,
+.theme-dark #zona1, .theme-dark #zona2, .theme-dark #zona3, 
+.theme-dark #zona4, .theme-dark #zona5, .theme-dark #zona6, 
+.theme-dark #zona7, .theme-dark #zona8,
+.theme-dark #chitare, .theme-dark #accesorii, 
+.theme-dark #echipamente, .theme-dark #oferte, .theme-dark #resurse {
+  background-color: var(--bg-color-medium);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+/* Titluri in tema dark */
+.theme-dark h1, .theme-dark h2, .theme-dark h3, 
+.theme-dark h4, .theme-dark h5, .theme-dark h6,
+.theme-dark .card-title, .theme-dark .section-title,
+.theme-dark main > section h2, .theme-dark .reflexie-text {
+  color: var(--text-color) !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Header, footer si navigatie */
+.theme-dark header, 
+.theme-dark footer {
+  background: linear-gradient(to right, var(--maro-mediu-dark), var(--maro-inchis-dark));
+  color: var(--text-color);
+}
+
+.theme-dark nav ul {
+  background-color: rgba(26, 13, 12, 0.9);
+}
+
+.theme-dark nav a {
+  color: var(--text-color);
+}
+
+.theme-dark nav a:hover {
+  color: var(--accent-dark);
+}
+
+/* Formulare si butoane */
+.theme-dark input, .theme-dark select, .theme-dark textarea {
+  background-color: var(--bg-color-lighter);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.theme-dark button, 
+.theme-dark input[type="submit"], 
+.theme-dark input[type="button"],
+.theme-dark .btn {
+  background-color: var(--maro-deschis-dark);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.theme-dark button:hover, 
+.theme-dark input[type="submit"]:hover, 
+.theme-dark input[type="button"]:hover,
+.theme-dark .btn:hover {
+  background-color: var(--accent-dark);
+}
+
+/* Tabele */
+.theme-dark table {
+  border-color: var(--border-color);
+}
+
+.theme-dark th {
+  background-color: var(--maro-inchis-dark);
+  color: var(--text-color);
+}
+
+.theme-dark td {
+  color: var(--text-color);
+}
+
+.theme-dark tr:nth-child(odd) td {
+  background-color: var(--bg-color-lighter);
+}
+
+.theme-dark tr:nth-child(even) td {
+  background-color: var(--maro-mediu-dark);
+}
+
+/* Elemente Bootstrap */
+.theme-dark .card-header, 
+.theme-dark .modal-header {
+  background-color: var(--maro-inchis-dark);
+}
+
+.theme-dark .card-body, 
+.theme-dark .modal-body,
+.theme-dark .list-group-item,
+.theme-dark .tab-content {
+  background-color: var(--bg-color-lighter);
+}
+
+.theme-dark .progress {
+  background-color: var(--bg-color-lighter);
+}
+
+/* Imagini si media */
+.theme-dark img {
+  filter: brightness(0.9);
+}
+
+/* Link-uri */
+.theme-dark a {
+  color: var(--text-color);
+}
+
+.theme-dark a:hover {
+  color: var(--accent-dark);
+}
+
+/* Buton toggle tema */
+.theme-toggle-container {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.theme-toggle-btn {
+  background-color: var(--maro-mediu);
+  border: none;
+  color: var(--crem-deschis);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+.theme-dark .theme-toggle-btn {
+  background-color: var(--maro-deschis-dark);
+  color: var(--crem-deschis-dark);
+}
+
+/* Tooltip pentru butonul de tema */
+.theme-toggle-btn::after {
+  content: "Schimba tema";
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--maro-inchis);
+  color: var(--crem-deschis);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theme-toggle-btn:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* VIDEO sI YOUTUBE */
+/* Video si iframe in dark mode */
+.theme-dark video,
+.theme-dark iframe {
+  border: 2px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Stilizare butoane YouTube in dark mode */
+.theme-dark .ytp-chrome-bottom {
+  background-color: rgba(45, 26, 25, 0.7) !important;
+}
+
+.theme-dark .ytp-chrome-controls button,
+.theme-dark .ytp-chrome-controls .ytp-button,
+.theme-dark .ytp-time-display {
+  color: var(--text-color) !important;
+  fill: var(--text-color) !important;
+  filter: brightness(1.3) contrast(1.2) !important;
+}
+
+.theme-dark .ytp-progress-bar-container {
+  background-color: rgba(26, 13, 12, 0.5) !important;
+}
+
+.theme-dark .ytp-progress-bar .ytp-play-progress,
+.theme-dark .ytp-scrubber-button {
+  background-color: var(--accent-dark) !important;
+}
+
+.theme-dark .ytp-large-play-button {
+  background-color: rgba(133, 76, 57, 0.8) !important;
+  border-color: var(--text-color) !important;
+}
+
+.theme-dark .ytp-large-play-button svg path {
+  fill: var(--text-color) !important;
+}
+
+/* STILIZARE SPECIFICa PENTRU PAGINA DESPRE */
+
+/* Fix pentru cardurile din pagina Despre */
+.theme-dark .card,
+.theme-dark .card-header,
+.theme-dark .card-body {
+  background-color: var(--bg-color-medium) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.theme-dark .feature-card,
+.theme-dark .sustainability-card {
+  background-color: var(--bg-color-medium) !important;
+  border-color: var(--border-color) !important;
+}
+
+.theme-dark .card-title, 
+.theme-dark .card-text,
+.theme-dark .feature-card .card-header,
+.theme-dark .card-header {
+  color: var(--text-color) !important;
+  background-color: var(--bg-color-medium) !important;
+}
+
+/* Fix pentru progress bars din pagina Despre */
+.theme-dark .progress-container {
+  background-color: var(--bg-color-medium) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.theme-dark .progress {
+  background-color: rgba(45, 26, 25, 0.5) !important;
+}
+
+.theme-dark .progress-bar {
+  opacity: 0.9 !important;
+}
+
+/* Fix pentru accordion din pagina Despre */
+.theme-dark .accordion-item,
+.theme-dark .accordion-header,
+.theme-dark .accordion-button,
+.theme-dark .accordion-body {
+  background-color: var(--bg-color-medium) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.theme-dark .accordion-button:not(.collapsed) {
+  background-color: var(--maro-deschis-dark) !important;
+}
+
+/* Fix pentru taburi in pagina Despre */
+.theme-dark .nav-tabs,
+.theme-dark .nav-tabs .nav-link,
+.theme-dark .tab-content,
+.theme-dark .tab-pane {
+  background-color: var(--bg-color-medium) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.theme-dark .nav-tabs .nav-link.active {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--text-color) !important;
+}
+
+/* Fix pentru elemente cu background deschis */
+.theme-dark .bg-white,
+.theme-dark .bg-light,
+.theme-dark [style*="background-color: white"],
+.theme-dark [style*="background-color: #fff"],
+.theme-dark [style*="background-color: rgb(255, 255, 255)"] {
+  background-color: var(--bg-color-medium) !important;
+  color: var(--text-color) !important;
+}
+
+/* Fortam toate elementele care au ramas cu fundal alb */
+.theme-dark *[class*="bg-white"],
+.theme-dark *[class*="bg-light"],
+.theme-dark *[class*="background-color: white"],
+.theme-dark *[class*="background-color: #fff"] {
+  background-color: var(--bg-color-medium) !important;
+  color: var(--text-color) !important;
+}
+
+/* Fix-uri CSS specifice pentru progress bars din pagina despre */
+.theme-dark .objectives-section .progress-container {
+  background-color: var(--bg-color-medium) !important;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.theme-dark .objectives-section .progress {
+  background-color: rgba(26, 13, 12, 0.5) !important;
+  height: 25px !important;
+}
+
+.theme-dark .objectives-section .progress-bar.bg-primary {
+  background-color: #4B9AC8 !important;
+}
+
+.theme-dark .objectives-section .progress-bar.bg-success {
+  background-color: #2D7A4F !important;
+}
+
+.theme-dark .objectives-section .progress-bar.bg-warning {
+  background-color: #FFB800 !important;
+}
+
+.theme-dark .form-label.progress-label {
+  color: var(--text-color) !important;
+  font-weight: bold;
+}
+
+/* Fix specific pentru action buttons din pagina despre */
+.theme-dark .action-buttons .btn-custom {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color);
+}
+
+.theme-dark .action-buttons .btn-custom:hover {
+  background-color: var(--accent-dark) !important;
+}
+
+/* imbunatatiri pentru textul in tema intunecata */
+.theme-dark .intro-title,
+.theme-dark .intro-text,
+.theme-dark .section-title,
+.theme-dark .card-title,
+.theme-dark .card-text,
+.theme-dark .form-label,
+.theme-dark .accordion-button,
+.theme-dark .accordion-body,
+.theme-dark .nav-link {
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Culori mai bune pentru cartonase in tema intunecata */
+.theme-dark .feature-card,
+.theme-dark .sustainability-card,
+.theme-dark .card {
+  background-color: var(--maro-mediu-dark) !important;
+  border: 1px solid var(--maro-deschis-dark) !important;
+}
+.theme-dark .card-header {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border-bottom: 1px solid var(--maro-deschis-dark) !important;
+}
+
+/* Stilizare pentru taburi in tema intunecata */
+.theme-dark .nav-tabs {
+  border-bottom: 1px solid var(--maro-deschis-dark);
+}
+
+.theme-dark .nav-tabs .nav-link {
+  color: var(--crem-deschis-dark);
+  background-color: var(--maro-inchis-dark);
+  border: 1px solid transparent;
+}
+
+.theme-dark .nav-tabs .nav-link.active {
+  color: var(--crem-deschis-dark);
+  background-color: var(--maro-deschis-dark);
+  border-color: var(--maro-deschis-dark);
+}
+
+.theme-dark .nav-tabs .nav-link:hover {
+  border-color: var(--maro-deschis-dark);
+  color: var(--accent-dark);
+}
+
+.theme-dark .tab-content {
+  background-color: var(--maro-mediu-dark);
+  border: 1px solid var(--maro-deschis-dark);
+  border-top: none;
+  padding: 15px;
+  color: var(--crem-deschis-dark);
+}
+
+/* Stilizare mai buna pentru accordion in tema intunecata */
+.theme-dark .accordion-item {
+  background-color: var(--maro-mediu-dark);
+  border: 1px solid var(--maro-deschis-dark);
+}
+
+.theme-dark .accordion-button {
+  background-color: var(--maro-mediu-dark);
+}
+
+.theme-dark .accordion-button:not(.collapsed) {
+  background-color: var(--maro-deschis-dark);
+  color: var(--crem-deschis-dark);
+}
+
+.theme-dark .accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(133, 76, 57, 0.25);
+}
+
+.theme-dark .accordion-button::after {
+  filter: brightness(2);
+}
+
+/* Modificare pentru fundalul alb din taburi */
+.theme-dark .team-tabs .tab-content {
+  background-color: var(--maro-mediu-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .team-content {
+  background-color: var(--maro-mediu-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border: 1px solid var(--maro-deschis-dark);
+  border-radius: 0.25rem;
+}
+
+/* Butoane mai vizibile */
+.theme-dark .action-buttons .btn-custom {
+  background-color: var(--maro-deschis-dark);
+  color: var(--crem-deschis-dark);
+  border: 1px solid var(--accent-dark);
+}
+
+.theme-dark .action-buttons .btn-custom:hover {
+  background-color: var(--accent-dark);
+}
+
+/* Modificare pentru bare de progres in tema intunecata */
+.theme-dark .progress {
+  background-color: var(--maro-inchis-dark);
+}
+
+.theme-dark .progress-bar {
+  color: var(--crem-deschis-dark);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* imbunatatire pentru containerul de progress */
+.theme-dark .progress-container {
+  background-color: var(--maro-mediu-dark) !important;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--maro-deschis-dark);
+}
+
+/* Fix suplimentar pentru taburi in pagina Despre */
+
+/* Corecteaza culorile pentru containerul de taburi */
+.theme-dark .team-content,
+.theme-dark .team-tabs {
+  background-color: var(--bg-color-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+/* Fix pentru panoul alb din taburi pe ecran mare */
+.theme-dark .nav-tabs {
+  background-color: var(--bg-color-dark) !important;
+  border-bottom-color: var(--maro-deschis-dark) !important;
+}
+
+/* Fix specific pentru butoanele de tab */
+.theme-dark .nav-tabs .nav-link {
+  background-color: var(--maro-mediu-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+  margin-right: 5px;
+  border-radius: 4px 4px 0 0;
+}
+
+.theme-dark .nav-tabs .nav-link.active {
+  background-color: var(--maro-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+  border-bottom-color: transparent !important;
+  font-weight: bold;
+}
+
+.theme-dark .nav-tabs .nav-link:hover:not(.active) {
+  background-color: var(--maro-deschis-dark) !important;
+  opacity: 0.8;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+/* Fix pentru continutul taburilor */
+.theme-dark .tab-content,
+.theme-dark .tab-pane {
+  background-color: var(--bg-color-dark) !important;
+  border: 1px solid var(--maro-deschis-dark) !important;
+  border-top: none !important;
+  color: var(--crem-deschis-dark) !important;
+  padding: 15px;
+}
+
+/* Fix pentru containere iframe video */
+.theme-dark .container-iframe,
+.theme-dark .taburi-iframe {
+  background-color: var(--bg-color-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .taburi-iframe a {
+  background-color: var(--maro-mediu-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  display: inline-block;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 4px;
+  border: 1px solid var(--maro-deschis-dark);
+  text-decoration: none;
+}
+
+.theme-dark .taburi-iframe a:hover {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Fix pentru fundal alb ramas in pagina Echipa si alte pagini */
+.theme-dark .team-section,
+.theme-dark .faq-section,
+.theme-dark .objectives-section,
+.theme-dark .intro-section,
+.theme-dark main.container,
+.theme-dark .container,
+.theme-dark .row,
+.theme-dark .col-md-4 {
+  background-color: var(--bg-color-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Fix pentru youtube embed si containere media */
+.theme-dark .video-container {
+  background-color: var(--bg-color-dark) !important;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--maro-deschis-dark);
+  margin-bottom: 20px;
+}
+
+/* Forteaza eliminarea oricarui fundal alb ramas */
+.theme-dark div[style*="background-color: white"],
+.theme-dark div[style*="background-color: #fff"],
+.theme-dark div[style*="background-color: #ffffff"],
+.theme-dark div[style*="background: white"],
+.theme-dark div[style*="background: #fff"],
+.theme-dark div[style*="background: #ffffff"] {
+  background-color: var(--bg-color-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Stilizare pentru YouTube iframe in tema dark */
+.theme-dark iframe {
+  border: 1px solid var(--maro-deschis-dark) !important;
+  border-radius: 4px;
+}
+
+/* ADaUGIRI NOI PENTRU PAGINA DE PRODUSE */
+
+/* Fortare tema intunecata pe pagina de produse */
+html.theme-dark,
+.theme-dark body,
+.theme-dark main,
+.theme-dark #filtrare-produse,
+.theme-dark #produse,
+.theme-dark .grid-produse {
+  background-color: var(--maro-inchis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Forteaza tema intunecata pe toate elementele */
+.theme-dark * {
+  color-scheme: dark;
+}
+
+/* Stilizare specifica pentru pagina de produse */
+.theme-dark #filtrare-produse {
+  background-color: var(--maro-mediu-dark) !important;
+  border: 1px solid var(--maro-deschis-dark) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+.theme-dark .filtru-item {
+  background-color: var(--bg-color-medium) !important;
+  border: 1px solid var(--maro-deschis-dark) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.theme-dark .filtru-item label,
+.theme-dark .grup-radio p, 
+.theme-dark .grup-check p,
+.theme-dark .val-min, 
+.theme-dark .val-max,
+.theme-dark #infoRange {
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .filtru-item input[type="text"],
+.theme-dark .filtru-item textarea,
+.theme-dark .filtru-item select,
+.theme-dark .filtru-item input[type="range"] {
+  background-color: var(--bg-color-lighter) !important;
+  color: var(--crem-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .filtru-item input[type="range"]::-webkit-slider-runnable-track {
+  background-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .filtru-item input[type="range"]::-webkit-slider-thumb {
+  background-color: var(--accent-dark) !important;
+}
+
+/* Radio si checkbox in dark theme */
+.theme-dark .radio-options label, 
+.theme-dark .check-options label {
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Butoane in dark theme */
+.theme-dark .btn {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border: 1px solid var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .btn:hover {
+  background-color: var(--accent-dark) !important;
+  border-color: var(--accent-dark) !important;
+}
+
+.theme-dark .btn-primary {
+  background-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .btn-secondary {
+  background-color: var(--accent-dark) !important;
+}
+
+.theme-dark .btn-danger {
+  background-color: #A54241 !important;
+}
+
+.theme-dark .btn-info {
+  background-color: #468FAF !important;
+}
+
+/* Text pentru suma in dark theme */
+.theme-dark #p-suma {
+  background-color: var(--maro-mediu-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border: 1px solid var(--maro-deschis-dark);
+}
+
+/* Produse in dark theme */
+.theme-dark .produs {
+  background-color: var(--bg-color-medium) !important;
+  color: var(--crem-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.theme-dark .produs h3 {
+  background-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .produs h3 a {
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .info-produs table {
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .info-produs th {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .info-produs td {
+  color: var(--crem-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .info-produs tr:nth-child(even) {
+  background-color: var(--bg-color-lighter) !important;
+}
+
+.theme-dark .val-pret {
+  color: var(--accent-dark) !important;
+}
+
+.theme-dark .descriere {
+  background-color: var(--bg-color-lighter) !important;
+  color: var(--crem-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .categorie {
+  background-color: var(--maro-mediu-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .badge {
+  background-color: var(--accent-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .caracteristici {
+  background-color: var(--bg-color-medium) !important;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .caracteristici p {
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .caracteristici li {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border: 1px solid var(--accent-dark);
+}
+
+.theme-dark .selecteaza-cos {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark .selecteaza-cos:hover {
+  background-color: var(--accent-dark) !important;
+}
+
+/* Adaptare pentru tipuri specifice de produse in dark theme */
+.theme-dark .chitara-electrica h3,
+.theme-dark .chitara-acustica h3,
+.theme-dark .amplificator h3,
+.theme-dark .accesorii h3 {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Adaptare pentru categorii speciale in dark theme */
+.theme-dark .premium,
+.theme-dark .pentru-incepatori,
+.theme-dark .profesional,
+.theme-dark .vintage,
+.theme-dark .editie-limitata {
+  border-left-color: var(--accent-dark) !important;
+}
+
+/* Fix pentru erori input in dark theme */
+.theme-dark .input-error {
+  border: 2px solid #D9534F !important;
+  background-color: rgba(217, 83, 79, 0.2) !important;
+}
+
+/* Stilizare pentru rezultate calcul in dark theme */
+.theme-dark .rezultat-calcul {
+  background-color: var(--maro-mediu-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border: 2px solid var(--accent-dark) !important;
+}
+
+/* Fixeaza header si footer in dark theme */
+.theme-dark header,
+.theme-dark footer {
+  background: linear-gradient(to right, var(--maro-deschis-dark), var(--maro-inchis-dark)) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark nav ul {
+  background-color: rgba(26, 13, 12, 0.95) !important;
+}
+
+.theme-dark nav ul li a {
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark nav ul li a:hover {
+  color: var(--accent-dark) !important;
+}
+
+/* Fix pentru titluri sectiuni */
+.theme-dark section h2 {
+  color: var(--crem-deschis-dark) !important;
+  border-bottom-color: var(--accent-dark) !important;
+}
+
+/* Corectii pentru inputuri in tema dark */
+.theme-dark input[type="text"],
+.theme-dark input[type="range"],
+.theme-dark textarea,
+.theme-dark select {
+  background-color: var(--bg-color-lighter) !important;
+  color: var(--crem-deschis-dark) !important;
+  border-color: var(--maro-deschis-dark) !important;
+}
+
+/* Iconite cu culoare specifica */
+.theme-dark i.fas {
+  color: var(--accent-dark) !important;
+}
+
+/* Forteaza butoanele in tema dark */
+.theme-dark .btn {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+  border: 1px solid var(--maro-deschis-dark) !important;
+}
+
+.theme-dark .btn:hover {
+  background-color: var(--accent-dark) !important;
+}
+
+/* Fix pentru butoanele de filtrare */
+.theme-dark #filtrare,
+.theme-dark #sortCrescNume,
+.theme-dark #sortDescrescNume {
+  background-color: var(--maro-deschis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark #resetare {
+  background-color: #A54241 !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+.theme-dark #calculeaza-suma {
+  background-color: #468FAF !important;
+  color: var(--crem-deschis-dark) !important;
+}
+
+/* Mesaj de schimbare tema */
+#theme-change-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+  font-weight: bold;
+  text-align: center;
+}
+
+.theme-dark #theme-change-message {
+  background-color: var(--maro-deschis-dark);
+  color: var(--crem-deschis-dark);
+}
+
+/* Animation for theme message */
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+#theme-change-message {
+  animation: fadeInOut 2s ease;
+}
+
+/* Forteaza eliminarea oricarui fundal alb cu !important */
+.theme-dark *[style*="background-color: white"],
+.theme-dark *[style*="background-color: #fff"],
+.theme-dark *[style*="background-color: rgb(255, 255, 255)"],
+.theme-dark *[style*="background: white"],
+.theme-dark *[style*="background: #fff"] {
+  background-color: var(--maro-inchis-dark) !important;
+  color: var(--crem-deschis-dark) !important;
+}

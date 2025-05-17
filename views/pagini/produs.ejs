@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ro" class="theme-dark">
+    <head>
+        <meta name="description" content="RiffRoom - magazin online de chitare și accesorii muzicale">
+        <meta name="keywords" content="chitare, accesorii muzicale, RiffRoom, instrumente muzicale, amplificatoare">
+        
+        <!-- Script pentru a preveni clipirea temei luminoase -->
+        <script>
+            // Injectare instant a temei întunecate și full-width pentru produs
+            (function() {
+                document.documentElement.classList.add('theme-dark');
+                document.body.classList.add('theme-dark');
+                localStorage.setItem('theme', 'dark');
+            })();
+        </script>
+        
+        <title>RiffRoom - Pagina Produs</title>
+        <%- include("../fragmente/head") %>     
+        <link href="/resurse/css/produs.css" type="text/css" rel="stylesheet" />
+        <link href="/resurse/css/tema.css" type="text/css" rel="stylesheet" />
+    </head>
+    <body class="theme-dark">
+        <%- include("../fragmente/header") %>
+        
+        <main class="theme-dark">
+            <section class="theme-dark">
+                <h2>Detalii Produs</h2>
+                <article id="art-produs" class="theme-dark">
+                    <div class="produs-header">
+                        <h3><span class="nume"><%- locals.prod.nume %></span></h3>
+                        <span class="badge-categorie <%- locals.prod.categorie.replace(/\s+/g, '-').toLowerCase() %>">
+                            <%- locals.prod.categorie %>
+                        </span>
+                    </div>
+                    
+                    <div class="produs-container">
+                        <div class="produs-imagine">
+                            <figure class="imag-produs">
+                                <img src="/resurse/imagini/produse/<%- locals.prod.imagine %>" alt="[imagine <%- locals.prod.nume %>]" />
+                            </figure>
+                        </div>
+                        
+                        <div class="produs-detalii">
+                            <div class="pret-container">
+                                <p>Preț: <span class="pret"><%- locals.prod.pret %> RON</span></p>
+                                <button class="btn-adauga-cos">
+                                    <i class="fas fa-cart-plus"></i> Adaugă în coș
+                                </button>
+                            </div>
+                            
+                            <div class="detalii-wrapper">
+                                <p class="descriere-titlu">Descriere:</p>
+                                <p class="descriere"><%- locals.prod.descriere %></p>
+                                
+                                <div class="detalii-tehnice">
+                                    <h4>Specificații tehnice</h4>
+                                    <table>
+                                        <tr>
+                                            <th>Tip produs:</th>
+                                            <td><%- locals.prod.tip_produs %></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Greutate:</th>
+                                            <td><%- locals.prod.greutate %> g</td>
+                                        </tr>
+                                        <% if(locals.prod.putere !== null) { %>
+                                        <tr>
+                                            <th>Putere:</th>
+                                            <td><%- locals.prod.putere %> W</td>
+                                        </tr>
+                                        <% } %>
+                                        <tr>
+                                            <th>Categorie:</th>
+                                            <td><%- locals.prod.categorie %></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pentru începători:</th>
+                                            <td>
+                                                <% if(locals.prod.pentru_incepatori) { %>
+                                                    <i class="fas fa-check text-success"></i> Da
+                                                <% } else { %>
+                                                    <i class="fas fa-times text-danger"></i> Nu
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Data adăugare:</th>
+                                            <td>
+                                                <time datetime="<%- locals.prod.data_adaugare %>">
+                                                    <%= new Date(locals.prod.data_adaugare).toLocaleDateString('ro-RO', {
+                                                        day: 'numeric',
+                                                        month: 'long',
+                                                        year: 'numeric',
+                                                        weekday: 'long'
+                                                    }) %>
+                                                </time>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="caracteristici-container">
+                                <h4>Caracteristici:</h4>
+                                <% if(locals.prod.caracteristici && locals.prod.caracteristici.length) { %>
+                                    <ul class="caracteristici-lista">
+                                        <% locals.prod.caracteristici.forEach(function(caracteristica) { %>
+                                            <li><i class="fas fa-check-circle"></i> <%= caracteristica %></li>
+                                        <% }); %>
+                                    </ul>
+                                <% } else { %>
+                                    <p>Nu sunt specificate caracteristici pentru acest produs.</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="produse-similare">
+                        <h4>Produse similare</h4>
+                        <p>Descoperă mai multe produse din aceeași categorie</p>
+                        <a href="/produse?categorie=<%- locals.prod.categorie %>" class="btn-vezi-similare">
+                            <i class="fas fa-th-list"></i> Vezi produse similare
+                        </a>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <%- include("../fragmente/footer") %>
+        
+        <!-- Includem scriptul nostru custom -->
+        <script src="/resurse/js/produs.js"></script>
+    </body>
+</html>
