@@ -1,0 +1,692 @@
+
+/* CONTAINER DE COMPARARE PRODUSE */
+.container-comparare {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.container-comparare h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #F7F3E8;
+    border-bottom: 1px solid #C05F3E;
+    padding-bottom: 8px;
+}
+
+.container-comparare ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.container-comparare li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px dashed rgba(247, 243, 232, 0.2);
+}
+
+.container-comparare li:last-child {
+    border-bottom: none;
+}
+
+.container-comparare button {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.container-comparare button:hover {
+    transform: translateY(-2px);
+}
+
+/* BUTON COMPARĂ */
+.btn-compara {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative;
+    /* Adaugat pentru a afisa butonul deasupra */
+    order: -1; 
+    z-index: 5;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.btn-compara:hover {
+    background-color: #854C39;
+    transform: translateY(-2px);
+}
+
+.btn-compara:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-compara:disabled:hover::after {
+    content: "Stergeti un produs din lista de comparare";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2D1A19;
+    color: #F7F3E8;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1001;
+    margin-bottom: 5px;
+}
+
+/* POPUP COMPARAȚIE */
+.popup-comparatie {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.continut-popup {
+    background-color: #F7F3E8;
+    color: #2D1A19;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.continut-popup h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #6B3E31;
+}
+
+.continut-popup table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.continut-popup th, .continut-popup td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.continut-popup th {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+}
+
+.continut-popup tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.continut-popup tr:hover {
+    background-color: #eaeaea;
+}
+
+/* CONTAINER ORAR */
+.container-orar {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    background-color: #F7F3E8;
+    color: #2D1A19;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1500;
+    transition: opacity 0.3s ease;
+}
+
+.container-orar h2 {
+    margin-top: 0;
+    color: #6B3E31;
+    text-align: center;
+    border-bottom: 2px solid #C05F3E;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.container-orar table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.container-orar th, .container-orar td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.container-orar th {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+}
+
+.container-orar tr:hover td {
+    background-color: #eaeaea;
+    color: #000; /* Text mai inchis la hover */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.container-orar .zi-curenta {
+    background-color: #C05F3E;
+    color: #F7F3E8;
+    font-weight: bold;
+}
+
+.container-orar .zi-curenta:hover {
+    background-color: #854C39;
+    color: #FFF;
+}
+
+.container-orar td[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    z-index: 1001;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.container-orar .status {
+    text-align: center;
+    padding: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Culorile pentru statusul deschis/inchis - definite global pentru a fi folosite in ambele teme */
+.container-orar .deschis, .container-orar .inchis {
+    background-color: #6B3E31; /* Aceeasi culoare de fundal pentru ambele statusuri */
+    color: #F7F3E8;
+    font-weight: bold;
+}
+
+.container-orar .btn-inchide {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s ease;
+}
+
+.container-orar .btn-inchide:hover {
+    background-color: #854C39;
+}
+
+.container-orar-fundal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1400;
+    transition: opacity 0.3s ease;
+}
+
+.container-orar .deschis {
+    background-color: #2D7A4F;
+    color: #F7F3E8;
+}
+
+.container-orar .inchis {
+    background-color: #A52A2A;
+    color: #F7F3E8;
+}
+
+.container-orar .btn-inchide {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s ease;
+}
+
+.container-orar .btn-inchide:hover {
+    background-color: #854C39;
+}
+
+.container-orar-fundal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1400;
+    transition: opacity 0.3s ease;
+}
+
+/* BUTON ORAR ANIMAT */
+#btn-orar {
+    position: relative;
+    overflow: hidden;
+}
+
+#btn-orar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(192, 95, 62, 0.3);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* STILURI PENTRU TEMA ÎNTUNECATĂ */
+.theme-dark .container-comparare {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.theme-dark .container-comparare h3 {
+    color: #D8C9A7;
+    border-bottom-color: #FF7F50;
+}
+
+.theme-dark .btn-compara {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .btn-compara:hover {
+    background-color: #854C39;
+}
+
+.theme-dark .btn-compara:disabled:hover::after {
+    background-color: #1a0D0C;
+    color: #D8C9A7;
+}
+
+.theme-dark .container-orar {
+    background-color: #1a0D0C;
+    color: #D8C9A7;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.theme-dark .container-orar h2 {
+    color: #D8C9A7;
+    border-bottom-color: #FF7F50;
+}
+
+.theme-dark .container-orar table {
+    border-color: #4A2C2A;
+}
+
+.theme-dark .container-orar th {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .container-orar td {
+    border-color: #4A2C2A;
+}
+
+.theme-dark .container-orar tr:hover td {
+    background-color: #362114;
+    color: #FFF; /* Text mai deschis la hover in tema intunecata */
+}
+
+.theme-dark .container-orar .zi-curenta {
+    background-color: #FF7F50;
+    color: #1a0D0C;
+}
+
+.theme-dark .container-orar .zi-curenta:hover {
+    background-color: #E56C3E;
+    color: #000;
+}
+
+/* IMPORTANT: Nu folosim selectorul .theme-dark pentru clasele .deschis si .inchis
+   pentru a ne asigura ca culorile raman aceleasi si in tema intunecata */
+
+.theme-dark .container-orar .btn-inchide {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .container-orar .btn-inchide:hover {
+    background-color: #854C39;
+}
+
+.theme-dark .continut-popup {
+    background-color: #1a0D0C;
+    color: #D8C9A7;
+}
+
+.theme-dark .continut-popup h2 {
+    color: #D8C9A7;
+}
+
+.theme-dark .continut-popup table {
+    border-color: #4A2C2A;
+}
+
+.theme-dark .continut-popup th {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .continut-popup td {
+    border-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .continut-popup tr:nth-child(even) {
+    background-color: #2D1A19;
+}
+
+.theme-dark .continut-popup tr:hover {
+    background-color: #3D2520;
+}
+
+/* CONTAINER COS */
+.container-cos {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    background-color: #F7F3E8;
+    color: #2D1A19;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1500;
+    transition: opacity 0.3s ease;
+}
+
+.container-cos h2 {
+    margin-top: 0;
+    color: #6B3E31;
+    text-align: center;
+    border-bottom: 2px solid #C05F3E;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.container-cos-fundal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1400;
+    transition: opacity 0.3s ease;
+}
+
+.lista-produse-cos {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.produs-cos {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.imagine-produs-cos {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 5px;
+}
+
+.info-produs-cos {
+    flex: 1;
+}
+
+.nume-produs-cos {
+    font-weight: bold;
+    margin: 0 0 5px 0;
+}
+
+.pret-produs-cos {
+    font-weight: bold;
+    color: #6B3E31;
+}
+
+.cantitate-produs-cos {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.btn-cantitate {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.btn-sterge-cos {
+    background-color: #C05F3E;
+    color: #F7F3E8;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.cos-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    padding: 15px 0;
+    border-top: 2px solid #C05F3E;
+    margin-top: 20px;
+}
+
+.cos-butoane {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-cos-inchide, .btn-cos-continua-cumparaturi, .btn-cos-finalizeaza {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cos-finalizeaza {
+    background-color: #2D7A4F;
+}
+
+.cos-gol {
+    text-align: center;
+    padding: 20px;
+}
+
+.theme-dark .container-cos {
+    background-color: #1a0D0C;
+    color: #D8C9A7;
+}
+
+.theme-dark .container-cos h2 {
+    color: #D8C9A7;
+    border-bottom-color: #FF7F50;
+}
+
+.theme-dark .produs-cos {
+    border-bottom-color: #4A2C2A;
+}
+
+.theme-dark .pret-produs-cos {
+    color: #FF7F50;
+}
+
+.theme-dark .cos-total {
+    border-top-color: #FF7F50;
+}
+
+.theme-dark .btn-cos-inchide,
+.theme-dark .btn-cos-continua-cumparaturi {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .btn-cos-finalizeaza {
+    background-color: #2D7A4F; /* Pastram verde pentru finalizare */
+}
+
+/* ADAPTARE PENTRU MOBIL */
+@media (max-width: 768px) {
+    .container-comparare {
+        width: 250px;
+        font-size: 0.9rem;
+    }
+    
+    .container-orar, .container-cos {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .container-orar table {
+        font-size: 0.9rem;
+    }
+    
+    .produs-cos {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .imagine-produs-cos {
+        margin-bottom: 10px;
+    }
+    
+    .cos-butoane {
+        flex-direction: column;
+    }
+    
+    .btn-cos-inchide, 
+    .btn-cos-continua-cumparaturi, 
+    .btn-cos-finalizeaza {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .btn-compara {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+    
+    /* Notificari sistem */
+    .notificare {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 6px;
+        color: #FFF;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+        max-width: 300px;
+        transition: opacity 0.3s ease;
+    }
+    
+    .notificare-success {
+        background-color: #5CB85C;
+    }
+    
+    .notificare-error {
+        background-color: #D9534F;
+    }
+}

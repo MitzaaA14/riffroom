@@ -12,7 +12,7 @@ main {
     color: #2D1A19;
 }
 
-/* Stilizare secțiuni */
+/* Stilizare sectiuni */
 main > section {
     display: block;
     grid-area: unset !important;
@@ -25,7 +25,7 @@ main > section {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Titluri secțiuni */
+/* Titluri sectiuni */
 section h2 {
     color: #6B3E31;
     text-align: center;
@@ -138,7 +138,7 @@ section h2 {
     margin-left: 0.5rem;
 }
 
-/* Stilizare radio buttons și checkboxes */
+/* Stilizare radio buttons si checkboxes */
 .grup-radio p, .grup-check p {
     margin-top: 0;
     margin-bottom: 0.8rem;
@@ -292,7 +292,7 @@ section h2 {
     color: #F7E9D7;
 }
 
-/* Tabel informații */
+/* Tabel informatii */
 .info-produs {
     padding: 0 1rem;
 }

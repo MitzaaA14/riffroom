@@ -1,9 +1,6 @@
-/*
- * JAVASCRIPT ACTUALIZAT PENTRU FUNCȚIONALITATEA PAGINII DE PRODUSE
- * Implementarea filtrării, sortării și calculelor cu corectarea filtrului de caracteristici
- */
-
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("Script produse incarcat");
+    
     // SELECTARE ELEMENTE DOM
     const inpNume = document.getElementById("inp-nume");
     const inpPret = document.getElementById("inp-pret");
@@ -23,38 +20,50 @@ document.addEventListener("DOMContentLoaded", function() {
     
     let produse = document.getElementsByClassName("produs");
     
-    // ACTUALIZARE VALOARE SLIDER PRET
+    // DEBUG INITIAL
+    console.log("Numar produse gasite:", produse.length);
+    if (produse.length > 0) {
+        console.log("Primul produs:", produse[0]);
+    }
+    
+    // VERIFICARE STARE INITIALA CHECKBOX-URI
+    console.log("Stare initiala checkbox-uri caracteristici:");
+    for (const checkbox of caracteristiciCheckboxes) {
+        console.log(`${checkbox.value}: ${checkbox.checked}`);
+    }
+    
+    // ACTUALIZARE IN TIMP REAL A VALORII SLIDERULUI DE PRET
     if (inpPret && infoRange) {
         inpPret.addEventListener("input", function() {
             infoRange.textContent = `(${this.value} RON)`;
         });
     }
     
-    // FUNCTIE VALIDARE INPUTURI
+    // FUNCTIE DE VALIDARE INPUTURI
     function validateInputs() {
         let isValid = true;
         let errorMessage = "";
         
         // Validare nume (fără caractere speciale)
-        if (inpNume.value.trim() !== "" && !/^[a-zA-Z0-9\s]+$/.test(inpNume.value)) {
+        if (inpNume && inpNume.value.trim() !== "" && !/^[a-zA-Z0-9\s]+$/.test(inpNume.value)) {
             isValid = false;
             errorMessage += "Numele trebuie să conțină doar litere, cifre și spații.\n";
             inpNume.classList.add("input-error");
-        } else {
+        } else if (inpNume) {
             inpNume.classList.remove("input-error");
         }
         
         // Validare textarea descriere (nu poate conține <script>)
-        if (inpDescriere.value.includes("<script>")) {
+        if (inpDescriere && inpDescriere.value.includes("<script>")) {
             isValid = false;
             errorMessage += "Descrierea conține un tag script nevalid.\n";
             inpDescriere.classList.add("input-error");
-        } else {
+        } else if (inpDescriere) {
             inpDescriere.classList.remove("input-error");
         }
         
         // Validare brand (trebuie să fie unul din listă sau gol)
-        if (inpBrand.value.trim() !== "") {
+        if (inpBrand && inpBrand.value.trim() !== "") {
             const datalistOptions = Array.from(document.getElementById("lista-branduri").options);
             const brands = datalistOptions.map(opt => opt.value.toLowerCase());
             
@@ -74,111 +83,219 @@ document.addEventListener("DOMContentLoaded", function() {
         return isValid;
     }
     
-    // FUNCTIE PENTRU FILTRARE PRODUSE - CORECTATĂ PENTRU FILTRAREA CARACTERISTICILOR
+    // FUNCTIE DE DEBUG PENTRU VERIFICAREA CONDITIILOR
+    function debugConditii(produs, conditii, caracteristiciProdus, caracteristiciSelectate) {
+        const numeProdus = produs.querySelector(".val-nume")?.textContent || "Necunoscut";
+        console.log(`Produs: ${numeProdus}`);
+        console.log(`  Caracteristici produs: ${JSON.stringify(caracteristiciProdus)}`);
+        console.log(`  Caracteristici selectate: ${JSON.stringify(caracteristiciSelectate)}`);
+        Object.keys(conditii).forEach(key => {
+            console.log(`  - ${key}: ${conditii[key]}`);
+        });
+        console.log(`  => Vizibil: ${Object.values(conditii).every(val => val)}`);
+    }
+    
+    // FUNCTIE PRINCIPALA DE FILTRARE PRODUSE - FIXATA
     function filtrareProduse() {
-        // Verificăm validitatea inputurilor
+        // Verificam validitatea inputurilor
         if (!validateInputs()) {
             return;
         }
         
-        // Obținem valorile din inputuri
-        const numeFiltru = inpNume.value.toLowerCase();
-        const pretMinim = parseInt(inpPret.value);
+        console.log("Aplicam filtrarea...");
         
-        // Obținem valoarea selectată pentru intervalul de greutate
+        // Obtinem valorile din inputuri si le tratam corespunzator
+        const numeFiltru = (inpNume ? inpNume.value : "").toLowerCase().trim();
+        const pretMinim = inpPret ? parseInt(inpPret.value) : 0;
+        
+        // Obtinem valoarea selectata pentru intervalul de greutate
         let greutateMin = 0;
         let greutateMax = Infinity;
+        let radioSelectat = false;
         for (const radio of radioButtons) {
             if (radio.checked) {
+                radioSelectat = true;
                 if (radio.value !== "toate") {
-                    [greutateMin, greutateMax] = radio.value.split(":").map(Number);
+                    const intervale = radio.value.split(":");
+                    greutateMin = parseInt(intervale[0]) || 0;
+                    greutateMax = parseInt(intervale[1]) || Infinity;
                 }
                 break;
             }
         }
         
-        // Obținem cuvintele cheie pentru descriere
-        const cuvinteDescriere = inpDescriere.value
-            .toLowerCase()
-            .split(",")
-            .map(cuvant => cuvant.trim())
-            .filter(cuvant => cuvant !== "");
+        if (!radioSelectat) {
+            console.warn("Niciun radio button selectat pentru greutate!");
+        }
         
-        // Obținem caracteristicile selectate
+        // Obtinem cuvintele cheie pentru descriere
+        const cuvinteDescriere = inpDescriere ? 
+            inpDescriere.value
+                .toLowerCase()
+                .split(",")
+                .map(cuvant => cuvant.trim())
+                .filter(cuvant => cuvant !== "")
+            : [];
+        
+        // VERIFICAM CHECKBOXURILE PENTRU CARACTERISTICI
+        // Daca toate sunt debifate sau toate sunt bifate, consideram ca nu aplicam filtrul
         const caracteristiciSelectate = [];
+        let toateSelectate = true;
+        let niciunaSelectata = true;
+        
         for (const checkbox of caracteristiciCheckboxes) {
             if (checkbox.checked) {
-                caracteristiciSelectate.push(checkbox.value.toLowerCase());
+                caracteristiciSelectate.push(checkbox.value.toLowerCase().trim());
+                niciunaSelectata = false;
+            } else {
+                toateSelectate = false;
             }
         }
         
-        // Obținem categoria selectată
-        const categorieSelectata = inpCategorie.value;
+        // Obtinem categoria selectata
+        const categorieSelectata = (inpCategorie ? inpCategorie.value : "toate").toLowerCase().trim();
         
-        // Obținem tipurile de produse selectate
-        const tipuriSelectate = Array.from(inpTipProdus.selectedOptions).map(option => option.value.toLowerCase());
+        // Obtinem tipurile de produse selectate
+        const tipuriSelectate = [];
+        let toateTipurileSelectate = true;
         
-        // Obținem brandul introdus
-        const brandFiltru = inpBrand.value.toLowerCase();
+        if (inpTipProdus) {
+            for (const option of inpTipProdus.options) {
+                if (option.selected) {
+                    tipuriSelectate.push(option.value.toLowerCase().trim());
+                } else {
+                    toateTipurileSelectate = false;
+                }
+            }
+        }
         
-        // Parcurgem toate produsele și aplicăm filtrele
-        for (const produs of produse) {
-            const numeProdus = produs.querySelector(".val-nume").textContent.toLowerCase();
-            const pretProdus = parseFloat(produs.querySelector(".val-pret").textContent);
-            const greutateProdus = parseInt(produs.querySelector(".val-greutate").textContent);
-            const descriereProdus = produs.querySelector(".descriere").textContent.toLowerCase();
-            const categorieProdus = produs.querySelector(".val-categorie").textContent.toLowerCase();
-            const tipProdus = produs.querySelector(".val-tip").textContent.toLowerCase();
+        // Obtinem brandul introdus
+        const brandFiltru = (inpBrand ? inpBrand.value : "").toLowerCase().trim();
+        
+        // Debug pentru valori filtre
+        console.log("Filtrare dupa nume:", numeFiltru);
+        console.log("Pret minim:", pretMinim);
+        console.log("Interval greutate:", greutateMin, "-", greutateMax);
+        console.log("Cuvinte descriere:", cuvinteDescriere);
+        console.log("Caracteristici selectate:", caracteristiciSelectate);
+        console.log("Toate caracteristicile selectate:", toateSelectate);
+        console.log("Nicio caracteristica selectata:", niciunaSelectata);
+        console.log("Categorie:", categorieSelectata);
+        console.log("Tipuri produse:", tipuriSelectate);
+        console.log("Toate tipurile selectate:", toateTipurileSelectate);
+        console.log("Brand:", brandFiltru);
+        
+        // Parcurgem toate produsele si aplicam filtrele
+        let produseVizibile = 0;
+        
+        // Verificam daca avem produse
+        if (produse.length === 0) {
+            console.error("Nu s-au gasit produse pentru filtrare!");
+            return;
+        }
+        
+        for (let i = 0; i < produse.length; i++) {
+            const produs = produse[i];
             
-            // CORECTARE: Obținem caracteristicile produsului din clasa elementelor li
+            // Verificam daca elementele necesare exista
+            const numeElement = produs.querySelector(".val-nume");
+            const pretElement = produs.querySelector(".val-pret");
+            const greutateElement = produs.querySelector(".val-greutate");
+            const descriereElement = produs.querySelector(".descriere");
+            const categorieElement = produs.querySelector(".val-categorie");
+            const tipElement = produs.querySelector(".val-tip");
+            
+            if (!numeElement || !pretElement || !greutateElement || !descriereElement || !categorieElement || !tipElement) {
+                console.error("Elementele necesare lipsesc pentru produsul", i);
+                continue;
+            }
+            
+            // Extragem valorile din produs
+            const numeProdus = numeElement.textContent.toLowerCase().trim();
+            let pretProdus = 0;
+            try {
+                pretProdus = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
+            } catch (e) {
+                console.error("Eroare la parsarea pretului:", pretElement.textContent);
+            }
+            
+            let greutateProdus = 0;
+            try {
+                greutateProdus = parseInt(greutateElement.textContent.replace(/[^\d.-]/g, ''));
+            } catch (e) {
+                console.error("Eroare la parsarea greutatii:", greutateElement.textContent);
+            }
+            
+            const descriereProdus = descriereElement.textContent.toLowerCase().trim();
+            const categorieProdus = categorieElement.textContent.toLowerCase().trim();
+            const tipProdus = tipElement.textContent.toLowerCase().trim();
+            
+            // Obtinem caracteristicile produsului din elementele li
             const caracteristiciProdus = [];
             const listaCaracteristici = produs.querySelectorAll(".caracteristici li");
-            for (const caracteristica of listaCaracteristici) {
-                caracteristiciProdus.push(caracteristica.textContent.toLowerCase());
+            if (listaCaracteristici.length > 0) {
+                for (const caracteristica of listaCaracteristici) {
+                    const textCaracteristica = caracteristica.textContent.trim();
+                    if (textCaracteristica !== "Nu sunt specificate") {
+                        caracteristiciProdus.push(textCaracteristica.toLowerCase());
+                    }
+                }
             }
             
-            // Debug pentru a vedea caracteristicile
-            console.log("Caracteristici pentru produsul", numeProdus, ":", caracteristiciProdus);
-            console.log("Caracteristici selectate:", caracteristiciSelectate);
+            // Verificam conditiile de filtrare
+            const conditii = {
+                nume: numeFiltru === "" || numeProdus.includes(numeFiltru),
+                pret: pretProdus >= pretMinim,
+                greutate: greutateProdus >= greutateMin && greutateProdus <= greutateMax,
+                descriere: true,
+                caracteristici: true,
+                categorie: categorieSelectata === "toate" || categorieProdus === categorieSelectata,
+                tip: toateTipurileSelectate || tipuriSelectate.includes(tipProdus),
+                brand: brandFiltru === "" || numeProdus.includes(brandFiltru)
+            };
             
-            // Verificăm dacă produsul trece de toate filtrele
-            let conditieNume = numeProdus.includes(numeFiltru);
-            let conditiePret = pretProdus >= pretMinim;
-            let conditieGreutate = greutateProdus >= greutateMin && greutateProdus <= greutateMax;
-            
-            // Verificare pentru cuvinte cheie în descriere (trebuie să conțină cel puțin unul)
-            let conditieDescriere = true;
+            // Verificare pentru cuvinte cheie in descriere (trebuie sa contina cel putin unul)
             if (cuvinteDescriere.length > 0) {
-                conditieDescriere = cuvinteDescriere.some(cuvant => descriereProdus.includes(cuvant));
+                conditii.descriere = cuvinteDescriere.some(cuvant => descriereProdus.includes(cuvant));
             }
             
-            // CORECTARE: Verificare pentru caracteristici (trebuie să conțină TOATE caracteristicile selectate)
-            let conditieCaracteristici = true;
-            if (caracteristiciSelectate.length > 0) {
-                conditieCaracteristici = caracteristiciSelectate.every(caracteristicaSelectata => {
-                    // Verificăm dacă cel puțin o caracteristică a produsului conține caracteristica selectată
-                    return caracteristiciProdus.some(caracteristicaProdus => 
-                        caracteristicaProdus.includes(caracteristicaSelectata)
-                    );
-                });
+            // VERIFICARE PENTRU CARACTERISTICI - FIXAT COMPLET
+            // Daca toate sunt selectate sau niciuna nu e selectata, ignoram acest filtru
+            if (!toateSelectate && !niciunaSelectata) {
+                if (caracteristiciProdus.length === 0) {
+                    // Daca produsul nu are caracteristici, nu il afisam decat daca toate caracteristicile sunt selectate
+                    conditii.caracteristici = false;
+                } else {
+                    // Verificam daca produsul are cel putin una din caracteristicile selectate
+                    conditii.caracteristici = caracteristiciSelectate.some(caracteristicaSelectata => {
+                        return caracteristiciProdus.some(caracteristicaProdus => {
+                            return caracteristicaProdus.includes(caracteristicaSelectata);
+                        });
+                    });
+                }
             }
             
-            // Verificare pentru categorie
-            let conditieCategorie = categorieSelectata === "toate" || categorieProdus === categorieSelectata;
+            // Debug pentru primele 3 produse
+            if (i < 3) {
+                debugConditii(produs, conditii, caracteristiciProdus, caracteristiciSelectate);
+            }
             
-            // Verificare pentru tip produs
-            let conditieTip = tipuriSelectate.length === 0 || tipuriSelectate.includes(tipProdus);
+            // Afisam sau ascundem produsul in functie de toate conditiile
+            const esteVizibil = Object.values(conditii).every(val => val);
             
-            // Verificare pentru brand
-            let conditieBrand = brandFiltru === "" || numeProdus.includes(brandFiltru);
-            
-            // Afișăm sau ascundem produsul în funcție de toate condițiile
-            if (conditieNume && conditiePret && conditieGreutate && conditieDescriere && 
-                conditieCaracteristici && conditieCategorie && conditieTip && conditieBrand) {
+            if (esteVizibil) {
                 produs.style.display = "flex";
+                produseVizibile++;
             } else {
                 produs.style.display = "none";
             }
+        }
+        
+        console.log("Filtrare aplicata. Produse vizibile:", produseVizibile);
+        
+        // Afisam un mesaj daca nu avem produse vizibile
+        if (produseVizibile === 0) {
+            alert("Nu s-a găsit niciun produs care să îndeplinească criteriile de filtrare. Încercați criterii mai puțin restrictive.");
         }
     }
     
@@ -188,31 +305,53 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         
-        // Obținem lista de produse ca array pentru a putea sorta
+        console.log("Aplicam sortarea...");
+        
+        // Obtinem lista de produse ca array pentru a putea sorta
         const produseArray = Array.from(produse);
         
-        // Sortăm produsele după preț și nume
+        // Sortam produsele dupa nume
         produseArray.sort((a, b) => {
-            const pretA = parseFloat(a.querySelector(".val-pret").textContent);
-            const pretB = parseFloat(b.querySelector(".val-pret").textContent);
+            const numeElementA = a.querySelector(".val-nume");
+            const numeElementB = b.querySelector(".val-nume");
+            const pretElementA = a.querySelector(".val-pret");
+            const pretElementB = b.querySelector(".val-pret");
             
-            // Dacă prețurile sunt egale, sortăm după nume
+            if (!numeElementA || !numeElementB || !pretElementA || !pretElementB) {
+                console.error("Elemente lipsa pentru sortare");
+                return 0;
+            }
+            
+            const numeA = numeElementA.textContent.toLowerCase();
+            const numeB = numeElementB.textContent.toLowerCase();
+            
+            let pretA = 0, pretB = 0;
+            
+            try {
+                pretA = parseFloat(pretElementA.textContent.replace(/[^\d.-]/g, ''));
+                pretB = parseFloat(pretElementB.textContent.replace(/[^\d.-]/g, ''));
+            } catch (e) {
+                console.error("Eroare la parsarea preturilor pentru sortare");
+            }
+            
+            // Sortam intai dupa pret, apoi dupa nume in caz de egalitate
             if (pretA === pretB) {
-                const numeA = a.querySelector(".val-nume").textContent.toLowerCase();
-                const numeB = b.querySelector(".val-nume").textContent.toLowerCase();
-                
                 return crescator ? numeA.localeCompare(numeB) : numeB.localeCompare(numeA);
             }
             
-            // Sortăm după preț
             return crescator ? pretA - pretB : pretB - pretA;
         });
         
-        // Reordonăm DOM-ul în funcție de sortare
+        // Reordonam DOM-ul in functie de sortare
         const container = document.querySelector(".grid-produse");
-        produseArray.forEach(produs => {
-            container.appendChild(produs);
-        });
+        if (container) {
+            produseArray.forEach(produs => {
+                container.appendChild(produs);
+            });
+            console.log("Sortare aplicata:", crescator ? "crescator" : "descrescator");
+        } else {
+            console.error("Container grid-produse nu a fost gasit");
+        }
     }
     
     // FUNCTIE PENTRU CALCULARE SUMA PRETURI
@@ -220,24 +359,38 @@ document.addEventListener("DOMContentLoaded", function() {
         let suma = 0;
         let contor = 0;
         
-        // Calculăm suma prețurilor produselor vizibile
+        // Calculam suma preturilor produselor vizibile
         for (const produs of produse) {
             if (produs.style.display !== "none") {
-                const pret = parseFloat(produs.querySelector(".val-pret").textContent);
-                suma += pret;
-                contor++;
+                const pretElement = produs.querySelector(".val-pret");
+                if (pretElement) {
+                    try {
+                        const pret = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
+                        suma += pret;
+                        contor++;
+                    } catch (e) {
+                        console.error("Eroare la parsarea pretului pentru suma");
+                    }
+                }
             }
         }
         
-        // Creăm div-ul pentru afișarea sumei
+        // Cream div-ul pentru afisarea sumei
         const divRezultat = document.createElement("div");
         divRezultat.classList.add("rezultat-calcul");
-        divRezultat.innerHTML = `
-            <p>Suma prețurilor pentru cele ${contor} produse afișate: <strong>${suma.toFixed(2)} RON</strong></p>
-            <p>Preț mediu: <strong>${(suma / contor).toFixed(2)} RON</strong></p>
-        `;
         
-        // Stilizăm div-ul
+        if (contor > 0) {
+            divRezultat.innerHTML = `
+                <p>Suma preturilor pentru cele ${contor} produse afisate: <strong>${suma.toFixed(2)} RON</strong></p>
+                <p>Pret mediu: <strong>${(suma / contor).toFixed(2)} RON</strong></p>
+            `;
+        } else {
+            divRezultat.innerHTML = `
+                <p>Nu exista produse vizibile pentru a calcula suma.</p>
+            `;
+        }
+        
+        // Stilizam div-ul
         divRezultat.style.position = "fixed";
         divRezultat.style.top = "50%";
         divRezultat.style.left = "50%";
@@ -251,96 +404,109 @@ document.addEventListener("DOMContentLoaded", function() {
         divRezultat.style.textAlign = "center";
         divRezultat.style.border = "2px solid #6B3E31";
         
-        // Adăugăm div-ul în pagină
+        // Adaugam div-ul in pagina
         document.body.appendChild(divRezultat);
         
-        // Ștergem div-ul după 2 secunde
+        // Stergem div-ul dupa 3 secunde
         setTimeout(() => {
             divRezultat.remove();
-        }, 2000);
+        }, 3000);
+        
+        console.log("Suma calculata:", suma, "pentru", contor, "produse");
     }
     
     // FUNCTIE PENTRU RESETARE FILTRE
     function resetareFiltre() {
-        // Resetăm valoarea din input-ul de nume
-        inpNume.value = "";
+        console.log("Resetam filtrele...");
         
-        // Resetăm valoarea din range slider
-        inpPret.value = 0;
-        infoRange.textContent = "(0 RON)";
+        // Resetam valorile din inputuri
+        if (inpNume) inpNume.value = "";
         
-        // Resetăm radio button-urile (selectăm "toate")
+        if (inpPret) {
+            inpPret.value = 0;
+            if (infoRange) infoRange.textContent = "(0 RON)";
+        }
+        
+        // Resetam radio buttonurile (selectam "toate")
         for (const radio of radioButtons) {
             radio.checked = radio.value === "toate";
         }
         
-        // Resetăm textarea-ul pentru descriere
-        inpDescriere.value = "";
+        // Resetam textarea-ul pentru descriere
+        if (inpDescriere) inpDescriere.value = "";
         
-        // Resetăm checkboxurile pentru caracteristici (toate bifate)
+        // Resetam checkboxurile pentru caracteristici (toate bifate)
         for (const checkbox of caracteristiciCheckboxes) {
             checkbox.checked = true;
         }
         
-        // Resetăm selectul pentru categorie (selectăm "toate")
-        inpCategorie.value = "toate";
+        // Resetam selectul pentru categorie (selectam "toate")
+        if (inpCategorie) inpCategorie.value = "toate";
         
-        // Resetăm selectul multiplu pentru tip produs (toate selectate)
-        for (const option of inpTipProdus.options) {
-            option.selected = true;
+        // Resetam selectul multiplu pentru tip produs (toate selectate)
+        if (inpTipProdus) {
+            for (const option of inpTipProdus.options) {
+                option.selected = true;
+            }
         }
         
-        // Resetăm input-ul pentru brand
-        inpBrand.value = "";
+        // Resetam input-ul pentru brand
+        if (inpBrand) inpBrand.value = "";
         
-        // Afișăm toate produsele
+        // Afisam toate produsele
         for (const produs of produse) {
             produs.style.display = "flex";
         }
         
-        // Eliminăm clasele de eroare pentru inputuri
-        inpNume.classList.remove("input-error");
-        inpDescriere.classList.remove("input-error");
-        inpBrand.classList.remove("input-error");
+        // Eliminam clasele de eroare pentru inputuri
+        if (inpNume) inpNume.classList.remove("input-error");
+        if (inpDescriere) inpDescriere.classList.remove("input-error");
+        if (inpBrand) inpBrand.classList.remove("input-error");
+        
+        console.log("Filtre resetate");
     }
     
-    // EVENIMENT PENTRU FILTRARE
+    // ADAUGARE EVENIMENTE PENTRU BUTOANE
     if (btnFiltrare) {
         btnFiltrare.addEventListener("click", filtrareProduse);
+        console.log("Eveniment adaugat pentru butonul de filtrare");
+    } else {
+        console.error("Butonul de filtrare nu a fost gasit!");
     }
     
-    // EVENIMENT PENTRU SORTARE CRESCĂTOARE
     if (btnSortCrescNume) {
         btnSortCrescNume.addEventListener("click", function() {
-            sorteazaProduse(true); // Sortare crescătoare
+            sorteazaProduse(true); // Sortare crescatoare
         });
+        console.log("Eveniment adaugat pentru butonul de sortare crescatoare");
     }
     
-    // EVENIMENT PENTRU SORTARE DESCRESCĂTOARE
     if (btnSortDescrescNume) {
         btnSortDescrescNume.addEventListener("click", function() {
-            sorteazaProduse(false); // Sortare descrescătoare
+            sorteazaProduse(false); // Sortare descrescatoare
         });
+        console.log("Eveniment adaugat pentru butonul de sortare descrescatoare");
     }
     
-    // EVENIMENT PENTRU CALCUL SUMĂ
     if (btnCalculeazaSuma) {
         btnCalculeazaSuma.addEventListener("click", calculeazaSuma);
+        console.log("Eveniment adaugat pentru butonul de calcul suma");
     }
     
-    // EVENIMENT PENTRU RESETARE
     if (btnResetare) {
         btnResetare.addEventListener("click", function() {
-            if (confirm("Ești sigur că vrei să resetezi toate filtrele?")) {
+            if (confirm("Esti sigur ca vrei sa resetezi toate filtrele?")) {
                 resetareFiltre();
             }
         });
+        console.log("Eveniment adaugat pentru butonul de resetare");
     }
     
-    // EVENIMENT PENTRU TASTATURA (ALT + C pentru calcul sumă)
+    // EVENIMENT PENTRU TASTATURA (ALT + C pentru calcul suma)
     document.addEventListener("keydown", function(event) {
         if (event.altKey && event.key.toLowerCase() === "c") {
             calculeazaSuma();
+            console.log("Scurtatura ALT+C folosita pentru calcul suma");
         }
     });
 });
