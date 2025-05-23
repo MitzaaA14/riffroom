@@ -105,7 +105,7 @@ async function compileazaScss(caleScss, caleCss) {
     await fsp.writeFile(cssAbs, rezultat.css);
     console.log(`[SCSS] Compilat: ${scssAbs} -> ${cssAbs}`);
   } catch (err) {
-    // Asigură-te că stdout și stderr sunt restaurate în caz de eroare
+    // Asigurare ca stdout si stderr sunt restaurate in caz de eroare
     if (process.stderr.write !== originalStderr) {
       process.stderr.write = originalStderr;
     }
@@ -281,7 +281,157 @@ app.get("/produse", function(req, res){
     });
 });
 
-// RUTA PENTRU PRODUS INDIVIDUAL
+// RUTE PENTRU SETURI
+// Ruta pentru afișarea tuturor seturilor
+app.get("/seturi", function(req, res){
+    // Obținem toate seturile împreună cu informații despre produsele din ele
+    client.query(`
+        SELECT 
+            s.id, 
+            s.nume_set, 
+            s.descriere_set,
+            ARRAY_AGG(i.id) AS produse_ids,
+            ARRAY_AGG(i.nume) AS produse_nume,
+            ARRAY_AGG(i.pret) AS produse_preturi,
+            ARRAY_AGG(i.imagine) AS produse_imagini,
+            COUNT(i.id) AS numar_produse
+        FROM 
+            seturi s
+        JOIN 
+            asociere_set a ON s.id = a.id_set
+        JOIN 
+            instrumente i ON a.id_produs = i.id
+        GROUP BY 
+            s.id
+        ORDER BY 
+            s.id
+    `, function(err, result){
+        if(err){
+            console.log(err);
+            afisareEroare(res, 500, "Eroare la interogarea bazei de date", "A apărut o eroare la încărcarea seturilor.");
+            return;
+        }
+        
+        // Calculăm prețurile pentru fiecare set
+        const seturi = result.rows.map(set => {
+            // Convertim string-urile de prețuri la numere și calculăm suma
+            const preturi = set.produse_preturi.map(pret => parseFloat(pret));
+            const pretTotal = preturi.reduce((suma, pret) => suma + pret, 0);
+            
+            // Calculăm discount-ul: min(5, număr_produse) * 5%
+            const nrProduse = parseInt(set.numar_produse);
+            const discount = Math.min(5, nrProduse) * 5 / 100;
+            
+            // Adăugăm informațiile de preț și discount la obiectul set
+            return {
+                ...set,
+                pret_original: pretTotal.toFixed(2),
+                discount_procent: (discount * 100).toFixed(0),
+                pret_final: (pretTotal * (1 - discount)).toFixed(2)
+            };
+        });
+        
+        // Obținem categoriile pentru meniu (conform codului existent)
+        client.query("select * from unnest(enum_range(null::categ_instrument))", function(err, rezOptiuni){
+            if(err){
+                console.log(err);
+                afisareEroare(res, 500);
+                return;
+            }
+            
+            // Renderizăm pagina cu seturile și opțiunile de meniu
+            res.render("pagini/seturi", {
+                titlu: "Seturi de produse RiffRoom",
+                seturi: seturi,
+                optiuni: rezOptiuni.rows
+            });
+        });
+    });
+});
+
+// Ruta pentru afișarea unui set specific
+app.get("/set/:id", function(req, res){
+    const setId = req.params.id;
+    
+    // Obținem informațiile despre set
+    client.query(`
+        SELECT 
+            s.id, 
+            s.nume_set, 
+            s.descriere_set
+        FROM 
+            seturi s
+        WHERE 
+            s.id = $1
+    `, [setId], function(err, setResult){
+        if(err || setResult.rows.length === 0){
+            console.log(err);
+            afisareEroare(res, 404, "Setul nu a fost găsit", "Setul solicitat nu există în baza noastră de date.");
+            return;
+        }
+        
+        const set = setResult.rows[0];
+        
+        // Obținem produsele din set
+        client.query(`
+            SELECT 
+                i.id, 
+                i.nume, 
+                i.pret, 
+                i.descriere, 
+                i.imagine, 
+                i.categorie, 
+                i.tip_produs, 
+                i.pentru_incepatori,
+                i.greutate,
+                i.putere,
+                i.data_adaugare,
+                i.caracteristici
+            FROM 
+                instrumente i
+            JOIN 
+                asociere_set a ON i.id = a.id_produs
+            WHERE 
+                a.id_set = $1
+        `, [setId], function(err, produsResult){
+            if(err){
+                console.log(err);
+                afisareEroare(res, 500);
+                return;
+            }
+            
+            // Adăugăm produsele la obiectul set
+            set.produse = produsResult.rows;
+            
+            // Calculăm pretul total și discountul
+            const pretTotal = set.produse.reduce((suma, produs) => suma + parseFloat(produs.pret), 0);
+            const nrProduse = set.produse.length;
+            const discount = Math.min(5, nrProduse) * 5 / 100;
+            
+            set.pret_original = pretTotal.toFixed(2);
+            set.discount_procent = (discount * 100).toFixed(0);
+            set.pret_final = (pretTotal * (1 - discount)).toFixed(2);
+            
+            // Obținem categoriile pentru meniu
+            client.query("select * from unnest(enum_range(null::categ_instrument))", function(err, rezOptiuni){
+                if(err){
+                    console.log(err);
+                    afisareEroare(res, 500);
+                    return;
+                }
+                
+                // Renderizăm pagina cu setul și opțiunile de meniu
+                res.render("pagini/set", {
+                    titlu: set.nume_set,
+                    set: set,
+                    optiuni: rezOptiuni.rows
+                });
+            });
+        });
+    });
+});
+
+// RUTĂ PENTRU PRODUS INDIVIDUAL CU PRODUSE SIMILARE 
 app.get("/produs/:id", function(req, res){
     const produsId = req.params.id;
     
@@ -292,7 +442,125 @@ app.get("/produs/:id", function(req, res){
             return;
         }
         
-        res.render("pagini/produs", {prod: rez.rows[0]});
+        const produs = rez.rows[0];
+        console.log("Produs găsit:", produs.nume, "Categorie:", produs.categorie);
+        
+        // GĂSEȘTE PRODUSE SIMILARE DIN ACEEAȘI CATEGORIE
+        client.query(
+            "SELECT * FROM instrumente WHERE categorie = $1 AND id != $2 LIMIT 4", 
+            [produs.categorie, produsId], 
+            function(err, rezSimilare) {
+                if(err) {
+                    console.log("Eroare la găsirea produselor similare:", err);
+                    // Continuăm fără produse similare în caz de eroare
+                }
+                
+                const produseSimilare = rezSimilare ? rezSimilare.rows : [];
+                console.log("Produse similare găsite:", produseSimilare.length);
+                produseSimilare.forEach(p => console.log(`- ${p.nume} (${p.categorie})`));
+        
+                // Obținem seturile din care face parte produsul
+                client.query(`
+                    SELECT 
+                        s.id, 
+                        s.nume_set, 
+                        s.descriere_set
+                    FROM 
+                        seturi s
+                    JOIN 
+                        asociere_set a ON s.id = a.id_set
+                    WHERE 
+                        a.id_produs = $1
+                `, [produsId], function(err, setResult){
+                    if(err){
+                        console.log(err);
+                        afisareEroare(res, 500);
+                        return;
+                    }
+                    
+                    const seturi = setResult.rows;
+                    
+                    // Pentru fiecare set, obținem produsele și calculăm prețurile
+                    const promises = seturi.map(set => {
+                        return new Promise((resolve, reject) => {
+                            client.query(`
+                                SELECT 
+                                    i.id, 
+                                    i.nume, 
+                                    i.pret, 
+                                    i.imagine
+                                FROM 
+                                    instrumente i
+                                JOIN 
+                                    asociere_set a ON i.id = a.id_produs
+                                WHERE 
+                                    a.id_set = $1
+                            `, [set.id], function(err, prodResult){
+                                if(err){
+                                    reject(err);
+                                    return;
+                                }
+                                
+                                // Adăugăm produsele la set
+                                set.produse = prodResult.rows;
+                                
+                                // Calculăm preturile
+                                const pretTotal = set.produse.reduce((suma, prod) => suma + parseFloat(prod.pret), 0);
+                                const nrProduse = set.produse.length;
+                                const discount = Math.min(5, nrProduse) * 5 / 100;
+                                
+                                set.pret_original = pretTotal.toFixed(2);
+                                set.discount_procent = (discount * 100).toFixed(0);
+                                set.pret_final = (pretTotal * (1 - discount)).toFixed(2);
+                                
+                                resolve(set);
+                            });
+                        });
+                    });
+                    
+                    Promise.all(promises)
+                        .then(seturiCompletate => {
+                            // Obținem categoriile pentru meniu
+                            client.query("select * from unnest(enum_range(null::categ_instrument))", function(err, rezOptiuni){
+                                if(err){
+                                    console.log(err);
+                                    afisareEroare(res, 500);
+                                    return;
+                                }
+                                
+                                // Obținem toate produsele pentru fallback în EJS
+                                client.query("SELECT * FROM instrumente", function(err, rezToateProdusele) {
+                                    if(err) {
+                                        console.log("Eroare la obținerea tuturor produselor:", err);
+                                    }
+                                    
+                                    const toateProdusele = rezToateProdusele ? rezToateProdusele.rows : [];
+                                    
+                                    console.log("Rendering cu:", {
+                                        produs: produs.nume,
+                                        produseSimilare: produseSimilare.length,
+                                        seturi: seturiCompletate.length,
+                                        toateProdusele: toateProdusele.length
+                                    });
+                                    
+                                    // RENDERIZĂM PAGINA CU TOATE DATELE NECESARE
+                                    res.render("pagini/produs", {
+                                        prod: produs,
+                                        produseSimilare: produseSimilare, // FOARTE IMPORTANT!
+                                        seturi: seturiCompletate,
+                                        optiuni: rezOptiuni.rows,
+                                        produse: toateProdusele // Pentru fallback în EJS
+                                    });
+                                });
+                            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            afisareEroare(res, 500);
+                        });
+                });
+            }
+        );
     });
 });
 

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title><%= locals.titlu %></title>
+    <%- include("../fragmente/head") %>
+    <link rel="stylesheet" href="/resurse/css/seturi.css">
+</head>
+<body>
+    <%- include("../fragmente/header") %>
+    
+    <main class="seturi-page">
+        <!-- Header -->
+        <div class="seturi-header">
+            <h1>Seturi de produse</h1>
+            <p class="lead">Economisește cumpărând seturi complete - Obții reduceri de la 5% până la 25%</p>
+        </div>
+        
+        <!-- Secțiunea principală cu seturile - centrată și pe toată lungimea -->
+        <div class="seturi-main-container">
+            <% for(let set of locals.seturi) { %>
+                <div class="set-card-wrapper">
+                    <div class="set-card">
+                        <div class="set-header">
+                            <h3><%= set.nume_set %></h3>
+                        </div>
+                        <div class="set-body">
+                            <p class="set-description"><%= set.descriere_set %></p>
+                            
+                            <h4>Produse în set:</h4>
+                            <div class="set-products">
+                                <% 
+                                // Combinăm informațiile despre produse
+                                const produse = [];
+                                for(let i = 0; i < set.produse_ids.length; i++) {
+                                    produse.push({
+                                        id: set.produse_ids[i],
+                                        nume: set.produse_nume[i],
+                                        imagine: set.produse_imagini[i]
+                                    });
+                                }
+                                
+                                for(let produs of produse) { 
+                                %>
+                                    <div class="product-item">
+                                        <a href="/produs/<%= produs.id %>" title="<%= produs.nume %>">
+                                            <img src="/resurse/imagini/produse/<%= produs.imagine %>" alt="<%= produs.nume %>">
+                                            <p><%= produs.nume %></p>
+                                        </a>
+                                    </div>
+                                <% } %>
+                            </div>
+                            
+                            <div class="set-price-box">
+                                <p class="original-price"><%= set.pret_original %> RON</p>
+                                <p class="discount-price">
+                                    <%= set.pret_final %> RON
+                                    <span class="discount-badge">-<%= set.discount_procent %>%</span>
+                                </p>
+                            </div>
+                            
+                            <div class="set-actions">
+                                <a href="/set/<%= set.id %>" class="btn-view-set">
+                                    <i class="fas fa-search"></i> Vezi detalii set
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        
+        <!-- Secțiunea "De ce să cumperi un set?" - mutată la sfârșitul paginii -->
+        <div class="de-ce-set-container">
+            <div class="de-ce-set-card">
+                <h3>De ce să cumperi un set?</h3>
+                <ul>
+                    <li>Economisești bani - reduceri de până la 25%</li>
+                    <li>Produse selectate de experți ce funcționează perfect împreună</li>
+                    <li>Tot ce îți trebuie pentru a începe să cânți la un instrument nou</li>
+                    <li>Livrare gratuită pentru toate seturile</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    <%- include("../fragmente/footer") %>
+</body>
+</html>
+<script src="/resurse/js/seturi.js"></script>
+<script src="/resurse/js/produse-cos.js"></script>

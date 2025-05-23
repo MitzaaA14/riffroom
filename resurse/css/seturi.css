@@ -1,0 +1,591 @@
+.seturi-container {
+    margin: 2rem 0;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-header h1 {
+    color: var(--title-color);
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.page-header .lead {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+.set-card {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--bg-card);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.set-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.set-header {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.set-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.set-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.set-description {
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.set-body h4 {
+    color: var(--title-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.set-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.product-item {
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 5px;
+    background-color: var(--bg-item);
+    transition: transform 0.2s ease;
+}
+
+.product-item:hover {
+    transform: scale(1.05);
+}
+
+.product-item img {
+    width: 100%;
+    max-height: 120px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.product-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.product-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.set-price-box {
+    background-color: var(--price-box-bg);
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    margin-top: auto;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.discount-price {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.discount-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--accent-secondary);
+    color: white;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+.set-actions {
+    text-align: center;
+    margin-top: auto;
+}
+
+.btn-view-set {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--button-primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-view-set:hover {
+    background-color: var(--button-primary-hover);
+    color: white;
+}
+
+/* Stiluri pentru pagina unui set individual */
+.set-detail {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.set-detail-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.set-detail-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--title-color);
+}
+
+.set-detail-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: var(--text-main);
+    text-align: center;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.set-detail h3 {
+    color: var(--title-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.set-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.product-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-card);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-item);
+    overflow: hidden;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.product-info {
+    padding: 1rem;
+}
+
+.product-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--title-color);
+}
+
+.product-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.product-title a:hover {
+    text-decoration: underline;
+}
+
+.product-price {
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.product-category {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.product-features {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.product-features p {
+    margin-bottom: 0.5rem;
+}
+
+.text-success {
+    color: #2D7A4F;
+}
+
+.text-danger {
+    color: #C05F3E;
+}
+
+.set-price-detail {
+    background-color: var(--price-box-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.set-price-detail h3 {
+    margin-top: 0;
+    color: var(--title-color);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.set-price-detail .original-price {
+    font-size: 1.3rem;
+}
+
+.set-price-detail .discount-price {
+    font-size: 2rem;
+}
+
+.set-price-detail .discount-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+}
+
+.set-actions-detail {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.btn-add-to-cart {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--button-success);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-add-to-cart:hover {
+    background-color: var(--button-success-hover);
+}
+
+.btn-back {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--button-secondary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-back:hover {
+    background-color: var(--button-secondary-hover);
+    color: white;
+}
+
+/* Secțiune de seturi asociate pe pagina produsului */
+.associated-sets {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.associated-sets h3 {
+    margin-bottom: 1.5rem;
+    color: var(--title-color);
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.set-card-small {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.set-card-small:hover {
+    transform: translateY(-5px);
+}
+
+.set-card-small .set-header {
+    padding: 0.75rem;
+}
+
+.set-card-small .set-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.set-card-small .set-body {
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+.set-card-small .other-products {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.set-card-small .product-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.set-card-small .product-mini-item {
+    text-align: center;
+}
+
+.set-card-small .product-mini-item img {
+    width: 100%;
+    max-height: 60px;
+    object-fit: contain;
+    margin-bottom: 0.25rem;
+}
+
+.set-card-small .product-mini-item p {
+    margin: 0;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.set-card-small .product-mini-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.set-card-small .set-price-box {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.set-card-small .original-price {
+    font-size: 0.9rem;
+}
+
+.set-card-small .discount-price {
+    font-size: 1.2rem;
+}
+
+.set-card-small .set-actions {
+    padding: 0.75rem;
+    background-color: var(--footer-bg);
+}
+
+.set-card-small .btn-view-set {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+.btn-outline-primary {
+    color: var(--button-primary);
+    background-color: transparent;
+    border: 1px solid var(--button-primary);
+}
+
+.btn-outline-primary:hover {
+    color: white;
+    background-color: var(--button-primary);
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .set-products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .set-actions-detail {
+        flex-direction: column;
+    }
+    
+    .set-price-detail {
+        padding: 1.5rem;
+    }
+    
+    .set-price-detail .discount-price {
+        font-size: 1.5rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .set-products {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .set-products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .set-detail-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .set-card-small .product-mini-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    }
+    
+    .page-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .page-header .lead {
+        font-size: 1rem;
+    }
+}
+
+/* Variabile de culoare pentru adaptarea la tema site-ului */
+:root {
+    --bg-card: #ffffff;
+    --bg-item: #f8f9fa;
+    --header-bg: #6B3E31;
+    --header-text: #F7F3E8;
+    --title-color: #333333;
+    --text-main: #444444;
+    --text-secondary: #666666;
+    --accent-color: #2D7A4F;
+    --accent-secondary: #C05F3E;
+    --price-box-bg: #f0f0f0;
+    --button-primary: #6B3E31;
+    --button-primary-hover: #854C39;
+    --button-secondary: #6c757d;
+    --button-secondary-hover: #5a6268;
+    --button-success: #2D7A4F;
+    --button-success-hover: #246A43;
+    --border-color: #dee2e6;
+    --tag-bg: #e9ecef;
+    --tag-text: #495057;
+    --footer-bg: #f8f9fa;
+}
+
+/* Adaptare la tema întunecată */
+.theme-dark {
+    --bg-card: #2D1A19;
+    --bg-item: #362114;
+    --header-bg: #4A2C2A;
+    --header-text: #D8C9A7;
+    --title-color: #D8C9A7;
+    --text-main: #BBAB8C;
+    --text-secondary: #9E8F75;
+    --accent-color: #4CAF7F;
+    --accent-secondary: #FF7F50;
+    --price-box-bg: #1a0D0C;
+    --button-primary: #4A2C2A;
+    --button-primary-hover: #854C39;
+    --button-secondary: #495057;
+    --button-secondary-hover: #343a40;
+    --button-success: #2D7A4F;
+    --button-success-hover: #246A43;
+    --border-color: #4A2C2A;
+    --tag-bg: #1a0D0C;
+    --tag-text: #D8C9A7;
+    --footer-bg: #1a0D0C;
+}

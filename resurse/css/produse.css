@@ -273,6 +273,93 @@ section h2 {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* BONUS 18: Stilizare marcaj produs nou */
+.marcaj-nou {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #ff6b35, #ff8e53);
+    color: white;
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    z-index: 10;
+    box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4);
+    animation: pulse-nou 2s infinite;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+@keyframes pulse-nou {
+    0% { transform: scale(1); box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 107, 53, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4); }
+}
+
+.marcaj-nou i {
+    animation: sparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+}
+
+/* BONUS 14: Stilizare marcaj cel mai ieftin */
+.marcaj-ieftin {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    padding: 0.4rem 0.7rem;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.7rem;
+    z-index: 10;
+    box-shadow: 0 3px 8px rgba(243, 156, 18, 0.4);
+    animation: glow-ieftin 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-align: center;
+    max-width: 150px;
+    line-height: 1.2;
+}
+
+@keyframes glow-ieftin {
+    0%, 100% { box-shadow: 0 3px 8px rgba(243, 156, 18, 0.4); }
+    50% { box-shadow: 0 5px 15px rgba(243, 156, 18, 0.7), 0 0 20px rgba(243, 156, 18, 0.3); }
+}
+
+.marcaj-ieftin i {
+    color: #ffd700;
+    animation: trophy-shine 2s ease-in-out infinite;
+}
+
+@keyframes trophy-shine {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-5deg); }
+    75% { transform: scale(1.1) rotate(5deg); }
+}
+
+/* Ajustări pentru când ambele marcaje sunt prezente */
+.produs.produs-nou .marcaj-ieftin {
+    top: 60px; /* Mutăm marcajul cel mai ieftin mai jos dacă există și marcajul nou */
+}
+
+/* Stilizare produs nou - efect pe întreg cardul */
+.produs-nou {
+    border: 2px solid #ff6b35;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.produs-nou:hover {
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+}
+
 /* Titlu produs */
 .produs h3 {
     background-color: #6B3E31;
@@ -528,5 +615,11 @@ section h2 {
     
     .caracteristici ul {
         flex-direction: column;
+    }
+    
+    .marcaj-nou, .marcaj-ieftin {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.5rem;
+        max-width: 120px;
     }
 }

@@ -63,3 +63,68 @@ VALUES
 ('Gretsch White Falcon', 'Chitară electrică de lux cu aspect spectaculos', 13000.00, 4800, NULL, 'chitara electrica', 'editie limitata', '{"filtertron pickups","gold hardware","white finish","bigsby tremolo"}', False, 'gretsch-white-falcon.jpg'),
 
 ('Orange Tiny Terror', 'Amplificator de chitară compact cu ton cald', 2200.00, 7000, 15, 'amplificator', 'profesional', '{"all-tube","portabil","high gain","class A"}', False, 'orange-tiny-terror.jpg');
+
+
+CREATE TABLE seturi (
+    id SERIAL PRIMARY KEY,
+    nume_set VARCHAR(100) NOT NULL,
+    descriere_set TEXT
+);
+
+CREATE TABLE asociere_set (
+    id SERIAL PRIMARY KEY,
+    id_set INTEGER NOT NULL,
+    id_produs INTEGER NOT NULL,
+    FOREIGN KEY (id_set) REFERENCES seturi(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_produs) REFERENCES instrumente(id) ON DELETE CASCADE
+);
+INSERT INTO seturi (nume_set, descriere_set) VALUES 
+('Set Chitarist Începător', 'Tot ce ai nevoie pentru a începe să cânți la chitară electrică. Acest set conține o chitară electrică de calitate, un amplificator compact și accesoriile necesare pentru primul tău pas în lumea muzicii.'),
+('Set Chitarist Acustic', 'Echipamentul perfect pentru concerte acustice. Setul include o chitară acustică premium și accesorii esențiale pentru interpretări live sau înregistrări.'),
+('Set Professional Studio', 'Instrumentele necesare pentru înregistrări profesionale în studio. Setul conține echipamente de înaltă calitate pentru a obține un sunet impecabil în înregistrările tale.'),
+('Set Rock Clasic', 'Echipamentul iconic pentru sunetul rock clasic. Recreează sunetul legendar al anilor ''70 și ''80 cu acest set complet.'),
+('Set Blues', 'Colecție selectată special pentru interpreții de blues. Setul include instrumente și accesorii care îți permit să exprimi emoția și pasiunea specifică blues-ului.'),
+('Chitară Stratocaster + Amplificator', 'Combinația perfectă pentru un sunet clasic Fender - chitara Stratocaster și amplificatorul potrivit.'),
+('Chitară Les Paul + Amplificator Premium', 'Sunet premium cu legendara chitară Gibson Les Paul și un amplificator premium Marshall.'),
+('Set Începător Compact', 'Combinație simplă și eficientă de chitară și amplificator pentru primii pași în lumea muzicii.');
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(1, 5),  -- Squier Affinity Strat (chitară electrică)
+(1, 15), -- Boss Katana 50 (amplificator)
+(1, 14), -- Ernie Ball Strings (stringuri)
+(1, 8);  -- Dunlop Jazz III (pană)
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(2, 4),  -- Taylor 114ce (chitară acustică)
+(2, 14), -- Ernie Ball Strings (stringuri)
+(2, 8);  -- Dunlop Jazz III (pană)
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(3, 1),  -- Gibson Les Paul Standard (chitară electrică)
+(3, 6),  -- Marshall JVM410H (amplificator)
+(3, 19), -- Line 6 Helix (procesor efecte)
+(3, 14); -- Ernie Ball Strings (stringuri)
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(4, 3),  -- Gibson SG Custom (chitară electrică)
+(4, 21), -- Orange Tiny Terror (amplificator)
+(4, 14), -- Ernie Ball Strings (stringuri)
+(4, 8);  -- Dunlop Jazz III (pană)
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(5, 16), -- Fender American Vintage 57 (chitară electrică)
+(5, 6),  -- Marshall JVM410H (amplificator)
+(5, 14), -- Ernie Ball Strings (stringuri)
+(5, 8);  -- Dunlop Jazz III (pană)
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(6, 2),  -- Fender Stratocaster (chitară electrică)
+(6, 15); -- Boss Katana 50 (amplificator)
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(7, 1),  -- Gibson Les Paul Standard (chitară electrică)
+(7, 6);  -- Marshall JVM410H (amplificator)
+
+INSERT INTO asociere_set (id_set, id_produs) VALUES 
+(8, 5),  -- Squier Affinity Strat (chitară electrică)
+(8, 12); -- Fender Rumble 40 (amplificator)

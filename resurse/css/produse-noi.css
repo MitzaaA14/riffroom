@@ -1,0 +1,631 @@
+/* CSS pentru secțiunea produse noi - produse-noi.css */
+
+.sectiune-produse-noi {
+    background: linear-gradient(135deg, #F7F3E8 0%, #F7E9D7 100%);
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.sectiune-produse-noi::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.sectiune-produse-noi h2 {
+    text-align: center;
+    color: #6B3E31;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.sectiune-produse-noi h2::after {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    right: -30px;
+    font-size: 1.5rem;
+    animation: sparkle-rotate 2s ease-in-out infinite;
+}
+
+@keyframes sparkle-rotate {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+}
+
+.descriere-sectiune {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-produse-noi {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grid-produse-noi {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.card-produs-nou {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 2px solid transparent;
+}
+
+.card-produs-nou:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    border-color: #ff6b35;
+}
+
+.card-produs-nou::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b35, #ff8e53, #ff6b35);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.card-produs-nou:hover::before {
+    transform: scaleX(1);
+}
+
+.marcaj-nou-homepage {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: linear-gradient(135deg, #ff6b35, #ff8e53);
+    color: white;
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    animation: pulse-nou-homepage 2s infinite;
+    box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+@keyframes pulse-nou-homepage {
+    0% { 
+        transform: scale(1); 
+        box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4);
+    }
+    50% { 
+        transform: scale(1.05); 
+        box-shadow: 0 5px 15px rgba(255, 107, 53, 0.6);
+    }
+    100% { 
+        transform: scale(1); 
+        box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4);
+    }
+}
+
+.marcaj-nou-homepage i {
+    animation: star-twinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1) rotate(0deg); 
+    }
+    50% { 
+        opacity: 0.7; 
+        transform: scale(1.2) rotate(180deg); 
+    }
+}
+
+.imagine-produs-nou {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(145deg, #f9f5f0, #f0ebe6);
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.imagine-produs-nou::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.card-produs-nou:hover .imagine-produs-nou::before {
+    transform: scale(1);
+}
+
+.imagine-produs-nou img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.imagine-produs-nou:hover img {
+    transform: scale(1.1) rotate(2deg);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+}
+
+.info-produs-nou {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background: linear-gradient(180deg, white 0%, #fefcfa 100%);
+}
+
+.info-produs-nou h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.info-produs-nou h3 a {
+    color: #2D1A19;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.info-produs-nou h3 a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff6b35, #ff8e53);
+    transition: width 0.3s ease;
+}
+
+.info-produs-nou h3 a:hover {
+    color: #6B3E31;
+    transform: translateY(-1px);
+}
+
+.info-produs-nou h3 a:hover::after {
+    width: 100%;
+}
+
+.detalii-rapide-nou {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #f9f5f0, #f0ebe6);
+    border-radius: 8px;
+    border-left: 3px solid #ff6b35;
+}
+
+.pret-nou {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #6B3E31;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.categorie-nou {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 0 0.5rem 0;
+    font-style: italic;
+}
+
+.badge-incepatori-nou {
+    display: inline-block;
+    background: linear-gradient(135deg, #5CB85C, #4CAF50);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.data-adaugare {
+    margin-bottom: 1rem;
+    padding: 0.6rem;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.data-adaugare i {
+    color: #ff6b35;
+    font-size: 1rem;
+}
+
+.caracteristici-nou {
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.label-caracteristici {
+    font-weight: bold;
+    color: #6B3E31;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.caracteristici-nou ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.caracteristici-nou li {
+    background: linear-gradient(135deg, #F7E9D7, #f0ebe6);
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 0.3rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #6B3E31;
+    position: relative;
+    transition: all 0.2s ease;
+    border-left: 2px solid #ff6b35;
+}
+
+.caracteristici-nou li:hover {
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
+}
+
+.caracteristici-nou .mai-multe {
+    background: linear-gradient(135deg, #ddd, #ccc);
+    color: #666;
+    font-style: italic;
+    border-left-color: #999;
+}
+
+.actiuni-produs-nou {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: auto;
+}
+
+.btn-vezi-produs-nou {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #6B3E31, #8D6E63);
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-vezi-produs-nou:hover {
+    background: linear-gradient(135deg, #8D6E63, #6B3E31);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 62, 49, 0.3);
+}
+
+.btn-adauga-cos-nou {
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #ff6b35, #ff8e53);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    font-weight: bold;
+}
+
+.btn-adauga-cos-nou:hover {
+    background: linear-gradient(135deg, #ff8e53, #ff6b35);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+}
+
+.btn-adauga-cos-nou:active {
+    transform: translateY(0) scale(0.95);
+}
+
+.link-toate-noi {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 2px dashed rgba(255, 107, 53, 0.3);
+}
+
+.btn-vezi-toate-noi {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: linear-gradient(135deg, #ff6b35, #ff8e53);
+    color: white;
+    text-decoration: none;
+    padding: 1.2rem 2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-vezi-toate-noi::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-vezi-toate-noi:hover::before {
+    left: 100%;
+}
+
+.btn-vezi-toate-noi:hover {
+    background: linear-gradient(135deg, #6B3E31, #8D6E63);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(107, 62, 49, 0.4);
+}
+
+.btn-vezi-toate-noi i {
+    transition: transform 0.3s ease;
+}
+
+.btn-vezi-toate-noi:hover i {
+    transform: rotate(360deg) scale(1.2);
+}
+
+.mesaj-fara-produse-noi {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    border: 2px dashed #dee2e6;
+    color: #6c757d;
+}
+
+.mesaj-fara-produse-noi i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #adb5bd;
+}
+
+.mesaj-fara-produse-noi p {
+    font-size: 1.1rem;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Animații pentru apariția cardurilor */
+.card-produs-nou {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.card-produs-nou:nth-child(1) { animation-delay: 0.1s; }
+.card-produs-nou:nth-child(2) { animation-delay: 0.2s; }
+.card-produs-nou:nth-child(3) { animation-delay: 0.3s; }
+.card-produs-nou:nth-child(4) { animation-delay: 0.4s; }
+.card-produs-nou:nth-child(5) { animation-delay: 0.5s; }
+.card-produs-nou:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efect pulsating pentru butoane */
+.pulsating {
+    animation: pulsate 0.5s ease-in-out;
+}
+
+@keyframes pulsate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Media queries pentru responsivitate */
+@media (max-width: 1024px) {
+    .grid-produse-noi {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .sectiune-produse-noi {
+        padding: 2rem 1.5rem;
+    }
+    
+    .sectiune-produse-noi h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-produse-noi {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .sectiune-produse-noi {
+        padding: 1.5rem 1rem;
+        margin: 1rem 0;
+    }
+    
+    .sectiune-produse-noi h2 {
+        font-size: 1.8rem;
+    }
+    
+    .descriere-sectiune {
+        font-size: 1rem;
+    }
+    
+    .actiuni-produs-nou {
+        flex-direction: column;
+    }
+    
+    .btn-vezi-toate-noi {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-produse-noi {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .sectiune-produse-noi h2::after {
+        display: none;
+    }
+    
+    .marcaj-nou-homepage {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.6rem;
+    }
+    
+    .info-produs-nou {
+        padding: 1rem;
+    }
+}
+
+/* Tema întunecată */
+@media (prefers-color-scheme: dark) {
+    .sectiune-produse-noi {
+        background: linear-gradient(135deg, #2D1A19 0%, #4A2C2A 100%);
+        color: #D8C9A7;
+    }
+    
+    .sectiune-produse-noi h2 {
+        color: #D8C9A7;
+    }
+    
+    .descriere-sectiune {
+        color: #B38867;
+    }
+    
+    .card-produs-nou {
+        background: #362114;
+        border-color: #4A2C2A;
+    }
+    
+    .imagine-produs-nou {
+        background: linear-gradient(145deg, #4A2C2A, #362114);
+    }
+    
+    .info-produs-nou {
+        background: linear-gradient(180deg, #362114 0%, #2D1A19 100%);
+    }
+    
+    .info-produs-nou h3 a {
+        color: #D8C9A7;
+    }
+    
+    .info-produs-nou h3 a:hover {
+        color: #ff6b35;
+    }
+    
+    .detalii-rapide-nou {
+        background: linear-gradient(135deg, #4A2C2A, #362114);
+    }
+    
+    .pret-nou {
+        color: #ff6b35;
+    }
+    
+    .categorie-nou {
+        color: #B38867;
+    }
+    
+    .data-adaugare {
+        background: rgba(255, 107, 53, 0.2);
+        color: #B38867;
+    }
+    
+    .label-caracteristici {
+        color: #D8C9A7;
+    }
+    
+    .caracteristici-nou li {
+        background: linear-gradient(135deg, #4A2C2A, #362114);
+        color: #D8C9A7;
+    }
+    
+    .mesaj-fara-produse-noi {
+        background: linear-gradient(135deg, #362114, #2D1A19);
+        color: #B38867;
+        border-color: #4A2C2A;
+    }
+}

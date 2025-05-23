@@ -1,0 +1,78 @@
+<%- include("../fragmente/head") %>
+<%- include("../fragmente/header") %>
+
+<main class="set-page">
+    <!-- Chenar pentru titlu și descriere scurtă -->
+    <div class="set-title-container">
+        <div class="set-detail-header">
+            <h2><%= set.nume_set %></h2>
+            <span class="discount-badge">-<%= set.discount_procent %>%</span>
+        </div>
+        <div class="set-description">
+            <p><%= set.descriere_set %></p>
+        </div>
+    </div>
+    
+    <!-- Chenar pentru restul conținutului -->
+    <div class="set-content-container">
+        <!-- Detalii și preț -->
+        <div class="set-detail-content">
+            <div class="set-price-detail">
+                <p class="original-price">Preț produse individual: <%= set.pret_original %> RON</p>
+                <p class="discount-price">Preț set: <%= set.pret_final %> RON</p>
+                <p class="discount-info">Economisești <%= set.discount_procent %>% cumpărând acest set!</p>
+                
+                <button class="btn-add-to-cart" data-id="<%= set.id %>" data-nume="<%= set.nume_set %>" data-pret="<%= set.pret_final %>" data-imagine="<%= set.produse[0].imagine %>">
+                    <i class="fas fa-cart-plus"></i> Adaugă setul în coș
+                </button>
+            </div>
+        </div>
+        
+        <!-- Produsele din set -->
+        <h3>Produse în acest set</h3>
+        <div class="set-products-grid">
+            <% for(let produs of set.produse) { %>
+                <div class="product-card">
+                    <div class="product-image">
+                        <a href="/produs/<%= produs.id %>">
+                            <img src="/resurse/imagini/produse/<%= produs.imagine %>" alt="<%= produs.nume %>">
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-title">
+                            <a href="/produs/<%= produs.id %>"><%= produs.nume %></a>
+                        </h4>
+                        <p class="product-price"><%= produs.pret %> RON</p>
+                        <span class="product-category"><%= produs.categorie %></span>
+                        
+                        <div class="product-features">
+                            <p>Pentru începători: 
+                                <% if(produs.pentru_incepatori) { %>
+                                    <span class="text-success">Da</span>
+                                <% } else { %>
+                                    <span class="text-danger">Nu</span>
+                                <% } %>
+                            </p>
+                        </div>
+                        
+                        <button class="btn-add-single-product" data-id="<%= produs.id %>" data-nume="<%= produs.nume %>" data-pret="<%= produs.pret %>" data-imagine="<%= produs.imagine %>">
+                            <i class="fas fa-cart-plus"></i> Adaugă în coș
+                        </button>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        
+        <!-- Acțiuni -->
+        <div class="set-actions-detail">
+            <a href="/seturi" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Înapoi la toate seturile
+            </a>
+        </div>
+    </div>
+</main>
+
+<%- include("../fragmente/footer") %>
+
+<script src="/resurse/js/seturi.js"></script>
+<script src="/resurse/js/produse-cos.js"></script>

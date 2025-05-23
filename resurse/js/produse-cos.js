@@ -1,89 +1,94 @@
+// produse-cos.js - Script pentru funcționalitatea coșului de cumpărături
+
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Script cos de cumparaturi incarcat");
+    console.log("Script coș de cumpărături încărcat");
     
-    // Initializare
+    // Inițializare
     initializareCos();
     
-    // Functia principala de initializare a cosului
+    // Funcția principală de inițializare a coșului
     function initializareCos() {
-        // Initializare variabile
+        // Inițializare variabile
         let cos = getCos();
         
-        // Initializare interfata
+        // Inițializare interfață
         initInterfataCos();
         
-        // Adaugare event listeners pentru butoane si checkboxuri
+        // Adăugare event listeners pentru butoane
         adaugaEventListeners();
         
-        // Actualizare contor cos
+        // Actualizare contor coș
         actualizeazaContorCos();
         
-        // Initializare checkboxuri din cosul existent
+        // Inițializare checkboxuri din coșul existent (pentru pagina de produse)
         initCheckboxuriDinCos();
     }
     
-    // Functie pentru a obtine cosul din localStorage
+    // Funcție pentru a obține coșul din localStorage
     function getCos() {
         let cos = localStorage.getItem("cos");
         return cos ? JSON.parse(cos) : [];
     }
     
-    // Functie pentru a salva cosul în localStorage
+    // Funcție pentru a salva coșul în localStorage
     function salveazaCos(cos) {
         localStorage.setItem("cos", JSON.stringify(cos));
     }
     
-    // Functie pentru initializarea interfetei cosului
+    // Funcție pentru inițializarea interfeței coșului
     function initInterfataCos() {
-        // Verificam daca exista containerul cosului în pagina
+        // Verificăm dacă există containerul coșului în pagină
         if (!document.getElementById('container-cos')) {
-            // Cream fundalul
+            // Creăm fundalul
             const fundalCos = document.createElement('div');
             fundalCos.id = 'container-cos-fundal';
             fundalCos.className = 'container-cos-fundal';
             document.body.appendChild(fundalCos);
             
-            // Cream containerul cosului
+            // Creăm containerul coșului
             const containerCos = document.createElement('div');
             containerCos.id = 'container-cos';
             containerCos.className = 'container-cos';
             document.body.appendChild(containerCos);
             
-            // Adaugam event listener pentru fundal
+            // Adăugăm event listener pentru fundal
             fundalCos.addEventListener('click', function() {
                 ascundeCos();
             });
         }
     }
     
-    // Functie pentru actualizarea contorului cosului
+    // Funcție pentru actualizarea contorului coșului
     function actualizeazaContorCos() {
         const cos = getCos();
         const contorCos = document.querySelector(".icon .fa-shopping-cart");
         
         if (contorCos) {
-            // Daca avem produse în cos, adaugam un badge cu numarul lor
-            if (cos.length > 0) {
-                // Verificam daca exista deja un badge
+            // Calculăm numărul total de produse (cantitate)
+            const totalProduse = cos.reduce((total, item) => total + item.cantitate, 0);
+            
+            // Dacă avem produse în coș, adăugăm un badge cu numărul lor
+            if (totalProduse > 0) {
+                // Verificăm dacă există deja un badge
                 let badge = document.querySelector(".cos-badge");
                 
                 if (!badge) {
-                    // Daca nu exista, cream unul nou
+                    // Dacă nu există, creăm unul nou
                     badge = document.createElement("span");
                     badge.classList.add("cos-badge");
                     contorCos.parentElement.appendChild(badge);
                     
-                    // Adaugam event listener pentru click pe iconul cosului
+                    // Adăugăm event listener pentru click pe iconul coșului
                     contorCos.parentElement.addEventListener('click', function(e) {
                         e.preventDefault();
                         afiseazaCos();
                     });
                 }
                 
-                // Actualizam textul badge-ului
-                badge.textContent = cos.length;
+                // Actualizăm textul badge-ului
+                badge.textContent = totalProduse;
             } else {
-                // Daca nu avem produse, eliminam badge-ul daca exista
+                // Dacă nu avem produse, eliminăm badge-ul dacă există
                 const badge = document.querySelector(".cos-badge");
                 if (badge) {
                     badge.remove();
@@ -92,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // Functie pentru afisarea cosului
+    // Funcție pentru afișarea coșului
     function afiseazaCos() {
         const cos = getCos();
         const containerCos = document.getElementById('container-cos');
@@ -100,43 +105,47 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if (!containerCos || !fundalCos) return;
         
-        // Construim continutul cosului
+        // Construim conținutul coșului
         let continutCos = `
-            <h2>Cosul meu de cumparaturi</h2>
+            <h2>Coșul meu de cumpărături</h2>
         `;
         
         if (cos.length === 0) {
             continutCos += `
                 <div class="cos-gol">
-                    <p>Cosul dumneavoastra este gol.</p>
-                    <p>Adaugati produse pentru a continua cumparaturile.</p>
+                    <p>Coșul dumneavoastră este gol.</p>
+                    <p>Adăugați produse pentru a continua cumpărăturile.</p>
                 </div>
                 <div class="cos-butoane">
                     <button id="btn-cos-inchide" class="btn-cos-inchide">Închide</button>
                 </div>
             `;
         } else {
-            // Calculam totalul
-            let total = cos.reduce((sum, produs) => sum + (produs.pret * produs.cantitate), 0);
+            // Calculăm totalul
+            let total = cos.reduce((sum, item) => sum + (item.pret * item.cantitate), 0);
             
             continutCos += `
                 <ul class="lista-produse-cos">
             `;
             
-            cos.forEach(produs => {
+            cos.forEach(item => {
+                // Determinăm tipul (produs sau set)
+                const tipText = item.tip === 'set' ? 'Set' : 'Produs';
+                
                 continutCos += `
-                    <li class="produs-cos" data-id="${produs.id}">
-                        <img src="${produs.imagine}" alt="${produs.nume}" class="imagine-produs-cos">
+                    <li class="produs-cos" data-id="${item.id}" data-tip="${item.tip}">
+                        <img src="${item.imagine}" alt="${item.nume}" class="imagine-produs-cos">
                         <div class="info-produs-cos">
-                            <p class="nume-produs-cos">${produs.nume}</p>
-                            <p class="pret-produs-cos">${produs.pret} RON</p>
+                            <p class="nume-produs-cos">${item.nume}</p>
+                            <p class="tip-produs-cos">${tipText}</p>
+                            <p class="pret-produs-cos">${item.pret} RON</p>
                         </div>
                         <div class="cantitate-produs-cos">
-                            <button class="btn-cantitate btn-minus" data-id="${produs.id}">-</button>
-                            <span>${produs.cantitate}</span>
-                            <button class="btn-cantitate btn-plus" data-id="${produs.id}">+</button>
+                            <button class="btn-cantitate btn-minus" data-id="${item.id}" data-tip="${item.tip}">-</button>
+                            <span>${item.cantitate}</span>
+                            <button class="btn-cantitate btn-plus" data-id="${item.id}" data-tip="${item.tip}">+</button>
                         </div>
-                        <button class="btn-sterge-cos" data-id="${produs.id}">sterge</button>
+                        <button class="btn-sterge-cos" data-id="${item.id}" data-tip="${item.tip}">sterge</button>
                     </li>
                 `;
             });
@@ -149,130 +158,165 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="cos-butoane">
                     <button id="btn-cos-inchide" class="btn-cos-inchide">Închide</button>
-                    <button id="btn-cos-continua-cumparaturi" class="btn-cos-continua-cumparaturi">Continua cumparaturile</button>
-                    <button id="btn-cos-finalizeaza" class="btn-cos-finalizeaza">Finalizeaza comanda</button>
+                    <button id="btn-cos-continua-cumparaturi" class="btn-cos-continua-cumparaturi">Continuă cumpărăturile</button>
+                    <button id="btn-cos-finalizeaza" class="btn-cos-finalizeaza">Finalizează comanda</button>
                 </div>
             `;
         }
         
-        // Actualizam continutul containerului
+        // Actualizăm conținutul containerului
         containerCos.innerHTML = continutCos;
         
-        // Adaugam event listeners pentru butoane
+        // Adăugăm event listeners pentru butoane
         containerCos.querySelector('#btn-cos-inchide').addEventListener('click', ascundeCos);
         
         if (cos.length > 0) {
             containerCos.querySelector('#btn-cos-continua-cumparaturi').addEventListener('click', ascundeCos);
+            containerCos.querySelector('#btn-cos-finalizeaza').addEventListener('click', finalizeazaComanda);
             
-            // Event listeners pentru butoanele de cantitate si stergere
+            // Event listeners pentru butoanele de cantitate și ștergere
             containerCos.querySelectorAll('.btn-minus').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    actualizeazaCantitateProdus(this.getAttribute('data-id'), -1);
+                    const id = this.getAttribute('data-id');
+                    const tip = this.getAttribute('data-tip');
+                    actualizeazaCantitateItem(id, tip, -1);
                 });
             });
             
             containerCos.querySelectorAll('.btn-plus').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    actualizeazaCantitateProdus(this.getAttribute('data-id'), 1);
+                    const id = this.getAttribute('data-id');
+                    const tip = this.getAttribute('data-tip');
+                    actualizeazaCantitateItem(id, tip, 1);
                 });
             });
             
             containerCos.querySelectorAll('.btn-sterge-cos').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    stergeProdus(this.getAttribute('data-id'));
+                    const id = this.getAttribute('data-id');
+                    const tip = this.getAttribute('data-tip');
+                    stergeItem(id, tip);
                 });
             });
         }
         
-        // Afisam containerul si fundalul
+        // Afișăm containerul și fundalul
         fundalCos.style.display = 'block';
         containerCos.style.display = 'block';
+        
+        // Adăugăm o mică animație de intrare
+        setTimeout(function() {
+            containerCos.style.opacity = '1';
+            containerCos.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 10);
     }
     
-    // Functie pentru ascunderea cosului
+    // Funcție pentru finalizarea comenzii
+    function finalizeazaComanda() {
+        afiseazaNotificare("Comanda a fost plasată cu succes! Mulțumim pentru achiziție.", "success");
+        
+        // Golim coșul
+        salveazaCos([]);
+        actualizeazaContorCos();
+        
+        // Ascundem coșul
+        ascundeCos();
+        
+        // Resetăm checkboxurile
+        const checkboxuriProduse = document.querySelectorAll(".select-cos");
+        checkboxuriProduse.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+    
+    // Funcție pentru ascunderea coșului
     function ascundeCos() {
         const containerCos = document.getElementById('container-cos');
         const fundalCos = document.getElementById('container-cos-fundal');
         
         if (containerCos && fundalCos) {
-            // Ascundem containerul si fundalul cu animatie
+            // Ascundem containerul și fundalul cu animație
             containerCos.style.opacity = '0';
+            containerCos.style.transform = 'translate(-50%, -50%) scale(0.95)';
             fundalCos.style.opacity = '0';
             
-            // Dupa ce animatia se încheie, ascundem complet elementele
+            // După ce animația se încheie, ascundem complet elementele
             setTimeout(function() {
                 containerCos.style.display = 'none';
                 fundalCos.style.display = 'none';
                 containerCos.style.opacity = '1';
+                containerCos.style.transform = 'translate(-50%, -50%) scale(1)';
                 fundalCos.style.opacity = '1';
             }, 300);
         }
     }
     
-    // Functie pentru actualizarea cantitatii unui produs
-    function actualizeazaCantitateProdus(idProdus, delta) {
+    // Funcție pentru actualizarea cantității unui item (produs sau set)
+    function actualizeazaCantitateItem(id, tip, delta) {
         let cos = getCos();
         
-        const produsIndex = cos.findIndex(produs => produs.id === idProdus);
+        const itemIndex = cos.findIndex(item => item.id === id && item.tip === tip);
         
-        if (produsIndex !== -1) {
-            cos[produsIndex].cantitate += delta;
+        if (itemIndex !== -1) {
+            cos[itemIndex].cantitate += delta;
             
-            // Verificam daca cantitatea a ajuns la 0
-            if (cos[produsIndex].cantitate <= 0) {
-                stergeProdus(idProdus);
+            // Verificăm dacă cantitatea a ajuns la 0
+            if (cos[itemIndex].cantitate <= 0) {
+                stergeItem(id, tip);
                 return;
             }
             
-            // Salvam cosul actualizat si reafisam
+            // Salvăm coșul actualizat și reafișăm
             salveazaCos(cos);
             actualizeazaContorCos();
             afiseazaCos();
             
-            // Afisam notificare
-            afiseazaNotificare(`Cantitate actualizata: ${cos[produsIndex].cantitate} bucati`, "success");
+            // Afișăm notificare
+            afiseazaNotificare(`Cantitate actualizată: ${cos[itemIndex].cantitate} bucăți`, "success");
         }
     }
     
-    // Functie pentru stergerea unui produs
-    function stergeProdus(idProdus) {
+    // Funcție pentru ștergerea unui item (produs sau set)
+    function stergeItem(id, tip) {
         let cos = getCos();
         
-        // Gasim produsul pentru a afisa notificarea
-        const produs = cos.find(p => p.id === idProdus);
+        // Găsim itemul pentru a afișa notificarea
+        const item = cos.find(i => i.id === id && i.tip === tip);
         
-        // Filtram lista pentru a elimina produsul
-        cos = cos.filter(p => p.id !== idProdus);
+        // Filtrăm lista pentru a elimina itemul
+        cos = cos.filter(i => !(i.id === id && i.tip === tip));
         
-        // Salvam cosul actualizat
+        // Salvăm coșul actualizat
         salveazaCos(cos);
         actualizeazaContorCos();
         
-        // Daca suntem în containerul cosului, reafisam
+        // Dacă suntem în containerul coșului, reafișăm
         if (document.getElementById('container-cos').style.display === 'block') {
             afiseazaCos();
         }
         
-        // Debifam checkbox-ul pentru produs
-        const checkbox = document.querySelector(`.select-cos[value="${idProdus}"]`);
-        if (checkbox) {
-            checkbox.checked = false;
+        // Debifăm checkbox-ul pentru produs (dacă există)
+        if (tip === 'produs') {
+            const checkbox = document.querySelector(`.select-cos[value="${id}"]`);
+            if (checkbox) {
+                checkbox.checked = false;
+            }
         }
         
-        // Afisam notificare
-        if (produs) {
-            afiseazaNotificare(`Produsul "${produs.nume}" a fost eliminat din cos!`, "error");
+        // Afișăm notificare
+        if (item) {
+            afiseazaNotificare(`"${item.nume}" a fost eliminat din coș!`, "error");
         }
     }
     
-    // Initializare checkboxuri din cosul existent
+    // Inițializare checkboxuri din coșul existent
     function initCheckboxuriDinCos() {
         const cos = getCos();
         const checkboxuriProduse = document.querySelectorAll(".select-cos");
         
         checkboxuriProduse.forEach(checkbox => {
             const idProdus = checkbox.value;
-            const produsInCos = cos.find(produs => produs.id === idProdus);
+            const produsInCos = cos.find(item => item.id === idProdus && item.tip === 'produs');
             
             if (produsInCos) {
                 checkbox.checked = true;
@@ -280,9 +324,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-    // Adaugare event listeners
+    // Adăugare event listeners
     function adaugaEventListeners() {
-        // Event listeners pentru checkboxuri
+        // Event listeners pentru checkboxuri (pe pagina de produse)
         const checkboxuriProduse = document.querySelectorAll(".select-cos");
         checkboxuriProduse.forEach(checkbox => {
             checkbox.addEventListener("change", function() {
@@ -291,6 +335,15 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
         
+        // Event listener pentru butonul de coș din header
+        const btnCos = document.querySelector(".icon .fa-shopping-cart");
+        if (btnCos) {
+            btnCos.parentElement.addEventListener('click', function(e) {
+                e.preventDefault();
+                afiseazaCos();
+            });
+        }
+        
         // Event listener pentru butonul din pagina produs
         const btnAdaugaProdus = document.querySelector(".btn-adauga-cos");
         if (btnAdaugaProdus) {
@@ -298,107 +351,254 @@ document.addEventListener("DOMContentLoaded", function() {
                 adaugaProdusInPaginaProdus();
             });
         }
+        
+        // Event listener pentru butonul din pagina set
+        const btnAdaugaSet = document.querySelector(".btn-add-to-cart");
+        if (btnAdaugaSet) {
+            btnAdaugaSet.addEventListener("click", function() {
+                adaugaSetInPaginaSet();
+            });
+        }
+        
+        // Event listeners pentru butoanele de adăugare set din alte pagini
+        const btnsAdaugaSet = document.querySelectorAll('.btn-add-set-to-cart');
+        if (btnsAdaugaSet.length > 0) {
+            btnsAdaugaSet.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idSet = this.getAttribute('data-id');
+                    const numeSet = this.getAttribute('data-nume');
+                    const pretSet = parseFloat(this.getAttribute('data-pret'));
+                    const imagineSet = this.getAttribute('data-imagine');
+                    
+                    adaugaSetInCos(idSet, numeSet, pretSet, imagineSet);
+                });
+            });
+        }
+        
+        // Event listeners pentru butoanele de adăugare produs individual din set
+        const btnsAdaugaProdusIndividual = document.querySelectorAll('.btn-add-single-product');
+        if (btnsAdaugaProdusIndividual.length > 0) {
+            btnsAdaugaProdusIndividual.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idProdus = this.getAttribute('data-id');
+                    const numeProdus = this.getAttribute('data-nume');
+                    const pretProdus = parseFloat(this.getAttribute('data-pret'));
+                    const imagineProdus = this.getAttribute('data-imagine');
+                    
+                    adaugaProdusIndividualInCos(idProdus, numeProdus, pretProdus, imagineProdus);
+                });
+            });
+        }
     }
     
-    // Functie pentru adaugarea unui produs în cos din pagina de lista
+    // Funcție pentru adăugarea unui produs în coș din pagina de listă
     function adaugaInCos(idProdus, checkbox) {
         let cos = getCos();
         
-        // Verificam daca produsul este deja în cos
-        const produsExistent = cos.find(produs => produs.id === idProdus);
+        // Verificăm dacă produsul este deja în coș
+        const produsExistent = cos.find(item => item.id === idProdus && item.tip === 'produs');
         
         if (produsExistent) {
-            // Daca produsul este deja în cos si checkbox-ul este debifat, îl eliminam
+            // Dacă produsul este deja în coș și checkbox-ul este debifat, îl eliminăm
             if (!checkbox.checked) {
-                cos = cos.filter(produs => produs.id !== idProdus);
-                afiseazaNotificare(`Produsul a fost eliminat din cos!`, "error");
+                cos = cos.filter(item => !(item.id === idProdus && item.tip === 'produs'));
+                afiseazaNotificare(`Produsul a fost eliminat din coș!`, "error");
             }
         } else {
-            // Daca produsul nu este în cos si checkbox-ul este bifat, îl adaugam
+            // Dacă produsul nu este în coș și checkbox-ul este bifat, îl adăugăm
             if (checkbox.checked) {
-                // Obtinem informatiile produsului
+                // Obținem informațiile produsului
                 const articolProdus = checkbox.closest(".produs");
                 const numeProdus = articolProdus.querySelector(".val-nume").textContent;
                 const pretProdus = parseFloat(articolProdus.querySelector(".val-pret").textContent);
                 const imagineProdus = articolProdus.querySelector("figure img").getAttribute("src");
                 
-                // Adaugam produsul în cos
+                // Adăugăm produsul în coș
                 cos.push({
                     id: idProdus,
                     nume: numeProdus,
                     pret: pretProdus,
                     imagine: imagineProdus,
-                    cantitate: 1
+                    cantitate: 1,
+                    tip: 'produs'
                 });
                 
-                afiseazaNotificare(`Produsul "${numeProdus}" a fost adaugat în cos!`, "success");
+                afiseazaNotificare(`Produsul "${numeProdus}" a fost adăugat în coș!`, "success");
             }
         }
         
-        // Salvam cosul în localStorage
+        // Salvăm coșul în localStorage
         salveazaCos(cos);
         
-        // Actualizam contorul din interfata
+        // Actualizăm contorul din interfață
         actualizeazaContorCos();
     }
     
-    // Functie pentru adaugarea unui produs în cos din pagina de produs individual
+    // Funcție pentru adăugarea unui produs în coș din pagina de produs individual
     function adaugaProdusInPaginaProdus() {
         let cos = getCos();
         
-        // Obtinem ID-ul produsului din URL
+        // Obținem ID-ul produsului din URL
         const url = window.location.pathname;
         const idProdus = url.substring(url.lastIndexOf('/') + 1);
         
-        // Verificam daca produsul este deja în cos
-        const produsExistent = cos.find(produs => produs.id === idProdus);
+        // Verificăm dacă produsul este deja în coș
+        const produsExistent = cos.find(item => item.id === idProdus && item.tip === 'produs');
         
         if (produsExistent) {
-            // Daca produsul exista deja, incrementam cantitatea
+            // Dacă produsul există deja, incrementăm cantitatea
             produsExistent.cantitate += 1;
-            afiseazaNotificare(`Cantitatea a fost actualizata: ${produsExistent.cantitate} bucati`, "success");
+            afiseazaNotificare(`Cantitatea a fost actualizată: ${produsExistent.cantitate} bucăți`, "success");
         } else {
-            // Obtinem informatiile produsului
+            // Obținem informațiile produsului
             const numeProdus = document.querySelector(".nume").textContent;
-            const pretProdus = parseFloat(document.querySelector(".pret").textContent);
+            const pretText = document.querySelector(".pret").textContent;
+            const pretProdus = parseFloat(pretText.replace(/[^\d.-]/g, ''));
             const imagineProdus = document.querySelector(".imag-produs img").getAttribute("src");
             
-            // Adaugam produsul în cos
+            // Adăugăm produsul în coș
             cos.push({
                 id: idProdus,
                 nume: numeProdus,
                 pret: pretProdus,
                 imagine: imagineProdus,
-                cantitate: 1
+                cantitate: 1,
+                tip: 'produs'
             });
             
-            afiseazaNotificare(`Produsul "${numeProdus}" a fost adaugat în cos!`, "success");
+            afiseazaNotificare(`Produsul "${numeProdus}" a fost adăugat în coș!`, "success");
         }
         
-        // Salvam cosul în localStorage
+        // Salvăm coșul în localStorage
         salveazaCos(cos);
         
-        // Actualizam contorul din interfata
+        // Actualizăm contorul din interfață
         actualizeazaContorCos();
     }
     
-    // Functie pentru afisarea notificarilor
+    // Funcție pentru adăugarea unui produs individual din pagina de set
+    function adaugaProdusIndividualInCos(idProdus, numeProdus, pretProdus, imagineProdus) {
+        let cos = getCos();
+        
+        // Verificăm dacă produsul este deja în coș
+        const produsExistent = cos.find(item => item.id === idProdus && item.tip === 'produs');
+        
+        if (produsExistent) {
+            // Dacă produsul există deja, incrementăm cantitatea
+            produsExistent.cantitate += 1;
+            afiseazaNotificare(`Cantitatea a fost actualizată: ${produsExistent.cantitate} bucăți`, "success");
+        } else {
+            // Adăugăm produsul în coș
+            cos.push({
+                id: idProdus,
+                nume: numeProdus,
+                pret: pretProdus,
+                imagine: `/resurse/imagini/produse/${imagineProdus}`,
+                cantitate: 1,
+                tip: 'produs'
+            });
+            
+            afiseazaNotificare(`Produsul "${numeProdus}" a fost adăugat în coș!`, "success");
+        }
+        
+        // Salvăm coșul în localStorage
+        salveazaCos(cos);
+        
+        // Actualizăm contorul din interfață
+        actualizeazaContorCos();
+    }
+    
+    // Funcție pentru adăugarea unui set în coș din pagina de set individual
+    function adaugaSetInPaginaSet() {
+        let cos = getCos();
+        
+        // Obținem ID-ul setului din URL
+        const url = window.location.pathname;
+        const idSet = url.substring(url.lastIndexOf('/') + 1);
+        
+        // Verificăm dacă setul este deja în coș
+        const setExistent = cos.find(item => item.id === idSet && item.tip === 'set');
+        
+        if (setExistent) {
+            // Dacă setul există deja, incrementăm cantitatea
+            setExistent.cantitate += 1;
+            afiseazaNotificare(`Cantitatea a fost actualizată: ${setExistent.cantitate} bucăți`, "success");
+        } else {
+            // Obținem informațiile setului
+            const numeSet = document.querySelector(".set-detail-header h2").textContent;
+            const pretSetText = document.querySelector(".discount-price").textContent;
+            const pretSet = parseFloat(pretSetText.replace(/[^\d.-]/g, ''));
+            const imagineSet = document.querySelector(".product-card:first-child .product-image img").getAttribute("src");
+            
+            // Adăugăm setul în coș
+            cos.push({
+                id: idSet,
+                nume: numeSet,
+                pret: pretSet,
+                imagine: imagineSet,
+                cantitate: 1,
+                tip: 'set'
+            });
+            
+            afiseazaNotificare(`Setul "${numeSet}" a fost adăugat în coș!`, "success");
+        }
+        
+        // Salvăm coșul în localStorage
+        salveazaCos(cos);
+        
+        // Actualizăm contorul din interfață
+        actualizeazaContorCos();
+    }
+    
+    // Funcție pentru adăugarea unui set în coș din alte pagini
+    function adaugaSetInCos(idSet, numeSet, pretSet, imagineSet) {
+        let cos = getCos();
+        
+        // Verificăm dacă setul este deja în coș
+        const setExistent = cos.find(item => item.id === idSet && item.tip === 'set');
+        
+        if (setExistent) {
+            // Dacă setul există deja, incrementăm cantitatea
+            setExistent.cantitate += 1;
+            afiseazaNotificare(`Cantitatea pentru "${numeSet}" a fost actualizată: ${setExistent.cantitate} bucăți`, "success");
+        } else {
+            // Adăugăm setul în coș
+            cos.push({
+                id: idSet,
+                nume: numeSet,
+                pret: pretSet,
+                imagine: `/resurse/imagini/produse/${imagineSet}`,
+                cantitate: 1,
+                tip: 'set'
+            });
+            
+            afiseazaNotificare(`Setul "${numeSet}" a fost adăugat în coș!`, "success");
+        }
+        
+        // Salvăm coșul în localStorage
+        salveazaCos(cos);
+        
+        // Actualizăm contorul din interfață
+        actualizeazaContorCos();
+    }
+    
+    // Funcție pentru afișarea notificărilor
     function afiseazaNotificare(mesaj, tip) {
-        // Verificam daca exista deja o notificare
+        // Verificăm dacă există deja o notificare
         let notificareExistenta = document.querySelector('.notificare');
         if (notificareExistenta) {
             notificareExistenta.remove();
         }
         
-        // Cream div-ul pentru notificare
+        // Creăm div-ul pentru notificare
         const notificare = document.createElement("div");
         notificare.classList.add("notificare", `notificare-${tip}`);
         notificare.innerHTML = `<p>${mesaj}</p>`;
         
-        // Adaugam notificarea în pagina
+        // Adăugăm notificarea în pagină
         document.body.appendChild(notificare);
         
-        // Eliminam notificarea dupa 3 secunde
+        // Eliminăm notificarea după 3 secunde
         setTimeout(() => {
             notificare.style.opacity = "0";
             setTimeout(() => {

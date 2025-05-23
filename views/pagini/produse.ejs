@@ -2,7 +2,7 @@
 <html lang="ro">
     <head>
         <meta name="keywords" content="magazin chitare, produse, oferte chitare, cautare chitara, chitare acustice, chitare electrice, accesorii chitara">
-        <meta name="description" content="Magazin online de chitare si accesorii. Descopera o gama variata de produse pentru muzicieni de toate nivelurile.">
+        <meta name="description" content="Magazin online de chitare si accesorii. Descopera o gama variata de produse pentru muzicieni de toate nivelurilor.">
         <link rel="stylesheet" href="/resurse/css/produse.css" type="text/css" />
         <title>RiffRoom - Produse</title>
         <%- include("../fragmente/head") %>     
@@ -171,8 +171,56 @@
                 <h2>Produse disponibile</h2>
                 
                 <div class="grid-produse">
+                    <%
+                    // BONUS 14: Calculam cele mai ieftine produse din fiecare categorie
+                    const produsePeCategorie = {};
+                    locals.produse.forEach(prod => {
+                        if (!produsePeCategorie[prod.categorie]) {
+                            produsePeCategorie[prod.categorie] = [];
+                        }
+                        produsePeCategorie[prod.categorie].push(prod);
+                    });
+                    
+                    const celeMaiIeftine = {};
+                    Object.keys(produsePeCategorie).forEach(categorie => {
+                        const produseCat = produsePeCategorie[categorie];
+                        const celMaiIeftin = produseCat.reduce((min, prod) => 
+                            parseFloat(prod.pret) < parseFloat(min.pret) ? prod : min
+                        );
+                        celeMaiIeftine[celMaiIeftin.id] = categorie;
+                    });
+                    
+                    // BONUS 18: Calculam produsele noi (adaugate in ultimele 30 de zile pentru demo)
+                    const intervalProdusNou = 30 * 24 * 60 * 60 * 1000; // 30 zile in milisecunde
+                    const acum = new Date();
+                    %>
+                    
                     <% for(let prod of locals.produse) { %>
-                        <article class="produs <%= prod.categorie.replace(/\s+/g, '-').toLowerCase() %>" id="ent<%= prod.id %>">
+                        <%
+                        // Verificam daca produsul este nou
+                        const dataAdaugare = new Date(prod.data_adaugare);
+                        const diferentaTimp = acum - dataAdaugare;
+                        const esteNou = diferentaTimp <= intervalProdusNou;
+                        
+                        // Verificam daca este cel mai ieftin din categoria sa
+                        const esteCelMaiIeftin = celeMaiIeftine[prod.id];
+                        %>
+                        
+                        <article class="produs <%= prod.categorie.replace(/\s+/g, '-').toLowerCase() %> <%= esteNou ? 'produs-nou' : '' %>" id="ent<%= prod.id %>">
+                            <!-- BONUS 18: Marcaj produs nou -->
+                            <% if(esteNou) { %>
+                                <div class="marcaj-nou">
+                                    <i class="fas fa-star"></i> NOU
+                                </div>
+                            <% } %>
+                            
+                            <!-- BONUS 14: Marcaj cel mai ieftin -->
+                            <% if(esteCelMaiIeftin) { %>
+                                <div class="marcaj-ieftin">
+                                    <i class="fas fa-trophy"></i> CEL MAI IEFTIN DIN CATEGORIA <%= esteCelMaiIeftin.toUpperCase() %>
+                                </div>
+                            <% } %>
+                            
                             <h3 class="nume">
                                 <a href="/produs/<%= prod.id %>">
                                     <span class="val-nume"><%= prod.nume %></span>
@@ -220,7 +268,7 @@
                             
                             <!-- DESCRIERE PRODUS -->
                             <p class="descriere">
-                                <%= prod.descriere || 'Descriere indisponibilA' %>
+                                <%= prod.descriere || 'Descriere indisponibilă' %>
                             </p>
                             
                             <!-- IMAGINE PRODUS -->
@@ -252,7 +300,7 @@
                             <!-- CHECKBOX SELECTARE PRODUS -->
                             <label class="selecteaza-cos">
                                 <input type="checkbox" class="select-cos" value="<%= prod.id %>" autocomplete="off">
-                                <span>Adauga In cos</span>
+                                <span>Adauga în coș</span>
                             </label>
                         </article>
                     <% } %>
