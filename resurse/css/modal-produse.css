@@ -1,0 +1,690 @@
+/* BONUS 11: CSS PENTRU MODAL BOX PRODUSE */
+
+/* Overlay modal - FIXAT CENTRAREA */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(45, 26, 25, 0.8);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(3px);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-overlay.modal-open {
+    opacity: 1;
+}
+
+/* Container principal modal - FORTAT CENTRAREA */
+.modal-container {
+    background-color: #F7F3E8;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    position: relative;
+    overflow-y: auto;
+    transform: translateY(-50px) scale(0.9);
+    transition: transform 0.3s ease;
+    color: #2D1A19;
+    margin: auto;
+    /* Asiguram ca este perfect centrat */
+}
+
+.modal-open .modal-container {
+    transform: translateY(0) scale(1);
+}
+
+/* Header modal */
+.modal-header {
+    background: linear-gradient(135deg, #6B3E31, #C05F3E);
+    color: #F7F3E8;
+    padding: 1.5rem 2rem;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    flex: 1;
+    padding-right: 1rem;
+    color: #F7E9D7; /* Culoare mai deschisa pentru titlu */
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    color: #F7F3E8;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.modal-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.modal-close-btn:active {
+    transform: scale(0.95);
+}
+
+/* Body modal */
+.modal-body {
+    padding: 2rem;
+}
+
+/* Eliminam sectiunea nume centrat - nu mai e necesara */
+
+/* Grid pentru continutul modal-ului */
+.modal-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Container imagine */
+.modal-imagine-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-imagine-container img {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.modal-imagine-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Badge-uri modal */
+.modal-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.modal-badge-nou {
+    background: linear-gradient(135deg, #ff6b35, #ff8e53);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: modal-pulse-nou 2s infinite;
+    box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4);
+}
+
+@keyframes modal-pulse-nou {
+    0% { transform: scale(1); box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 107, 53, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4); }
+}
+
+.modal-badge-ieftin {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: modal-glow-ieftin 3s ease-in-out infinite;
+    box-shadow: 0 3px 8px rgba(243, 156, 18, 0.4);
+}
+
+@keyframes modal-glow-ieftin {
+    0%, 100% { box-shadow: 0 3px 8px rgba(243, 156, 18, 0.4); }
+    50% { box-shadow: 0 5px 15px rgba(243, 156, 18, 0.7), 0 0 20px rgba(243, 156, 18, 0.3); }
+}
+
+.modal-badge-nou i,
+.modal-badge-ieftin i {
+    animation: modal-sparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes modal-sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+}
+
+/* Detalii produs in modal */
+.modal-detalii {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Container pret si butoane */
+.modal-pret-container {
+    background: linear-gradient(135deg, #F7E9D7, #F7F3E8);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 2px solid #C05F3E;
+    box-shadow: 0 3px 8px rgba(192, 95, 62, 0.2);
+}
+
+.modal-pret {
+    margin: 0 0 1rem 0;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #6B3E31;
+    text-align: center;
+}
+
+.modal-pret span {
+    color: #C05F3E;
+    font-size: 1.8rem;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-modal-cos,
+.btn-modal-detalii {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    min-width: 150px;
+}
+
+.btn-modal-cos {
+    background-color: #6B3E31;
+    color: #F7F3E8;
+}
+
+.btn-modal-cos:hover {
+    background-color: #C05F3E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 62, 49, 0.3);
+}
+
+.btn-modal-detalii {
+    background-color: #C05F3E;
+    color: #F7F3E8;
+}
+
+.btn-modal-detalii:hover {
+    background-color: #6B3E31;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(192, 95, 62, 0.3);
+}
+
+/* Grid pentru informatii */
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.modal-info-item {
+    background-color: #FFFAF2;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid #C05F3E;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.modal-info-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-info-item strong {
+    color: #6B3E31;
+    font-size: 0.9rem;
+}
+
+.modal-info-item span {
+    color: #2D1A19;
+    font-size: 1rem;
+}
+
+/* Badge pentru categorie in modal */
+.modal-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    background-color: #C05F3E;
+    color: #F7F3E8;
+}
+
+/* Stiluri pentru categorii specifice in modal */
+.modal-badge.premium {
+    background-color: #D4AF37;
+}
+
+.modal-badge.pentru-incepatori {
+    background-color: #5CB85C;
+}
+
+.modal-badge.profesional {
+    background-color: #337AB7;
+}
+
+.modal-badge.vintage {
+    background-color: #9C6B30;
+}
+
+.modal-badge.editie-limitata {
+    background-color: #BB4BBB;
+}
+
+/* Descriere in modal */
+.modal-descriere {
+    background-color: #FFFAF2;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #6B3E31;
+    margin-bottom: 1.5rem;
+}
+
+.modal-descriere h4 {
+    margin: 0 0 1rem 0;
+    color: #6B3E31;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.modal-descriere p {
+    margin: 0;
+    line-height: 1.6;
+    color: #2D1A19;
+}
+
+/* Caracteristici in modal */
+.modal-caracteristici {
+    background-color: #FFFAF2;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #C05F3E;
+}
+
+.modal-caracteristici h4 {
+    margin: 0 0 1rem 0;
+    color: #6B3E31;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.modal-caracteristici ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 0.8rem;
+}
+
+.modal-caracteristici li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    background-color: #F7E9D7;
+    border-radius: 6px;
+    color: #2D1A19;
+    transition: background-color 0.2s ease;
+}
+
+.modal-caracteristici li:hover {
+    background-color: #F0E1C9;
+}
+
+.modal-caracteristici li i {
+    color: #6B3E31;
+    font-size: 0.9rem;
+}
+
+.modal-caracteristici .no-caracteristici {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    background-color: #f0f0f0;
+}
+
+/* Stiluri pentru iconite succes/esec */
+.text-success {
+    color: #5CB85C;
+}
+
+.text-danger {
+    color: #D9534F;
+}
+
+/* Animatii pentru butoane */
+.btn-modal-cos.pulsating,
+.btn-modal-detalii.pulsating {
+    animation: modal-button-pulse 0.3s ease;
+}
+
+@keyframes modal-button-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* Scroll bar personalizat pentru modal */
+.modal-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+    background: #C05F3E;
+    border-radius: 4px;
+}
+
+.modal-container::-webkit-scrollbar-thumb:hover {
+    background: #6B3E31;
+}
+
+/* Stiluri pentru notificari din modal */
+.modal-notification {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+/* RESPONSIVE DESIGN PENTRU MODAL */
+@media screen and (max-width: 768px) {
+    .modal-container {
+        width: 95%;
+        max-height: 95%;
+        margin: 2.5%;
+    }
+    
+    .modal-header {
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.3rem;
+        padding-right: 0;
+    }
+    
+    /* BONUS 11: Responsive pentru header */
+    .modal-header h3 {
+        font-size: 1.3rem;
+        padding-right: 0;
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    .modal-content-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .modal-info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-modal-cos,
+    .btn-modal-detalii {
+        min-width: unset;
+        width: 100%;
+    }
+    
+    .modal-caracteristici ul {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .modal-overlay {
+        padding: 5px;
+    }
+    
+    .modal-container {
+        width: 100%;
+        max-width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        margin: 0;
+    }
+    
+    .modal-header {
+        border-radius: 0;
+    }
+    
+    .modal-imagine-container img {
+        max-height: 200px;
+    }
+}
+
+/* FOCUS STATES PENTRU ACCESIBILITATE */
+.modal-close-btn:focus,
+.btn-modal-cos:focus,
+.btn-modal-detalii:focus {
+    outline: 2px solid #C05F3E;
+    outline-offset: 2px;
+}
+
+.modal-container:focus {
+    outline: none;
+}
+
+/* STILURI PENTRU PREFERS-REDUCED-MOTION */
+@media (prefers-reduced-motion: reduce) {
+    .modal-overlay,
+    .modal-container,
+    .modal-badge-nou,
+    .modal-badge-ieftin,
+    .btn-modal-cos,
+    .btn-modal-detalii,
+    .modal-info-item {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .modal-imagine-container img:hover {
+        transform: none !important;
+    }
+}
+
+/* TEMA INTUNECATA PENTRU MODAL */
+.theme-dark .modal-overlay {
+    background-color: rgba(26, 13, 12, 0.9);
+}
+
+.theme-dark .modal-container {
+    background-color: #2D1A19;
+    color: #D8C9A7;
+}
+
+.theme-dark .modal-header {
+    background: linear-gradient(135deg, #4A2C2A, #C05F3E);
+    color: #D8C9A7;
+}
+
+.theme-dark .modal-header h3 {
+    color: #E8DCC0; /* Culoare mai deschisa pentru tema intunecata */
+}
+
+/* BONUS 11: Tema intunecata pentru numele centrat - nu mai e necesar */
+
+.theme-dark .modal-pret-container {
+    background: linear-gradient(135deg, #1a0D0C, #2D1A19);
+    border-color: #C05F3E;
+    color: #D8C9A7;
+}
+
+.theme-dark .modal-pret {
+    color: #D8C9A7;
+}
+
+.theme-dark .modal-pret span {
+    color: #C05F3E;
+}
+
+.theme-dark .btn-modal-cos {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .btn-modal-cos:hover {
+    background-color: #C05F3E;
+}
+
+.theme-dark .btn-modal-detalii {
+    background-color: #C05F3E;
+    color: #D8C9A7;
+}
+
+.theme-dark .btn-modal-detalii:hover {
+    background-color: #4A2C2A;
+}
+
+.theme-dark .modal-info-item {
+    background-color: #1a0D0C;
+    border-left-color: #C05F3E;
+}
+
+.theme-dark .modal-info-item strong {
+    color: #C05F3E;
+}
+
+.theme-dark .modal-info-item span {
+    color: #D8C9A7;
+}
+
+.theme-dark .modal-descriere,
+.theme-dark .modal-caracteristici {
+    background-color: #1a0D0C;
+    color: #D8C9A7;
+}
+
+.theme-dark .modal-descriere h4,
+.theme-dark .modal-caracteristici h4 {
+    color: #D8C9A7;
+    border-bottom-color: #4A2C2A;
+}
+
+.theme-dark .modal-caracteristici li {
+    background-color: #4A2C2A;
+    color: #D8C9A7;
+}
+
+.theme-dark .modal-caracteristici li:hover {
+    background-color: #362114;
+}
+
+.theme-dark .modal-caracteristici li i {
+    color: #C05F3E;
+}
+
+.theme-dark .modal-caracteristici .no-caracteristici {
+    background-color: #362114;
+    color: #B38867;
+}
+
+.theme-dark .modal-container::-webkit-scrollbar-track {
+    background: #4A2C2A;
+}
+
+.theme-dark .modal-container::-webkit-scrollbar-thumb {
+    background: #C05F3E;
+}
+
+.theme-dark .modal-container::-webkit-scrollbar-thumb:hover {
+    background: #6B3E31;
+}
+
+/* PRINT STYLES */
+@media print {
+    .modal-overlay {
+        display: none !important;
+    }
+}
+
+/* STILURI PENTRU HIGH CONTRAST MODE */
+@media (prefers-contrast: high) {
+    .modal-container {
+        border: 3px solid currentColor;
+    }
+    
+    .modal-close-btn {
+        border: 2px solid currentColor;
+    }
+    
+    .btn-modal-cos,
+    .btn-modal-detalii {
+        border: 2px solid currentColor;
+    }
+}

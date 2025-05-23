@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
             modalImg.style.transform = 'scale(1)';
         }, 10);
         
-        // Închidere modal
+        // Inchidere modal
         modal.addEventListener('click', () => {
             modal.style.opacity = '0';
             modalImg.style.transform = 'scale(0.8)';
@@ -359,7 +359,6 @@ document.addEventListener('DOMContentLoaded', function() {
         linkuriProduse.forEach(link => {
             link.addEventListener('click', () => {
                 console.log('📊 Click pe produs nou:', link.getAttribute('href'));
-                // Aici s-ar putea adăuga Google Analytics sau alt tracking
             });
         });
         

@@ -623,3 +623,96 @@ section h2 {
         max-width: 120px;
     }
 }
+
+/* ========================================
+   BONUS 11: STILURI PENTRU PRODUS CARD
+   Click pe container = modal
+   Click pe link = pagina separata
+   ======================================== */
+
+/* Cursor pointer pentru containerul produsului */
+.produs {
+    cursor: pointer;
+    position: relative;
+}
+
+/* Stilizare speciala pentru link-urile produsului */
+.produs .product-link {
+    position: relative;
+    z-index: 2;
+    display: block;
+}
+
+/* Hover effect pentru container produs */
+.produs:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: 2px solid #C05F3E;
+}
+
+/* Stilizare pentru link-urile din produs sa nu afecteze hover-ul containerului */
+.produs h3 a,
+.produs figure a {
+    transition: all 0.3s ease;
+}
+
+.produs h3 a:hover,
+.produs figure a:hover {
+    color: #C05F3E;
+    transform: scale(1.02);
+}
+
+/* Indicatie vizuala ca produsul poate fi deschis in modal */
+.produs::after {
+    content: "Click pentru detalii rapide";
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(107, 62, 49, 0.9);
+    color: #F7F3E8;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+.produs:hover::after {
+    opacity: 1;
+    bottom: -25px;
+}
+
+/* Asiguram ca checkbox-ul ramane functional */
+.selecteaza-cos {
+    position: relative;
+    z-index: 3;
+}
+
+/* Stilizare pentru a diferentia link-urile clickabile */
+.produs .product-link {
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.produs .product-link:hover {
+    background-color: rgba(192, 95, 62, 0.1);
+    box-shadow: 0 2px 5px rgba(192, 95, 62, 0.2);
+}
+
+/* Media queries pentru responsive design */
+@media screen and (max-width: 768px) {
+    .produs::after {
+        content: "Tap pentru detalii";
+        font-size: 0.6rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .produs:hover::after {
+        opacity: 0; /* Ascundem tooltip-ul pe mobile */
+    }
+}

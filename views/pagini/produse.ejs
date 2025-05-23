@@ -4,9 +4,13 @@
         <meta name="keywords" content="magazin chitare, produse, oferte chitare, cautare chitara, chitare acustice, chitare electrice, accesorii chitara">
         <meta name="description" content="Magazin online de chitare si accesorii. Descopera o gama variata de produse pentru muzicieni de toate nivelurilor.">
         <link rel="stylesheet" href="/resurse/css/produse.css" type="text/css" />
+        <!-- BONUS 11: CSS pentru modal box -->
+        <link rel="stylesheet" href="/resurse/css/modal-produse.css" type="text/css" />
         <title>RiffRoom - Produse</title>
         <%- include("../fragmente/head") %>     
         <script type="text/javascript" src=/resurse/js/produse.js defer></script>
+        <!-- BONUS 11: Script pentru modal box -->
+        <script type="text/javascript" src=/resurse/js/modal-produse.js defer></script>
         <script type="text/javascript" src=/resurse/js/produse-cos.js defer></script>
     </head>
     <body>
@@ -206,7 +210,9 @@
                         const esteCelMaiIeftin = celeMaiIeftine[prod.id];
                         %>
                         
-                        <article class="produs <%= prod.categorie.replace(/\s+/g, '-').toLowerCase() %> <%= esteNou ? 'produs-nou' : '' %>" id="ent<%= prod.id %>">
+                        <!-- BONUS 11: Click pe container deschide modal, click pe nume/imagine deschide pagina separata -->
+                        <article class="produs <%= prod.categorie.replace(/\s+/g, '-').toLowerCase() %> <%= esteNou ? 'produs-nou' : '' %>" 
+                                 id="ent<%= prod.id %>" data-product-id="<%= prod.id %>">
                             <!-- BONUS 18: Marcaj produs nou -->
                             <% if(esteNou) { %>
                                 <div class="marcaj-nou">
@@ -221,8 +227,9 @@
                                 </div>
                             <% } %>
                             
+                            <!-- BONUS 11: Nume cu link separat pentru pagina produsului -->
                             <h3 class="nume">
-                                <a href="/produs/<%= prod.id %>">
+                                <a href="/produs/<%= prod.id %>" class="product-link">
                                     <span class="val-nume"><%= prod.nume %></span>
                                 </a>
                             </h3>
@@ -268,12 +275,12 @@
                             
                             <!-- DESCRIERE PRODUS -->
                             <p class="descriere">
-                                <%= prod.descriere || 'Descriere indisponibilă' %>
+                                <%= prod.descriere || 'Descriere indisponibila' %>
                             </p>
                             
-                            <!-- IMAGINE PRODUS -->
+                            <!-- BONUS 11: Imagine cu link separat pentru pagina produsului -->
                             <figure>
-                                <a href="/produs/<%= prod.id %>">
+                                <a href="/produs/<%= prod.id %>" class="product-link">
                                     <img src="/resurse/imagini/produse/<%= prod.imagine %>" alt="[imagine <%= prod.nume %>]" />
                                 </a>
                             </figure>
@@ -300,14 +307,13 @@
                             <!-- CHECKBOX SELECTARE PRODUS -->
                             <label class="selecteaza-cos">
                                 <input type="checkbox" class="select-cos" value="<%= prod.id %>" autocomplete="off">
-                                <span>Adauga în coș</span>
+                                <span>Adauga in cos</span>
                             </label>
                         </article>
                     <% } %>
                 </div>
             </section>
         </main>
-        
         
         <%- include("../fragmente/footer") %>
     </body>
