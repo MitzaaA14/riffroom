@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const imaginiProduse = document.querySelectorAll('.imagine-produs-nou img');
     const sectiuneProduse = document.querySelector('.sectiune-produse-noi');
     
-    // BONUS 18: Funcționalitate pentru marcarea produselor noi
+    // BONUS 18: Funcționalitate pentru marcarea produselor noi - INTERVAL REDUS LA 2 ZILE
     function initNewProductsFeatures() {
-        // Verificăm intervalul pentru produse noi (30 zile)
-        const intervalProdusNou = 30 * 24 * 60 * 60 * 1000;
+        // Verificăm intervalul pentru produse noi (2 zile în loc de 30)
+        const intervalProdusNou = 2 * 24 * 60 * 60 * 1000; // 2 zile în milisecunde
         const acum = new Date();
         
         // Parcurgem toate cardurile și aplicăm efecte pentru produse noi
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initAdvancedLazyLoading();
         trackNewProductsInteraction();
         
-        console.log('✅ Toate funcționalitățile pentru produse noi au fost inițializate');
+        console.log('✅ Toate funcționalitățile pentru produse noi au fost inițializate cu interval 2 zile');
     }
     
     // CSS animații adăugate dinamic
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAll();
     
     // Log pentru debugging
-    console.log('🚀 Produse noi script complet încărcat:', {
+    console.log('🚀 Produse noi script complet încărcat cu interval 2 zile:', {
         carduri: carduri.length,
         butoane: butoaneAdaugaCos.length,
         imagini: imaginiProduse.length,

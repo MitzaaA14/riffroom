@@ -147,6 +147,35 @@
                         </label>
                     </div>
                     
+                    <!-- BONUS 8: Sectiune pentru sortare multipla -->
+                    <div class="filtru-item sortare-multipla">
+                        <h4><i class="fas fa-sort"></i> Sortare după două chei</h4>
+                        <div class="sortare-controls">
+                            <div class="sortare-row">
+                                <label for="select-cheie1">
+                                    Prima cheie:
+                                    <select id="select-cheie1">
+                                        <option value="nume">Nume</option>
+                                        <option value="pret" selected>Preț</option>
+                                        <option value="categorie">Categorie</option>
+                                        <option value="tip">Tip produs</option>
+                                        <option value="data">Data adăugării</option>
+                                    </select>
+                                </label>
+                            </div>
+                            
+                            <div class="sortare-row">
+                                <label for="select-ordine">
+                                    Ordine:
+                                    <select id="select-ordine">
+                                        <option value="crescator" selected>Crescător</option>
+                                        <option value="descrescator">Descrescător</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- BUTOANE PENTRU FILTRARE, SORTARE, CALCUL SI RESETARE -->
                     <div class="butoane-container">
                         <button id="filtrare" class="btn btn-primary">
@@ -161,9 +190,23 @@
                         <button id="sortDescrescNume" class="btn btn-secondary">
                             <i class="fas fa-sort-amount-down"></i> Sorteaza descrescator
                         </button>
+                        <!-- BONUS 8: Buton pentru sortare multipla -->
+                        <button id="sortare-multipla" class="btn btn-info">
+                            <i class="fas fa-sort-numeric-down"></i> Sortare multiplă
+                        </button>
                         <button id="calculeaza-suma" class="btn btn-info">
                             <i class="fas fa-calculator"></i> Calculeaza suma
                         </button>
+                        
+                        <!-- BONUS 4: Indicator pentru filtrarea automatica -->
+                        <div class="auto-filter-info">
+                            <div class="auto-filter-badge" title="Filtrarea automată este activă">
+                                <i class="fas fa-magic"></i> AUTO
+                            </div>
+                            <small style="color: #666; font-style: italic; margin-top: 0.5rem; display: block;">
+                                Filtrarea se aplică automat la modificarea valorilor
+                            </small>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -173,6 +216,15 @@
             <!-- SECTIUNE PENTRU AFISAREA PRODUSELOR -->
             <section id="produse">
                 <h2>Produse disponibile</h2>
+                
+                <!-- BONUS 15: Container pentru contorul de produse -->
+                <div id="contor-produse" class="contor-produse">
+                    <div class="info-produse">
+                        <i class="fas fa-list"></i>
+                        <span class="numar-afisat">0</span> din 
+                        <span class="numar-total">0</span> produse afișate
+                    </div>
+                </div>
                 
                 <div class="grid-produse">
                     <%
@@ -195,7 +247,7 @@
                     });
                     
                     // BONUS 18: Calculam produsele noi (adaugate in ultimele 30 de zile pentru demo)
-                    const intervalProdusNou = 30 * 24 * 60 * 60 * 1000; // 30 zile in milisecunde
+                    const intervalProdusNou = 6 * 24 * 60 * 60 * 1000; // 30 zile in milisecunde
                     const acum = new Date();
                     %>
                     
@@ -316,5 +368,33 @@
         </main>
         
         <%- include("../fragmente/footer") %>
+        
+        <!-- Script pentru initializarea bonusurilor -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // BONUS 15: Inițializează contorul cu valoarea corectă
+            const totalProduse = document.querySelectorAll('.produs').length;
+            const contorElement = document.getElementById('contor-produse');
+            if (contorElement) {
+                const numarTotal = contorElement.querySelector('.numar-total');
+                const numarAfisat = contorElement.querySelector('.numar-afisat');
+                if (numarTotal) numarTotal.textContent = totalProduse;
+                if (numarAfisat) numarAfisat.textContent = totalProduse;
+            }
+            
+        });
+        </script>
     </body>
 </html>
+                                        <option value="categorie">Categorie</option>
+                                        <option value="tip">Tip produs</option>
+                                        <option value="data">Data adăugării</option>
+                                    </select>
+                                </label>
+                                
+                                <label for="select-cheie2">
+                                    A doua cheie:
+                                    <select id="select-cheie2">
+                                        <option value="nume" selected>Nume</option>
+                                        <option value="pret">Preț</option>
+                                        <option value="greutate">Greutate</option>

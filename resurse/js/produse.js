@@ -12,11 +12,19 @@ document.addEventListener("DOMContentLoaded", function() {
     const radioButtons = document.getElementsByName("gr_rad");
     const caracteristiciCheckboxes = document.getElementsByName("caracteristici");
     
+    // BONUS 8: Selectori pentru sortare multiplă
+    const selectCheia1 = document.getElementById("select-cheie1");
+    const selectCheia2 = document.getElementById("select-cheie2");
+    const selectOrdine = document.getElementById("select-ordine");
+    
     const btnFiltrare = document.getElementById("filtrare");
     const btnResetare = document.getElementById("resetare");
     const btnSortCrescNume = document.getElementById("sortCrescNume");
     const btnSortDescrescNume = document.getElementById("sortDescrescNume");
     const btnCalculeazaSuma = document.getElementById("calculeaza-suma");
+    
+    // BONUS 8: Buton pentru sortare multiplă
+    const btnSortareMultipla = document.getElementById("sortare-multipla");
     
     let produse = document.getElementsByClassName("produs");
     
@@ -37,6 +45,73 @@ document.addEventListener("DOMContentLoaded", function() {
         inpPret.addEventListener("input", function() {
             infoRange.textContent = `(${this.value} RON)`;
         });
+    }
+    
+    // BONUS 15: Funcție pentru actualizarea contorului de produse
+    function actualizeazaContorProduse(numarVizibile, numarTotal) {
+        let contorElement = document.getElementById('contor-produse');
+        
+        // Creează elementul dacă nu există
+        if (!contorElement) {
+            contorElement = document.createElement('div');
+            contorElement.id = 'contor-produse';
+            contorElement.className = 'contor-produse';
+            
+            // Inserează înaintea gridului de produse
+            const sectiuneProduse = document.getElementById('produse');
+            const gridContainer = document.querySelector('.grid-produse');
+            if (sectiuneProduse && gridContainer) {
+                sectiuneProduse.insertBefore(contorElement, gridContainer);
+            }
+        }
+        
+        contorElement.innerHTML = `
+            <div class="info-produse">
+                <i class="fas fa-list"></i>
+                <span class="numar-afisat">${numarVizibile}</span> din 
+                <span class="numar-total">${numarTotal}</span> produse afișate
+                ${numarVizibile !== numarTotal ? `<span class="filtru-activ">(filtru activ)</span>` : ''}
+            </div>
+        `;
+        
+        // Animație de actualizare
+        contorElement.classList.add('updating');
+        setTimeout(() => {
+            contorElement.classList.remove('updating');
+        }, 300);
+    }
+    
+    // BONUS 3: Funcție pentru afișarea mesajului când nu există produse
+    function afiseazaMesajLipsaProduse() {
+        const gridContainer = document.querySelector('.grid-produse');
+        if (gridContainer) {
+            gridContainer.innerHTML = `
+                <div class="mesaj-no-produse">
+                    <i class="fas fa-search" style="font-size: 3rem; color: #C05F3E; margin-bottom: 1rem;"></i>
+                    <h3>Nu există produse conform filtrării curente</h3>
+                    <p>Încercați să modificați criteriile de filtrare pentru a găsi produse.</p>
+                    <button onclick="resetareFiltre()" class="btn btn-primary">
+                        <i class="fas fa-undo"></i> Resetează filtrele
+                    </button>
+                </div>
+            `;
+        }
+    }
+    
+    // BONUS 3: Funcție pentru restaurarea gridului de produse
+    function restaureazaGridProduse() {
+        const gridContainer = document.querySelector('.grid-produse');
+        const mesajNoProduse = gridContainer.querySelector('.mesaj-no-produse');
+        
+        if (mesajNoProduse) {
+            // Elimină mesajul și restaurează produsele
+            gridContainer.innerHTML = '';
+            
+            // Re-adaugă toate produsele în DOM
+            for (const produs of produse) {
+                gridContainer.appendChild(produs);
+            }
+        }
     }
     
     // FUNCTIE DE VALIDARE INPUTURI
@@ -109,14 +184,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (categorieElement && pretElement) {
                     const categorie = categorieElement.textContent.toLowerCase().trim();
                     
-                    // BONUS 12.4 - Luam in considerare si pretul redus daca produsul are oferta
-                    let pret = 0;
-                    const pretNouElement = pretElement.querySelector(".pret-nou");
-                    if (pretNouElement) {
-                        pret = parseFloat(pretNouElement.textContent.replace(/[^\d.-]/g, ''));
-                    } else {
-                        pret = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
-                    }
+                    // Luam pretul normal al produsului
+                    let pret = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
                     
                     if (!produsePeCategorie[categorie]) {
                         produsePeCategorie[categorie] = [];
@@ -152,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function checkProdusNou(produs) {
         // BONUS 18: Verificam daca produsul este nou (ultimele 30 zile pentru demo)
-        const intervalProdusNou = 30 * 24 * 60 * 60 * 1000; // 30 zile
+        const intervalProdusNou = 6 * 24 * 60 * 60 * 1000; // 30 zile
         const acum = new Date();
         
         const timeElement = produs.querySelector('time');
@@ -176,12 +245,130 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // FUNCTIE PRINCIPALA DE FILTRARE PRODUSE - FIXATA
+    // BONUS 8: Funcție pentru sortarea după două chei
+    function sorteazaMultiplu() {
+        if (!validateInputs()) {
+            return;
+        }
+        
+        const cheie1 = selectCheia1 ? selectCheia1.value : 'nume';
+        const cheie2 = selectCheia2 ? selectCheia2.value : 'pret';
+        const ordine = selectOrdine ? selectOrdine.value : 'crescator';
+        const crescator = ordine === 'crescator';
+        
+        console.log(`Sortare multiplă: ${cheie1} -> ${cheie2} (${ordine})`);
+        
+        const produseArray = Array.from(produse);
+        
+        produseArray.sort((a, b) => {
+            // Funcție helper pentru extragerea valorii
+            function extrageValoare(produs, cheie) {
+                switch(cheie) {
+                    case 'nume':
+                        return produs.querySelector(".val-nume")?.textContent.toLowerCase() || '';
+                    case 'pret':
+                        const pretElement = produs.querySelector(".val-pret");
+                        if (pretElement) {
+                            const textPret = pretElement.textContent;
+                            return parseFloat(textPret.replace(/[^\d.-]/g, '')) || 0;
+                        }
+                        return 0;
+                    case 'greutate':
+                        const greutateElement = produs.querySelector(".val-greutate");
+                        return greutateElement ? parseInt(greutateElement.textContent.replace(/[^\d.-]/g, '')) || 0 : 0;
+                    case 'categorie':
+                        return produs.querySelector(".val-categorie")?.textContent.toLowerCase() || '';
+                    case 'tip':
+                        return produs.querySelector(".val-tip")?.textContent.toLowerCase() || '';
+                    case 'data':
+                        const timeElement = produs.querySelector('time');
+                        return timeElement ? new Date(timeElement.getAttribute('datetime')).getTime() : 0;
+                    default:
+                        return '';
+                }
+            }
+            
+            const valoareA1 = extrageValoare(a, cheie1);
+            const valoareB1 = extrageValoare(b, cheie1);
+            const valoareA2 = extrageValoare(a, cheie2);
+            const valoareB2 = extrageValoare(b, cheie2);
+            
+            // Sortăm mai întâi după prima cheie
+            let comparatie1;
+            if (typeof valoareA1 === 'string') {
+                comparatie1 = crescator ? valoareA1.localeCompare(valoareB1) : valoareB1.localeCompare(valoareA1);
+            } else {
+                comparatie1 = crescator ? valoareA1 - valoareB1 : valoareB1 - valoareA1;
+            }
+            
+            // Dacă valorile sunt egale, sortăm după a doua cheie
+            if (comparatie1 === 0) {
+                if (typeof valoareA2 === 'string') {
+                    return crescator ? valoareA2.localeCompare(valoareB2) : valoareB2.localeCompare(valoareA2);
+                } else {
+                    return crescator ? valoareA2 - valoareB2 : valoareB2 - valoareA2;
+                }
+            }
+            
+            return comparatie1;
+        });
+        
+        // Reordonam DOM-ul
+        const container = document.querySelector(".grid-produse");
+        if (container) {
+            produseArray.forEach(produs => {
+                container.appendChild(produs);
+            });
+            console.log(`Sortare multiplă aplicată: ${cheie1} -> ${cheie2} (${ordine})`);
+            updateMarcaje();
+            
+            // Afișăm notificare
+            showSortNotification(`Sortare aplicată: ${cheie1} → ${cheie2} (${ordine})`);
+        }
+    }
+    
+    // BONUS 8: Funcție pentru afișarea notificării de sortare
+    function showSortNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'sort-notification';
+        notification.innerHTML = `
+            <i class="fas fa-sort"></i>
+            ${message}
+        `;
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #6B3E31, #C05F3E);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-weight: bold;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => notification.style.transform = 'translateX(0)', 10);
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+    
+    // FUNCTIE PRINCIPALA DE FILTRARE PRODUSE - ACTUALIZATĂ CU BONUSURILE
     function filtrareProduse() {
         // Verificam validitatea inputurilor
         if (!validateInputs()) {
             return;
         }
+        
+        // BONUS 3: Restaurează gridul înainte de filtrare
+        restaureazaGridProduse();
         
         console.log("Aplicam filtrarea...");
         
@@ -253,21 +440,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Obtinem brandul introdus
         const brandFiltru = (inpBrand ? inpBrand.value : "").toLowerCase().trim();
         
-        // Debug pentru valori filtre
-        console.log("Filtrare dupa nume:", numeFiltru);
-        console.log("Pret minim:", pretMinim);
-        console.log("Interval greutate:", greutateMin, "-", greutateMax);
-        console.log("Cuvinte descriere:", cuvinteDescriere);
-        console.log("Caracteristici selectate:", caracteristiciSelectate);
-        console.log("Toate caracteristicile selectate:", toateSelectate);
-        console.log("Nicio caracteristica selectata:", niciunaSelectata);
-        console.log("Categorie:", categorieSelectata);
-        console.log("Tipuri produse:", tipuriSelectate);
-        console.log("Toate tipurile selectate:", toateTipurileSelectate);
-        console.log("Brand:", brandFiltru);
-        
         // Parcurgem toate produsele si aplicam filtrele
         let produseVizibile = 0;
+        const numarTotalProduse = produse.length;
         
         // Verificam daca avem produse
         if (produse.length === 0) {
@@ -295,16 +470,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const numeProdus = numeElement.textContent.toLowerCase().trim();
             let pretProdus = 0;
             
-            // BONUS 12.4 - Luam in considerare pretul redus daca produsul are oferta
+            // Luam pretul normal al produsului
             try {
-                const pretNouElement = pretElement.querySelector(".pret-nou");
-                if (pretNouElement) {
-                    // Produsul are oferta, luam pretul redus
-                    pretProdus = parseFloat(pretNouElement.textContent.replace(/[^\d.-]/g, ''));
-                } else {
-                    // Produsul nu are oferta, luam pretul normal
-                    pretProdus = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
-                }
+                pretProdus = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
             } catch (e) {
                 console.error("Eroare la parsarea pretului:", pretElement.textContent);
             }
@@ -386,12 +554,84 @@ document.addEventListener("DOMContentLoaded", function() {
         
         console.log("Filtrare aplicata. Produse vizibile:", produseVizibile);
         
+        // BONUS 15: Actualizăm contorul de produse
+        actualizeazaContorProduse(produseVizibile, numarTotalProduse);
+        
         // BONUS 14: Actualizam marcajele pentru cel mai ieftin dupa filtrare
         updateMarcaje();
         
-        // Afisam un mesaj daca nu avem produse vizibile
+        // BONUS 3: Afisam mesaj daca nu avem produse vizibile
         if (produseVizibile === 0) {
-            alert("Nu s-a gasit niciun produs care sa indeplineasca criteriile de filtrare. Incercati criterii mai putin restrictive.");
+            afiseazaMesajLipsaProduse();
+        }
+    }
+    
+    // BONUS 4: Funcție pentru activarea filtrării automate
+    function activeazaFiltrareAutomata() {
+        console.log("Activez filtrarea automată la onchange...");
+        
+        // INPUT TEXT pentru nume (0.05p)
+        if (inpNume) {
+            inpNume.addEventListener('input', function() {
+                console.log("Auto-filtrare: nume schimbat");
+                setTimeout(filtrareProduse, 300); // Debounce pentru performanță
+            });
+        }
+        
+        // INPUT RANGE pentru preț (0.05p)
+        if (inpPret) {
+            inpPret.addEventListener('input', function() {
+                console.log("Auto-filtrare: preț schimbat");
+                filtrareProduse();
+            });
+        }
+        
+        // RADIO BUTTONS pentru greutate (0.05p)
+        for (const radio of radioButtons) {
+            radio.addEventListener('change', function() {
+                console.log("Auto-filtrare: greutate schimbată");
+                filtrareProduse();
+            });
+        }
+        
+        // TEXTAREA pentru descriere (0.05p)
+        if (inpDescriere) {
+            inpDescriere.addEventListener('input', function() {
+                console.log("Auto-filtrare: descriere schimbată");
+                setTimeout(filtrareProduse, 500); // Debounce mai lung pentru textarea
+            });
+        }
+        
+        // CHECKBOXURI pentru caracteristici (0.05p)
+        for (const checkbox of caracteristiciCheckboxes) {
+            checkbox.addEventListener('change', function() {
+                console.log("Auto-filtrare: caracteristici schimbate");
+                filtrareProduse();
+            });
+        }
+        
+        // SELECT pentru categorie (0.05p)
+        if (inpCategorie) {
+            inpCategorie.addEventListener('change', function() {
+                console.log("Auto-filtrare: categorie schimbată");
+                filtrareProduse();
+            });
+        }
+        
+        // SELECT MULTIPLU pentru tip produs (0.05p)
+        if (inpTipProdus) {
+            inpTipProdus.addEventListener('change', function() {
+                console.log("Auto-filtrare: tip produs schimbat");
+                filtrareProduse();
+            });
+        }
+        
+        // DATALIST pentru brand (0.05p)
+        if (inpBrand) {
+            inpBrand.addEventListener('input', function() {
+                console.log("Auto-filtrare: brand schimbat");
+                setTimeout(filtrareProduse, 300); // Debounce pentru performanță
+            });
         }
     }
     
@@ -424,21 +664,9 @@ document.addEventListener("DOMContentLoaded", function() {
             let pretA = 0, pretB = 0;
             
             try {
-                // BONUS 12.4 - Luam in considerare pretul redus pentru sortare
-                const pretNouA = pretElementA.querySelector(".pret-nou");
-                const pretNouB = pretElementB.querySelector(".pret-nou");
-                
-                if (pretNouA) {
-                    pretA = parseFloat(pretNouA.textContent.replace(/[^\d.-]/g, ''));
-                } else {
-                    pretA = parseFloat(pretElementA.textContent.replace(/[^\d.-]/g, ''));
-                }
-                
-                if (pretNouB) {
-                    pretB = parseFloat(pretNouB.textContent.replace(/[^\d.-]/g, ''));
-                } else {
-                    pretB = parseFloat(pretElementB.textContent.replace(/[^\d.-]/g, ''));
-                }
+                // Luam pretul normal pentru sortare
+                pretA = parseFloat(pretElementA.textContent.replace(/[^\d.-]/g, ''));
+                pretB = parseFloat(pretElementB.textContent.replace(/[^\d.-]/g, ''));
             } catch (e) {
                 console.error("Eroare la parsarea preturilor pentru sortare");
             }
@@ -466,7 +694,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // FUNCTIE PENTRU CALCUL SUMA PRETURI - BONUS 12.4 actualizat
+    // FUNCTIE PENTRU CALCUL SUMA PRETURI - Actualizat
     function calculeazaSuma() {
         let suma = 0;
         let contor = 0;
@@ -477,14 +705,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const pretElement = produs.querySelector(".val-pret");
                 if (pretElement) {
                     try {
-                        let pret = 0;
-                        // BONUS 12.4 - Luam in considerare pretul redus daca exista
-                        const pretNouElement = pretElement.querySelector(".pret-nou");
-                        if (pretNouElement) {
-                            pret = parseFloat(pretNouElement.textContent.replace(/[^\d.-]/g, ''));
-                        } else {
-                            pret = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
-                        }
+                        // Luam pretul normal al produsului
+                        const pret = parseFloat(pretElement.textContent.replace(/[^\d.-]/g, ''));
                         suma += pret;
                         contor++;
                     } catch (e) {
@@ -538,6 +760,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function resetareFiltre() {
         console.log("Resetam filtrele...");
         
+        // BONUS 3: Restaurează gridul înainte de resetare
+        restaureazaGridProduse();
+        
         // Resetam valorile din inputuri
         if (inpNume) inpNume.value = "";
         
@@ -572,6 +797,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // Resetam input-ul pentru brand
         if (inpBrand) inpBrand.value = "";
         
+        // BONUS 8: Resetăm și selectoarele pentru sortare multiplă
+        if (selectCheia1) selectCheia1.value = "nume";
+        if (selectCheia2) selectCheia2.value = "pret";
+        if (selectOrdine) selectOrdine.value = "crescator";
+        
         // Afisam toate produsele
         for (const produs of produse) {
             produs.style.display = "flex";
@@ -584,11 +814,18 @@ document.addEventListener("DOMContentLoaded", function() {
         if (inpDescriere) inpDescriere.classList.remove("input-error");
         if (inpBrand) inpBrand.classList.remove("input-error");
         
+        // BONUS 15: Actualizăm contorul
+        const numarTotalProduse = produse.length;
+        actualizeazaContorProduse(numarTotalProduse, numarTotalProduse);
+        
         // BONUS 14: Actualizam marcajele pentru cel mai ieftin
         updateMarcaje();
         
         console.log("Filtre resetate");
     }
+    
+    // Facem resetareFiltre disponibilă global pentru butonul din mesajul de lipsa produse
+    window.resetareFiltre = resetareFiltre;
     
     // INITIALIZARE LA INCARCARE - BONUS 14 & 18
     function initializareMarcaje() {
@@ -641,6 +878,12 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Eveniment adaugat pentru butonul de resetare");
     }
     
+    // BONUS 8: Event listener pentru sortarea multiplă
+    if (btnSortareMultipla) {
+        btnSortareMultipla.addEventListener("click", sorteazaMultiplu);
+        console.log("Eveniment adaugat pentru butonul de sortare multiplă");
+    }
+    
     // EVENIMENT PENTRU TASTATURA (ALT + C pentru calcul suma)
     document.addEventListener("keydown", function(event) {
         if (event.altKey && event.key.toLowerCase() === "c") {
@@ -648,6 +891,13 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("Scurtatura ALT+C folosita pentru calcul suma");
         }
     });
+    
+    // BONUS 4: Activăm filtrarea automată
+    activeazaFiltrareAutomata();
+    
+    // BONUS 15: Inițializăm contorul de produse
+    const numarTotalProduse = produse.length;
+    actualizeazaContorProduse(numarTotalProduse, numarTotalProduse);
     
     // INITIALIZARE MARCAJE LA INCARCARE PAGINA
     initializareMarcaje();
@@ -666,4 +916,5 @@ document.addEventListener("DOMContentLoaded", function() {
             produs.style.boxShadow = '0 4px 12px rgba(255, 107, 53, 0.2)';
         }
     });
+    
 });
