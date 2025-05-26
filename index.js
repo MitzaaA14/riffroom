@@ -282,7 +282,6 @@ app.get("/produse", function(req, res){
 });
 
 // RUTE PENTRU SETURI
-// Ruta pentru afișarea tuturor seturilor
 app.get("/seturi", function(req, res){
     // Obținem toate seturile împreună cu informații despre produsele din ele
     client.query(`
@@ -445,21 +444,19 @@ app.get("/produs/:id", function(req, res){
         const produs = rez.rows[0];
         console.log("Produs găsit:", produs.nume, "Categorie:", produs.categorie);
         
-        // GĂSEȘTE PRODUSE SIMILARE DIN ACEEAȘI CATEGORIE
         client.query(
             "SELECT * FROM instrumente WHERE categorie = $1 AND id != $2 LIMIT 4", 
             [produs.categorie, produsId], 
             function(err, rezSimilare) {
                 if(err) {
                     console.log("Eroare la găsirea produselor similare:", err);
-                    // Continuăm fără produse similare în caz de eroare
+
                 }
                 
                 const produseSimilare = rezSimilare ? rezSimilare.rows : [];
                 console.log("Produse similare găsite:", produseSimilare.length);
                 produseSimilare.forEach(p => console.log(`- ${p.nume} (${p.categorie})`));
         
-                // Obținem seturile din care face parte produsul
                 client.query(`
                     SELECT 
                         s.id, 
@@ -480,7 +477,6 @@ app.get("/produs/:id", function(req, res){
                     
                     const seturi = setResult.rows;
                     
-                    // Pentru fiecare set, obținem produsele și calculăm prețurile
                     const promises = seturi.map(set => {
                         return new Promise((resolve, reject) => {
                             client.query(`
@@ -501,10 +497,10 @@ app.get("/produs/:id", function(req, res){
                                     return;
                                 }
                                 
-                                // Adăugăm produsele la set
+
                                 set.produse = prodResult.rows;
                                 
-                                // Calculăm preturile
+
                                 const pretTotal = set.produse.reduce((suma, prod) => suma + parseFloat(prod.pret), 0);
                                 const nrProduse = set.produse.length;
                                 const discount = Math.min(5, nrProduse) * 5 / 100;
@@ -528,7 +524,7 @@ app.get("/produs/:id", function(req, res){
                                     return;
                                 }
                                 
-                                // Obținem toate produsele pentru fallback în EJS
+
                                 client.query("SELECT * FROM instrumente", function(err, rezToateProdusele) {
                                     if(err) {
                                         console.log("Eroare la obținerea tuturor produselor:", err);
@@ -543,7 +539,7 @@ app.get("/produs/:id", function(req, res){
                                         toateProdusele: toateProdusele.length
                                     });
                                     
-                                    // RENDERIZĂM PAGINA CU TOATE DATELE NECESARE
+
                                     res.render("pagini/produs", {
                                         prod: produs,
                                         produseSimilare: produseSimilare, // FOARTE IMPORTANT!

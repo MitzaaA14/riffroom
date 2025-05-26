@@ -566,7 +566,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // BONUS 4: Funcție pentru activarea filtrării automate
+
     function activeazaFiltrareAutomata() {
         console.log("Activez filtrarea automată la onchange...");
         
@@ -630,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (inpBrand) {
             inpBrand.addEventListener('input', function() {
                 console.log("Auto-filtrare: brand schimbat");
-                setTimeout(filtrareProduse, 300); // Debounce pentru performanță
+                setTimeout(filtrareProduse, 300); 
             });
         }
     }
